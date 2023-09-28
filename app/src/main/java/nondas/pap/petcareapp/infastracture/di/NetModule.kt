@@ -6,14 +6,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import nondas.pap.petcareapp.BuildConfig
-import nondas.pap.petcareapp.data.PetCareApi
+import nondas.pap.petcareapp.data.api.PetCareApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
-import java.security.SecureRandom
-import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton

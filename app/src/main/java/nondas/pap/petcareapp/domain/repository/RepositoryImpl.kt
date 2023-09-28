@@ -1,6 +1,6 @@
 package nondas.pap.petcareapp.domain.repository
 
-import nondas.pap.petcareapp.data.Repository
+import nondas.pap.petcareapp.data.repository.Repository
 
 class RepositoryImpl: Repository {
     override suspend fun login() {

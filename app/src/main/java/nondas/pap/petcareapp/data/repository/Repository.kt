@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.data
+package nondas.pap.petcareapp.data.repository
 
 import retrofit2.http.GET
 import retrofit2.http.POST
