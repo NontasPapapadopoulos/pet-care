@@ -2,6 +2,7 @@ package nondas.pap.petcareapp.infastracture.navigation
 
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
@@ -11,7 +12,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import nondas.pap.petcareapp.presentation.RegisterScreen
+import nondas.pap.petcareapp.presentation.SplashScreen
+import nondas.pap.petcareapp.presentation.login.LoginScreen
 
 
 const val ROOT_GRAPH_ROUTE = "root"
@@ -25,19 +31,38 @@ fun RootNavGraph(
     NavHost(
         navController = navController,
         route = ROOT_GRAPH_ROUTE,
-        startDestination = Screen.LoginScreen.route
+        startDestination = Screen.SplashScreen.route
+    ) {
+
+
+
+        composable(
+            route = Screen.SplashScreen.route
         ) {
+
+            displaySplashScreen(
+                navController = navController,
+                milliseconds = 1200L,
+                route = Screen.LoginScreen.route
+            )
+
+            SplashScreen(navController = navController)
+
+        }
 
         composable(
             route = Screen.LoginScreen.route
         ) {
 
-           // LoginScreen(navController = navController)
-
+            LoginScreen(navController = navController)
         }
 
+        composable(
+            route = Screen.RegisterScreen.route
+        ) {
 
-        //mainNavGraph(navController = navController)
+            RegisterScreen(navController = navController)
+        }
 
 
     }
@@ -54,19 +79,16 @@ inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(navControll
     return hiltViewModel(parentEntry)
 }
 
-//composable(
-//route = FlykkScreen.FlykkSplashScreen.route
-//) {
-//
-//    displaySplashScreen(
-//        navController = navController,
-//        milliseconds = 1000L,
-//        route = AuthScreen.LoginAuthScreen.route
-//    )
-//
-//    FlykkSplashScreen(
-//        navigate = {
-//            navController.navigate(AuthScreen.LoginAuthScreen.route)
-//        }
-//    )
-//}
+
+@Composable
+fun displaySplashScreen(
+    navController: NavController,
+    milliseconds: Long,
+    route: String
+) {
+    LaunchedEffect(Unit) {
+        delay(milliseconds)
+        navController.navigate(route = route)
+    }
+
+}
