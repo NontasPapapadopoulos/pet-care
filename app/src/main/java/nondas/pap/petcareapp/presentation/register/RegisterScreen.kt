@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
+import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
 import nondas.pap.petcareapp.presentation.component.inputText.InputText
@@ -32,16 +33,21 @@ fun RegisterScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.white))
+            .background(colorResource(id = R.color.mpez))
     ) {
 
+        AddVerticalSpace(50)
 
+        MyTitle(
+            title = "Register to Pet Care",
+            textColor = R.color.dark_red
+        )
 
 
         AddVerticalSpace(150)
 
         InputText(
-            labelTitle = "Name",
+            placeholder = "Name",
             inputValue = viewModel.state.name,
             valueEntered = { viewModel.onEvent(RegisterEvent.NameEntered(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
@@ -50,7 +56,7 @@ fun RegisterScreen(
         AddVerticalSpace()
 
         InputText(
-            labelTitle = "Email",
+            placeholder = "Email",
             inputValue = viewModel.state.email,
             valueEntered = { viewModel.onEvent(RegisterEvent.EmailEntered(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
@@ -59,7 +65,7 @@ fun RegisterScreen(
         AddVerticalSpace()
 
         InputText(
-            labelTitle = "Password",
+            placeholder = "Password",
             inputValue = viewModel.state.password,
             valueEntered = { viewModel.onEvent(RegisterEvent.PasswordEntered(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
@@ -68,7 +74,7 @@ fun RegisterScreen(
         AddVerticalSpace()
 
         InputText(
-            labelTitle = "Confirm password",
+            placeholder = "Confirm password",
             inputValue = viewModel.state.confirmPassword,
             valueEntered = { viewModel.onEvent(RegisterEvent.ConfirmPasswordEntered(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
@@ -80,14 +86,20 @@ fun RegisterScreen(
 
         PrimaryButton(
             buttonTitle = "register",
-            onButtonClicked = { viewModel.onEvent(RegisterEvent.RegisterButtonClicked) }
+            onButtonClicked = { viewModel.onEvent(RegisterEvent.RegisterButtonClicked) },
+            backgroundColor = R.color.oil_green,
+            textColor = R.color.white,
+            hasBorder = false
         )
 
         AddVerticalSpace()
 
         SecondaryButton(
             buttonTitle = "cancel",
-            onButtonClicked = { navController.popBackStack() }
+            onButtonClicked = { navController.popBackStack() },
+            backgroundColor = R.color.dark_red,
+            textColor = R.color.white,
+            hasBorder = false
         )
 
         AddVerticalSpace(20)

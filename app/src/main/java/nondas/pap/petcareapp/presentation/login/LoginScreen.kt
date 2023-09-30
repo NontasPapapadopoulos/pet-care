@@ -31,18 +31,21 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = R.color.white))
+            .background(color = colorResource(id = R.color.mpez))
     ) {
 
 
         AddVerticalSpace(50)
 
-        MyTitle(title = "Pet Care")
+        MyTitle(
+            title = "Pet Care",
+            textColor = R.color.dark_red
+        )
 
         AddVerticalSpace(190)
 
         InputText(
-            labelTitle = "Email",
+            placeholder = "Email",
             inputValue = viewModel.state.email,
             valueEntered = { viewModel.onEvent(LoginEvent.EmailEntered(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
@@ -51,7 +54,7 @@ fun LoginScreen(
         AddVerticalSpace(20)
 
         InputText(
-            labelTitle = "Password",
+            placeholder = "Password",
             inputValue = viewModel.state.password,
             valueEntered = { viewModel.onEvent(LoginEvent.PasswordEntered(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
@@ -61,14 +64,22 @@ fun LoginScreen(
 
         PrimaryButton(
             buttonTitle = "login",
-            onButtonClicked = { viewModel.onEvent(LoginEvent.LoginButtonClicked) }
+            onButtonClicked = { viewModel.onEvent(LoginEvent.LoginButtonClicked) },
+            backgroundColor = R.color.pink,
+            textColor = R.color.white,
+            hasBorder = false,
+
         )
 
         AddVerticalSpace()
 
         SecondaryButton(
             buttonTitle = "register",
-            onButtonClicked = { navController.navigate(route = Screen.RegisterScreen.route) }
+            onButtonClicked = { navController.navigate(route = Screen.RegisterScreen.route) },
+            backgroundColor = R.color.oil_green,
+            textColor = R.color.white,
+            hasBorder = false,
+
         )
     }
 }

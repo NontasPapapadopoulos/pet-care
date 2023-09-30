@@ -33,7 +33,7 @@ fun  SecondaryButton(
     Button(
         onClick = { onButtonClicked() },
         border = BorderStroke(width = if (hasBorder) 1.dp else 0.dp,
-            color = if (hasBorder) colorResource(id = borderColor) else colorResource(id = borderColor)),
+            color = colorResource(id = borderColor) ),
         shape = RoundedCornerShape(72.dp),
         colors = if (isTransparent) ButtonDefaults.buttonColors(Color.Transparent) else ButtonDefaults.buttonColors(colorResource(id = backgroundColor)),
         elevation = null,
