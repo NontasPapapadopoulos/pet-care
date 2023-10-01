@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -12,9 +13,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.flow.collectLatest
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.infastracture.navigation.Screen
+import nondas.pap.petcareapp.presentation.UIEvent
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
+import nondas.pap.petcareapp.presentation.component.ManageSystemBars
 import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
@@ -24,8 +28,16 @@ import nondas.pap.petcareapp.presentation.component.inputText.InputText
 fun LoginScreen(
     navController: NavController
 ) {
-
     val viewModel: LoginViewModel = hiltViewModel()
+
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collectLatest {event ->
+            if (event is UIEvent.Navigate)
+                navController.navigate(route = Screen.Home.route)
+        }
+    }
+
+    ManageSystemBars()
 
 
     Column(
@@ -48,7 +60,6 @@ fun LoginScreen(
             placeholder = "Email",
             inputValue = viewModel.state.email,
             valueEntered = { viewModel.onEvent(LoginEvent.EmailEntered(it)) },
-            modifier = Modifier.padding(20.dp, 0.dp)
         )
 
         AddVerticalSpace(20)
@@ -57,7 +68,6 @@ fun LoginScreen(
             placeholder = "Password",
             inputValue = viewModel.state.password,
             valueEntered = { viewModel.onEvent(LoginEvent.PasswordEntered(it)) },
-            modifier = Modifier.padding(20.dp, 0.dp)
         )
 
         AddVerticalSpace(20)

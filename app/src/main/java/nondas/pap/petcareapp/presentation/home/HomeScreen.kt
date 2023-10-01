@@ -2,6 +2,7 @@ package nondas.pap.petcareapp.presentation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -64,15 +65,22 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        MyImage(
-            imageId =
-            R.drawable.baseline_add_circle_24,
-            modifier =
-            Modifier.size(40.dp)
-                .clickable { navController.navigate(route = Screen.AddPet.route) }
-        )
 
-
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 30.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            MyImage(
+                imageId =
+                R.drawable.baseline_add_circle_24,
+                modifier =
+                Modifier
+                    .size(60.dp)
+                    .clickable { navController.navigate(route = Screen.AddPet.route) }
+            )
+        }
     }
 }
 

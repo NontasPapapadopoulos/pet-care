@@ -1,27 +1,25 @@
-package nondas.pap.petcareapp.presentation
+package nondas.pap.petcareapp.presentation.pet
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.DropdownMenu
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
-import nondas.pap.petcareapp.domain.model.Pet
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.MyDropdown
 import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
 import nondas.pap.petcareapp.presentation.component.inputText.InputText
-import nondas.pap.petcareapp.presentation.pet.PetEvent
-import nondas.pap.petcareapp.presentation.pet.PetViewModel
 
 
 @Composable
@@ -29,8 +27,8 @@ fun AddPetScreen(
     navController: NavController
 ) {
 
-    val viewModel: PetViewModel = hiltViewModel()
 
+    val viewModel: PetViewModel = hiltViewModel()
 
     Column(
         modifier = Modifier
@@ -46,7 +44,8 @@ fun AddPetScreen(
         AddVerticalSpace(30)
 
         InputText(
-            placeholder = "your pets name",
+            labelTitle = "Name",
+            placeholder = "Roza xx",
             inputValue = viewModel.state.name,
             valueEntered = { viewModel.onEvent(PetEvent.NameEntered(it)) },
             isValidationSuccessful = viewModel.state.nameValidation.isSuccessful,
@@ -56,40 +55,36 @@ fun AddPetScreen(
         AddVerticalSpace(15)
 
 
-
-
-        if (viewModel.state.isAboveOneYearOld)
-            InputText(
-                inputValue = viewModel.state.age,
-                valueEntered = { viewModel.onEvent(PetEvent.AgeEntered(it)) }
-            )
-
-        else
-            MyDropdown(
-                selectedItem = viewModel.state.age,
-                onItemSelected = { viewModel.onEvent(PetEvent.AgeEntered(it)) }
-            )
+        InputText(
+            inputValue = viewModel.state.dob,
+            valueEntered = { viewModel.onEvent(PetEvent.DobEntered(it)) },
+            labelTitle = "Date of birth",
+            placeholder = "dd/MM/yyyy",
+            isValidationSuccessful = viewModel.state.dobValidation.isSuccessful,
+            errorMessage = viewModel.state.dobValidation.errorMessage,
+        )
 
         AddVerticalSpace(15)
 
 
         MyDropdown(
+            labelTitle = "Type",
+            items = viewModel.state.petTypes,
             selectedItem = viewModel.state.type,
-            onItemSelected = { viewModel.onEvent(PetEvent.TypeEntered(it)) }
+            onItemSelected = { viewModel.onEvent(PetEvent.TypeEntered(it)) },
+            modifier = Modifier.padding(20.dp, 0.dp)
         )
 
         AddVerticalSpace(15)
 
-        InputText(
-            inputValue = viewModel.state.type,
-            valueEntered = { viewModel.onEvent(PetEvent.BreedEntered(it)) }
-        )
-
-        AddVerticalSpace(15)
 
         InputText(
             inputValue = viewModel.state.breed,
-            valueEntered = { viewModel.onEvent(PetEvent.BreedEntered(it)) }
+            valueEntered = { viewModel.onEvent(PetEvent.BreedEntered(it)) },
+            labelTitle = "Breed",
+            placeholder = "French bulldog",
+            isValidationSuccessful = viewModel.state.breedValidation.isSuccessful,
+            errorMessage = viewModel.state.breedValidation.errorMessage
         )
 
 
@@ -98,22 +93,25 @@ fun AddPetScreen(
         PrimaryButton(
             buttonTitle = "add",
             onButtonClicked = { viewModel.onEvent(PetEvent.AddPet) },
-            isEnabled = viewModel.state.isAddButtonEnabled
+            isEnabled = viewModel.state.isAddButtonEnabled,
+            backgroundColor = R.color.pink,
+            textColor = R.color.white,
+            hasBorder = false,
         )
 
         AddVerticalSpace()
 
         SecondaryButton(
             buttonTitle = "cancel",
-            onButtonClicked = { navController.popBackStack() }
+            onButtonClicked = { navController.popBackStack() },
+            backgroundColor = R.color.oil_green,
+            textColor = R.color.white,
+            hasBorder = false,
         )
 
         AddVerticalSpace(20)
 
-
-
     }
-
 
 }
 

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -30,16 +31,14 @@ fun MyDropdown(
     items: List<String> = listOf(),
     selectedItem: String,
     onItemSelected: (String) -> Unit,
-    isEnabled: Boolean = true
+    modifier: Modifier
 ) {
 
 
     var expanded by remember { mutableStateOf(false) }
 
-
-
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
     ) {
 
@@ -54,7 +53,7 @@ fun MyDropdown(
                 .fillMaxWidth()
                 .height(46.dp)
                 .clickable(
-                    onClick = { if (isEnabled) expanded = !expanded })
+                    onClick = { expanded = !expanded })
                 .border(
                     1.dp,
                     color = colorResource(id = R.color.grey),
@@ -102,7 +101,7 @@ fun ItemsContainer(
     Box(
         Modifier
             .fillMaxWidth()
-            .height(330.dp)
+            .wrapContentHeight()
             .border(
                 1.dp,
                 color = colorResource(id = R.color.grey),

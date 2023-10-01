@@ -12,10 +12,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kotlinx.coroutines.delay
-import nondas.pap.petcareapp.presentation.AddPetScreen
+
 import nondas.pap.petcareapp.presentation.RegisterScreen
 import nondas.pap.petcareapp.presentation.SplashScreen
+import nondas.pap.petcareapp.presentation.home.HomeScreen
 import nondas.pap.petcareapp.presentation.login.LoginScreen
+import nondas.pap.petcareapp.presentation.pet.AddPetScreen
 
 
 const val ROOT_GRAPH_ROUTE = "root"
@@ -60,6 +62,12 @@ fun RootNavGraph(
         ) {
 
             RegisterScreen(navController = navController)
+        }
+        
+        composable(
+            route = Screen.Home.route
+        ) {
+            HomeScreen(navController = navController)
         }
 
         composable(

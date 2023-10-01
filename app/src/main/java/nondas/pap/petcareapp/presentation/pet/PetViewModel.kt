@@ -29,15 +29,15 @@ class PetViewModel @Inject constructor(
                 )
             }
 
-            is PetEvent.IsAboveOneYearOldChanged -> {
+            is PetEvent.OptionSelected -> {
                 state = state.copy(
-                    isAboveOneYearOld = event.option
+                    isAboveOneYearOld = isAboveOneYearOld(event.option)
                 )
             }
 
 
-            is PetEvent.AgeEntered -> {
-
+            is PetEvent.DobEntered -> {
+                state = state.copy(dob = event.userInput)
             }
 
             is PetEvent.BreedEntered -> {
@@ -53,7 +53,23 @@ class PetViewModel @Inject constructor(
             is PetEvent.TypeEntered -> {
                 state = state.copy(type = event.userInput)
             }
+
+            PetEvent.AddPet -> {
+                addPet()
+            }
         }
+    }
+
+    private fun isAboveOneYearOld(selectedOption: Int): Boolean {
+        val option = state.options[selectedOption]
+        if (option.lowercase() == "yes" )
+            return true
+        return false
+    }
+
+
+    private fun addPet() {
+        TODO("Not yet implemented")
     }
 
 }
