@@ -7,4 +7,5 @@ sealed class PetEvent {
     data class BreedEntered(val userInput: String): PetEvent()
     data class OptionSelected(val option: Int): PetEvent()
     object AddPet: PetEvent()
+    object EditPet: PetEvent()
 }

@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.infastracture.navigation
+package nondas.pap.petcareapp.infastracture.navigation.graph
 
 
 import androidx.compose.runtime.Composable
@@ -12,12 +12,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kotlinx.coroutines.delay
+import nondas.pap.petcareapp.infastracture.navigation.graph.medicineNavGraph
+import nondas.pap.petcareapp.infastracture.navigation.graph.petsNavGraph
+import nondas.pap.petcareapp.infastracture.navigation.screen.Screen
 
 import nondas.pap.petcareapp.presentation.RegisterScreen
 import nondas.pap.petcareapp.presentation.SplashScreen
-import nondas.pap.petcareapp.presentation.home.HomeScreen
 import nondas.pap.petcareapp.presentation.login.LoginScreen
-import nondas.pap.petcareapp.presentation.pet.AddPetScreen
 
 
 const val ROOT_GRAPH_ROUTE = "root"
@@ -63,22 +64,9 @@ fun RootNavGraph(
 
             RegisterScreen(navController = navController)
         }
-        
-        composable(
-            route = Screen.Home.route
-        ) {
-            HomeScreen(navController = navController)
-        }
 
-        composable(
-            route = Screen.AddPet.route
-        ) {
-
-            AddPetScreen(navController = navController)
-        }
-
-
-
+        petsNavGraph(navController)
+        medicineNavGraph(navController)
 
     }
 }

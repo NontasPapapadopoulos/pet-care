@@ -3,19 +3,17 @@ package nondas.pap.petcareapp.presentation.login
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.collectLatest
 import nondas.pap.petcareapp.R
-import nondas.pap.petcareapp.infastracture.navigation.Screen
+import nondas.pap.petcareapp.infastracture.navigation.screen.Screen
 import nondas.pap.petcareapp.presentation.UIEvent
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.ManageSystemBars
@@ -33,7 +31,7 @@ fun LoginScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collectLatest {event ->
             if (event is UIEvent.Navigate)
-                navController.navigate(route = Screen.Home.route)
+                navController.navigate(route = Screen.Pets.route)
         }
     }
 

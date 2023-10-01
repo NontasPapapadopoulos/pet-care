@@ -54,10 +54,19 @@ class PetViewModel @Inject constructor(
                 state = state.copy(type = event.userInput)
             }
 
-            PetEvent.AddPet -> {
+            is PetEvent.AddPet -> {
                 addPet()
             }
+
+            is PetEvent.EditPet -> {
+                editPet()
+            }
+
         }
+    }
+
+    private fun editPet() {
+        TODO("Not yet implemented")
     }
 
     private fun isAboveOneYearOld(selectedOption: Int): Boolean {
