@@ -2,7 +2,7 @@ package nondas.pap.petcareapp.domain
 
 import javax.inject.Inject
 
-class ValidatePassword @Inject constructor() {
+class PasswordValidator @Inject constructor() {
 
     private val allowedSpecialCharacters = listOf("~","!","@", "#","$","%", "^","&","*","(",
         ")",",","_","+","-","=","{","}","[","]",":",";","\"","'","<",">",

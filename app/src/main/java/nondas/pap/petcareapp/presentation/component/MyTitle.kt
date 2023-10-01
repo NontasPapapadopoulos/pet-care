@@ -18,7 +18,7 @@ import nondas.pap.petcareapp.R
 @Composable
 fun MyTitle(title: String,
             fontSize: TextUnit = 24.sp,
-            textColor: Int = R.color.black,
+            textColor: Int = R.color.dark_red,
             textAlignment: TextAlign = TextAlign.Center,
             modifier: Modifier = Modifier) {
     MyText(

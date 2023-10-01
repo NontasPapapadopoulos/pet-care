@@ -65,6 +65,7 @@ fun InputText(
     Column(
         modifier = modifier
                 .fillMaxWidth()
+                .padding(20.dp, 0.dp)
     ) {
 
         if (labelTitle.isNotEmpty()) {

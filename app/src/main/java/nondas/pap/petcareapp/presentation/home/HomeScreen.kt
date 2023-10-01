@@ -1,8 +1,10 @@
 package nondas.pap.petcareapp.presentation.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,10 +20,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.domain.model.Pet
+import nondas.pap.petcareapp.infastracture.navigation.Screen
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.MyImage
 import nondas.pap.petcareapp.presentation.component.MyText
+import nondas.pap.petcareapp.presentation.component.MyTitle
 
 
 @Composable
@@ -33,6 +37,17 @@ fun HomeScreen(
         .fillMaxSize()
         .background(colorResource(id = R.color.mpez))
     ) {
+
+        AddVerticalSpace(50)
+
+        MyTitle(
+            title = "Yourname pets:",
+            textColor = R.color.dark_red
+        )
+
+        AddVerticalSpace(20)
+
+
 
 
 
@@ -46,6 +61,16 @@ fun HomeScreen(
         )
 
 
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        MyImage(
+            imageId =
+            R.drawable.baseline_add_circle_24,
+            modifier =
+            Modifier.size(40.dp)
+                .clickable { navController.navigate(route = Screen.AddPet.route) }
+        )
 
 
     }

@@ -2,7 +2,7 @@ package nondas.pap.petcareapp.domain
 
 import javax.inject.Inject
 
-class ValidateConfirmPassword @Inject constructor() {
+class ConfirmPasswordValidator @Inject constructor() {
 
     fun execute(password: String, confirmPassword: String): ValidationResult {
         if(password == confirmPassword) {

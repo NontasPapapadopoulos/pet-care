@@ -3,7 +3,7 @@ package nondas.pap.petcareapp.domain
 import android.util.Patterns
 import javax.inject.Inject
 
-class ValidateEmail @Inject constructor() {
+class EmailValidator @Inject constructor() {
 
     fun execute(
         email: String,

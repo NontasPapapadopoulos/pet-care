@@ -75,7 +75,7 @@ fun LoginScreen(
 
         SecondaryButton(
             buttonTitle = "register",
-            onButtonClicked = { navController.navigate(route = Screen.RegisterScreen.route) },
+            onButtonClicked = { navController.navigate(route = Screen.Register.route) },
             backgroundColor = R.color.oil_green,
             textColor = R.color.white,
             hasBorder = false,

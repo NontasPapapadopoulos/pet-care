@@ -6,15 +6,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import nondas.pap.petcareapp.presentation.AddPetScreen
 import nondas.pap.petcareapp.presentation.RegisterScreen
 import nondas.pap.petcareapp.presentation.SplashScreen
 import nondas.pap.petcareapp.presentation.login.LoginScreen
@@ -31,19 +29,19 @@ fun RootNavGraph(
     NavHost(
         navController = navController,
         route = ROOT_GRAPH_ROUTE,
-        startDestination = Screen.SplashScreen.route
+        startDestination = Screen.Splash.route
     ) {
 
 
 
         composable(
-            route = Screen.SplashScreen.route
+            route = Screen.Splash.route
         ) {
 
             displaySplashScreen(
                 navController = navController,
                 milliseconds = 1200L,
-                route = Screen.LoginScreen.route
+                route = Screen.Login.route
             )
 
             SplashScreen(navController = navController)
@@ -51,18 +49,27 @@ fun RootNavGraph(
         }
 
         composable(
-            route = Screen.LoginScreen.route
+            route = Screen.Login.route
         ) {
 
             LoginScreen(navController = navController)
         }
 
         composable(
-            route = Screen.RegisterScreen.route
+            route = Screen.Register.route
         ) {
 
             RegisterScreen(navController = navController)
         }
+
+        composable(
+            route = Screen.AddPet.route
+        ) {
+
+            AddPetScreen(navController = navController)
+        }
+
+
 
 
     }

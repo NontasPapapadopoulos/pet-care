@@ -49,8 +49,9 @@ fun RegisterScreen(
         InputText(
             placeholder = "Name",
             inputValue = viewModel.state.name,
+            isValidationSuccessful = viewModel.state.nameValidation.isSuccessful,
+            errorMessage = viewModel.state.nameValidation.errorMessage,
             valueEntered = { viewModel.onEvent(RegisterEvent.NameEntered(it)) },
-            modifier = Modifier.padding(20.dp, 0.dp)
         )
 
         AddVerticalSpace()
@@ -58,8 +59,9 @@ fun RegisterScreen(
         InputText(
             placeholder = "Email",
             inputValue = viewModel.state.email,
+            isValidationSuccessful = viewModel.state.emailValidation.isSuccessful,
+            errorMessage = viewModel.state.emailValidation.errorMessage,
             valueEntered = { viewModel.onEvent(RegisterEvent.EmailEntered(it)) },
-            modifier = Modifier.padding(20.dp, 0.dp)
         )
 
         AddVerticalSpace()
@@ -67,8 +69,10 @@ fun RegisterScreen(
         InputText(
             placeholder = "Password",
             inputValue = viewModel.state.password,
+            isValidationSuccessful = viewModel.state.passwordValidation.isSuccessful,
+            errorMessage = viewModel.state.passwordValidation.errorMessage,
             valueEntered = { viewModel.onEvent(RegisterEvent.PasswordEntered(it)) },
-            modifier = Modifier.padding(20.dp, 0.dp)
+
         )
 
         AddVerticalSpace()
@@ -76,8 +80,9 @@ fun RegisterScreen(
         InputText(
             placeholder = "Confirm password",
             inputValue = viewModel.state.confirmPassword,
+            isValidationSuccessful = viewModel.state.confirmPasswordValidation.isSuccessful,
+            errorMessage = viewModel.state.confirmPasswordValidation.errorMessage,
             valueEntered = { viewModel.onEvent(RegisterEvent.ConfirmPasswordEntered(it)) },
-            modifier = Modifier.padding(20.dp, 0.dp)
         )
 
 
@@ -87,7 +92,8 @@ fun RegisterScreen(
         PrimaryButton(
             buttonTitle = "register",
             onButtonClicked = { viewModel.onEvent(RegisterEvent.RegisterButtonClicked) },
-            backgroundColor = R.color.oil_green,
+            isEnabled = viewModel.state.isRegisterButtonEnabled,
+            backgroundColor = R.color.light_green,
             textColor = R.color.white,
             hasBorder = false
         )
@@ -97,7 +103,7 @@ fun RegisterScreen(
         SecondaryButton(
             buttonTitle = "cancel",
             onButtonClicked = { navController.popBackStack() },
-            backgroundColor = R.color.dark_red,
+            backgroundColor = R.color.pink,
             textColor = R.color.white,
             hasBorder = false
         )
