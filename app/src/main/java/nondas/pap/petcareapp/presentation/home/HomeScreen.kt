@@ -75,10 +75,9 @@ fun HomeScreen(
             MyImage(
                 imageId =
                 R.drawable.baseline_add_circle_24,
-                modifier =
-                Modifier
+                modifier = Modifier
                     .size(60.dp)
-                    .clickable { navController.navigate(route = Screen.AddPet.route) }
+                    .clickable { navController.navigate(route = Screen.AddMedicine.route) }
             )
         }
     }

@@ -1,6 +1,6 @@
 package nondas.pap.petcareapp.presentation.register
 
-import nondas.pap.petcareapp.domain.ValidationResult
+import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
 
 data class RegisterState(
     val name: String = "",

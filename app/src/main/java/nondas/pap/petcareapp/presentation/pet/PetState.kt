@@ -1,6 +1,6 @@
 package nondas.pap.petcareapp.presentation.pet
 
-import nondas.pap.petcareapp.domain.ValidationResult
+import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
 
 data class PetState(
     val name: String = "",

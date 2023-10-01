@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.domain.usecase
+package nondas.pap.petcareapp.domain.usecase.pet
 
 import javax.inject.Inject
 

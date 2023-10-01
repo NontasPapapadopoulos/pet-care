@@ -4,15 +4,16 @@ import java.util.Date
 
 data class Medicine(
     val type: String,
-    val repeatEvery: TimePeriod,
-    val dateReceived: Date
+    val repeatRate: TimePeriod,
+    val dateReceived: Date,
+    val comments: String
 )
 
 
 
-enum class TimePeriod {
-    EVERY_MONTH,
-    EVERY_THREE_MONTHS,
-    EVERY_SIX_MONTHS,
-    EVERY_YEAR
+enum class TimePeriod(val frequency: String) {
+    EVERY_MONTH("every month"),
+    EVERY_THREE_MONTHS("every three months"),
+    EVERY_SIX_MONTHS("every six months"),
+    EVERY_YEAR("every year")
 }
