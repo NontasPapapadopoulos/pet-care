@@ -45,7 +45,7 @@ fun PetsScreen(
     onEvent: (PetEvent) -> Unit
 ) {
 
-    val showDialog = remember { mutableStateOf(true) }
+    val showDialog = remember { mutableStateOf(false) }
 
     ConstraintLayout(
         modifier = Modifier
