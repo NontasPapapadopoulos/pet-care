@@ -34,7 +34,6 @@ import nondas.pap.petcareapp.presentation.component.ErrorMessage
 import nondas.pap.petcareapp.presentation.component.FieldLabel
 
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun InputText(
     inputValue: String,

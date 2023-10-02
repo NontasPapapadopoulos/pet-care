@@ -3,10 +3,10 @@ package nondas.pap.petcareapp.domain.model
 import java.util.Date
 
 data class Medicine(
-    val type: String,
-    val repeatRate: TimePeriod,
-    val dateReceived: Date,
-    val comments: String
+    val type: String = "",
+    val repeatRate: TimePeriod = TimePeriod.EVERY_YEAR,
+    val dateReceived: Date = Date(),
+    val comments: String = ""
 )
 
 

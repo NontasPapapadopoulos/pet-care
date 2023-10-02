@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.collectLatest
 import nondas.pap.petcareapp.R
+import nondas.pap.petcareapp.infastracture.navigation.screen.PETS_ROUTE
 import nondas.pap.petcareapp.infastracture.navigation.screen.Screen
 import nondas.pap.petcareapp.presentation.UIEvent
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
@@ -31,7 +32,7 @@ fun LoginScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collectLatest {event ->
             if (event is UIEvent.Navigate)
-                navController.navigate(route = Screen.Pets.route)
+                navController.navigate(route = PETS_ROUTE)
         }
     }
 

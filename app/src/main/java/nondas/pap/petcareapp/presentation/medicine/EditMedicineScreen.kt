@@ -45,7 +45,9 @@ import java.util.Date
 
 @Composable
 fun EditMedicineScreen(
-    navController: NavController
+    navController: NavController,
+    state: MedicineState,
+    onEvent: (MedicineEvent) -> Unit
 ) {
 
     Column(
@@ -129,5 +131,9 @@ fun EditMedicineScreen(
 @Preview
 @Composable
 private fun AddMedicineScreenPreview() {
-    EditMedicineScreen(navController = rememberNavController())
+    EditMedicineScreen(
+        navController = rememberNavController(),
+        state = MedicineState(),
+        onEvent = {}
+    )
 }

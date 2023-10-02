@@ -29,6 +29,7 @@
     <color name="pink">#FF9B9B</color>
     <color name="light_green">#B5C99A</color>
     <color name="light_blue">#6499E9</color>
+    <color name="transparent">#7F7F7F7F</color>
 
     <color name="isx_background">#212121</color>
     <color name="red">#DC2626</color>

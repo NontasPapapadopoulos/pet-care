@@ -11,9 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import nondas.pap.petcareapp.R
+import nondas.pap.petcareapp.domain.model.Pet
 
 @Composable
-fun EditDeleteButtons() {
+fun EditDeleteButtons(
+    onEditButtonClicked: () -> Unit,
+    onDeleteButtonClicked: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -25,7 +29,7 @@ fun EditDeleteButtons() {
             imageId = R.drawable.baseline_edit_24,
             modifier = Modifier
                 .size(24.dp)
-                .clickable{ }
+                .clickable{ onEditButtonClicked() }
         )
 
         AddHorizontalSpace()
@@ -34,7 +38,7 @@ fun EditDeleteButtons() {
             imageId = R.drawable.baseline_delete_24,
             modifier = Modifier
                 .size(24.dp)
-                .clickable{}
+                .clickable{ onDeleteButtonClicked() }
         )
     }
 }

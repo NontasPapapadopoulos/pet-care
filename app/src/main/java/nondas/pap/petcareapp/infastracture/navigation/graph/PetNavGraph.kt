@@ -6,11 +6,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import nondas.pap.petcareapp.infastracture.navigation.screen.PETS_ROUTE
 import nondas.pap.petcareapp.infastracture.navigation.screen.PetScreen
-import nondas.pap.petcareapp.infastracture.navigation.sharedViewModel
-import nondas.pap.petcareapp.presentation.home.HomeScreen
 import nondas.pap.petcareapp.presentation.pet.AddPetScreen
 import nondas.pap.petcareapp.presentation.pet.EditPetScreen
 import nondas.pap.petcareapp.presentation.pet.PetViewModel
+import nondas.pap.petcareapp.presentation.pet.PetsScreen
 
 
 fun NavGraphBuilder.petsNavGraph(
@@ -28,7 +27,11 @@ fun NavGraphBuilder.petsNavGraph(
 
             val viewModel = it.sharedViewModel<PetViewModel>(navController = navController)
 
-            HomeScreen(navController = navController)
+            PetsScreen(
+                navController = navController,
+                state = viewModel.state,
+                onEvent = viewModel::onEvent
+            )
         }
 
 
@@ -39,7 +42,11 @@ fun NavGraphBuilder.petsNavGraph(
             val viewModel = it.sharedViewModel<PetViewModel>(navController = navController)
 
 
-            AddPetScreen(navController = navController)
+            AddPetScreen(
+                navController = navController,
+                state = viewModel.state,
+                onEvent = viewModel::onEvent
+            )
         }
 
         composable(
@@ -47,7 +54,11 @@ fun NavGraphBuilder.petsNavGraph(
         ) {
             val viewModel = it.sharedViewModel<PetViewModel>(navController = navController)
 
-            EditPetScreen(navController = navController)
+            EditPetScreen(
+                navController = navController,
+                state = viewModel.state,
+                onEvent = viewModel::onEvent
+            )
         }
 
     }

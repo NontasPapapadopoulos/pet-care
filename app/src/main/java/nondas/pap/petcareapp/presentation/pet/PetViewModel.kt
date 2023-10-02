@@ -62,6 +62,8 @@ class PetViewModel @Inject constructor(
                 editPet()
             }
 
+            is PetEvent.DeleteButtonClicked -> {}
+            is PetEvent.EditButtonClicked -> {}
         }
     }
 

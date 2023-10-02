@@ -24,7 +24,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import nondas.pap.petcareapp.infastracture.navigation.RootNavGraph
+import nondas.pap.petcareapp.infastracture.navigation.graph.RootNavGraph
 import nondas.pap.petcareapp.ui.theme.PetCareAppTheme
 
 

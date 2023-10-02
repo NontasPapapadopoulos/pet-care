@@ -24,7 +24,9 @@ import nondas.pap.petcareapp.presentation.component.inputText.InputText
 
 @Composable
 fun AddPetScreen(
-    navController: NavController
+    navController: NavController,
+    state: PetState,
+    onEvent: (PetEvent) -> Unit
 ) {
 
 
@@ -121,6 +123,10 @@ fun AddPetScreen(
 @Preview
 @Composable
 private fun AddPetScreenPreview() {
-    AddPetScreen(navController = rememberNavController())
+    AddPetScreen(
+        navController = rememberNavController(),
+        state = PetState(),
+        onEvent = {}
+    )
 
 }

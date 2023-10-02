@@ -1,6 +1,8 @@
 package nondas.pap.petcareapp.presentation.medicine
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -22,9 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.squaredem.composecalendar.ComposeCalendar
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.domain.model.Medicine
 import nondas.pap.petcareapp.domain.model.TimePeriod
+import nondas.pap.petcareapp.presentation.ColorUtil
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.Comments
@@ -34,12 +40,19 @@ import nondas.pap.petcareapp.presentation.component.MyText
 import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
+import nondas.pap.petcareapp.presentation.pet.PetEvent
+import nondas.pap.petcareapp.presentation.pet.PetState
+import java.time.LocalDate
 import java.util.Date
 
 @Composable
 fun AddMedicineScreen(
-    navController: NavController
+    navController: NavController,
+    state: MedicineState,
+    onEvent: (MedicineEvent) -> Unit
 ) {
+
+    val showDialog = rememberSaveable { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -63,6 +76,50 @@ fun AddMedicineScreen(
             onItemSelected = {},
             modifier = Modifier.padding(20.dp, 0.dp)
         )
+
+        AddVerticalSpace(15)
+
+        MyText(
+            text = "Date performed",
+            textAlignment = TextAlign.Start,
+            fillMaxWidth = false,
+            modifier = Modifier.padding(start = 20.dp)
+        )
+
+        AddVerticalSpace(6)
+
+        MyText(
+            text = "",
+            textAlignment = TextAlign.Start,
+            modifier = Modifier
+                .padding(20.dp, 0.dp)
+                .height(46.dp)
+                .background(
+                    color = colorResource(R.color.white),
+                    shape = RoundedCornerShape(size = 36.dp)
+                )
+                .border(
+                    width = 1.dp,
+                    color = colorResource(R.color.grey),
+                    shape = RoundedCornerShape(size = 36.dp)
+                )
+                .padding(14.dp, 0.dp)
+                .clickable { showDialog.value = true }
+        )
+
+        if (showDialog.value) {
+            ComposeCalendar(
+                onDone = { it: LocalDate ->
+                    // Hide dialog
+                    showDialog.value = false
+                    // Do something with the date
+                },
+                onDismiss = {
+                    // Hide dialog
+                    showDialog.value = false
+                }
+            )
+        }
 
         AddVerticalSpace(15)
 
@@ -121,5 +178,9 @@ fun AddMedicineScreen(
 @Preview
 @Composable
 private fun AddMedicineScreenPreview() {
-    AddMedicineScreen(navController = rememberNavController())
+    AddMedicineScreen(
+        navController = rememberNavController(),
+        state = MedicineState(),
+        onEvent = {}
+    )
 }

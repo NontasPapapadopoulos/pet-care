@@ -9,19 +9,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import nondas.pap.petcareapp.R
 
 @Composable
 fun GreyBackground(isVisible: Boolean) {
-    
-    val transparentColor = colorResource(id = R.color.teal_700)
-    val useDarkIcons = !isSystemInDarkTheme()
-//    val systemUiController = rememberSystemUiController()
 
-//    systemUiController.setStatusBarColor(
-//        color = if (isVisible) transparentColor else Color.Transparent,
-//        darkIcons = useDarkIcons
-//    )
+    val transparentColor = colorResource(id = R.color.transparent)
+    val useDarkIcons = !isSystemInDarkTheme()
+    val systemUiController = rememberSystemUiController()
+
+    systemUiController.setStatusBarColor(
+        color = if (isVisible) transparentColor else Color.Transparent,
+        darkIcons = useDarkIcons
+    )
 
     if (isVisible) {
         Box(
@@ -30,9 +31,8 @@ fun GreyBackground(isVisible: Boolean) {
                 .background(color = transparentColor)
         )
     }
+
 }
-
-
 
 
 @Preview(showBackground = true, showSystemUi = true)

@@ -12,72 +12,114 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.domain.model.Medicine
+import nondas.pap.petcareapp.domain.model.Pet
 import nondas.pap.petcareapp.domain.model.TimePeriod
-import nondas.pap.petcareapp.infastracture.navigation.screen.Screen
+import nondas.pap.petcareapp.infastracture.navigation.screen.MedicineScreen
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.EditDeleteButtons
+import nondas.pap.petcareapp.presentation.component.GreyBackground
 import nondas.pap.petcareapp.presentation.component.MyImage
 import nondas.pap.petcareapp.presentation.component.MyText
 import nondas.pap.petcareapp.presentation.component.MyTitle
+import nondas.pap.petcareapp.presentation.component.WarningDialog
+import nondas.pap.petcareapp.presentation.pet.PetEvent
+import java.time.LocalDate
 import java.util.Date
 
 
 @Composable
-fun MedicineScreen(
-    navController: NavController
+fun PetMedicineScreen(
+    navController: NavController,
+    state: MedicineState,
+    onEvent: (MedicineEvent) -> Unit
 ) {
 
 
-    Column(
+    val showDialog = remember { mutableStateOf(false) }
+
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = R.color.mpez))
-    ) {
+            .background(colorResource(id = R.color.mpez))) {
 
-        AddVerticalSpace(50)
+        val (column, dialog) = createRefs()
 
-        MyTitle(
-            title = "Pet name medicine",
-            textColor = R.color.dark_red
-        )
-
-        AddVerticalSpace(30)
-
-
-        MedicineItem(
-            medicine = Medicine(
-                type = "Vaccine",
-                dateReceived = Date(),
-                repeatRate = TimePeriod.EVERY_YEAR,
-                comments = "xxx"
-            )
-        )
-
-
-        Spacer(modifier = Modifier.weight(1f))
-
-
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 30.dp),
-            horizontalArrangement = Arrangement.Center
+                .fillMaxSize()
+                .background(color = colorResource(id = R.color.mpez))
         ) {
-            MyImage(
-                imageId = R.drawable.baseline_add_circle_24_blue,
+
+            AddVerticalSpace(50)
+
+            MyTitle(
+                title = "Pet name medicine",
+                textColor = R.color.dark_red
+            )
+
+            AddVerticalSpace(30)
+
+
+            MedicineItem(
+                medicine = Medicine(
+                    type = "Vaccine",
+                    dateReceived = Date(),
+                    repeatRate = TimePeriod.EVERY_YEAR,
+                    comments = "xxx"
+                )
+            )
+
+
+            Spacer(modifier = Modifier.weight(1f))
+
+
+            Row(
                 modifier = Modifier
-                    .size(60.dp)
-                    .clickable { navController.navigate(route = Screen.AddMedicine.route) }
+                    .fillMaxWidth()
+                    .padding(bottom = 30.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                MyImage(
+                    imageId = R.drawable.baseline_add_circle_24_blue,
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clickable { navController.navigate(route = MedicineScreen.AddMedicine.route) }
+                )
+            }
+
+
+        }
+
+
+        GreyBackground(isVisible = showDialog.value)
+        if (showDialog.value) {
+
+
+            WarningDialog(
+                title = "Delete medicine type",
+                primaryButtonText = "delete",
+                secondaryButtonText = "cancel",
+                onPrimaryButtonClicked = { onEvent(MedicineEvent.DeleteButtonClicked(Medicine())) },
+                onDismiss = { showDialog.value = false },
+                onSecondaryButtonClicked = { showDialog.value = false },
+                modifier = Modifier.constrainAs(dialog) {
+                    bottom.linkTo(parent.bottom)
+                }
             )
         }
 
@@ -124,7 +166,10 @@ fun MedicineItem(medicine: Medicine) {
                     color = R.color.white
                 )
 
-                EditDeleteButtons()
+                EditDeleteButtons(
+                    onEditButtonClicked = {},
+                    onDeleteButtonClicked = {}
+                )
             }
 
             MyText(
@@ -154,5 +199,9 @@ fun MedicineItem(medicine: Medicine) {
 @Preview
 @Composable
 private fun MedicineScreenPreview() {
-    MedicineScreen(navController = rememberNavController())
+    PetMedicineScreen(
+        navController = rememberNavController(),
+        state = MedicineState(),
+        onEvent = {}
+    )
 }
