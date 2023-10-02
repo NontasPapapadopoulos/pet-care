@@ -16,13 +16,13 @@ import nondas.pap.petcareapp.R
 fun GreyBackground(isVisible: Boolean) {
 
     val transparentColor = colorResource(id = R.color.transparent)
-    val useDarkIcons = !isSystemInDarkTheme()
-    val systemUiController = rememberSystemUiController()
-
-    systemUiController.setStatusBarColor(
-        color = if (isVisible) transparentColor else Color.Transparent,
-        darkIcons = useDarkIcons
-    )
+//    val useDarkIcons = !isSystemInDarkTheme()
+//    val systemUiController = rememberSystemUiController()
+//
+//    systemUiController.setStatusBarColor(
+//        color = if (isVisible) transparentColor else Color.Transparent,
+//        darkIcons = useDarkIcons
+//    )
 
     if (isVisible) {
         Box(

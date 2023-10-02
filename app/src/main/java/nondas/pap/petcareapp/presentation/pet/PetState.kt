@@ -1,5 +1,6 @@
 package nondas.pap.petcareapp.presentation.pet
 
+import nondas.pap.petcareapp.domain.model.Pet
 import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
 
 data class PetState(
@@ -20,4 +21,5 @@ data class PetState(
     val breedValidation: ValidationResult = ValidationResult(isSuccessful = true),
 
 
+    val selectedPet: Pet = Pet()
     )

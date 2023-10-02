@@ -32,7 +32,7 @@ class MedicineViewModel @Inject constructor(
 
             is MedicineEvent.DeleteButtonClicked -> TODO()
             is MedicineEvent.EditButtonClicked -> TODO()
-            is MedicineEvent.EditMedicine -> TODO()
+            is MedicineEvent.UpdateMedicine -> TODO()
 
 
         }

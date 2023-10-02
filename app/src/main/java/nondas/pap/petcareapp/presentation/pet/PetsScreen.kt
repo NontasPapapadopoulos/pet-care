@@ -6,11 +6,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -73,7 +78,6 @@ fun PetsScreen(
             AddVerticalSpace(20)
 
 
-
             val pet = Pet(
                 name = "Roza",
                 age = 3,
@@ -110,16 +114,17 @@ fun PetsScreen(
 
 
         }
+
         GreyBackground(isVisible = showDialog.value)
 
         if (showDialog.value) {
 
 
             WarningDialog(
-                title = "Delete petname",
+                title = "Delete ${state.selectedPet.name}",
                 primaryButtonText = "delete",
                 secondaryButtonText = "cancel",
-                onPrimaryButtonClicked = { onEvent(PetEvent.DeleteButtonClicked(Pet())) },
+                onPrimaryButtonClicked = { onEvent(PetEvent.DeleteButtonClicked(state.selectedPet)) },
                 onDismiss = { showDialog.value = false },
                 onSecondaryButtonClicked = { showDialog.value = false },
                 modifier = Modifier.constrainAs(dialog) {
@@ -128,11 +133,7 @@ fun PetsScreen(
             )
         }
 
-
     }
-
-
-
 
 }
 

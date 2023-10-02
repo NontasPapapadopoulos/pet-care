@@ -16,9 +16,9 @@ import nondas.pap.petcareapp.infastracture.navigation.graph.medicineNavGraph
 import nondas.pap.petcareapp.infastracture.navigation.graph.petsNavGraph
 import nondas.pap.petcareapp.infastracture.navigation.screen.Screen
 
-import nondas.pap.petcareapp.presentation.RegisterScreen
 import nondas.pap.petcareapp.presentation.SplashScreen
 import nondas.pap.petcareapp.presentation.login.LoginScreen
+import nondas.pap.petcareapp.presentation.register.RegisterScreen
 
 
 const val ROOT_GRAPH_ROUTE = "root"

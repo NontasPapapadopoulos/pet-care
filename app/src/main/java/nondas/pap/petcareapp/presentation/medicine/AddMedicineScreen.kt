@@ -4,46 +4,34 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.squaredem.composecalendar.ComposeCalendar
 import nondas.pap.petcareapp.R
-import nondas.pap.petcareapp.domain.model.Medicine
-import nondas.pap.petcareapp.domain.model.TimePeriod
-import nondas.pap.petcareapp.presentation.ColorUtil
-import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.Comments
 import nondas.pap.petcareapp.presentation.component.MyDropdown
-import nondas.pap.petcareapp.presentation.component.MyImage
 import nondas.pap.petcareapp.presentation.component.MyText
 import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
-import nondas.pap.petcareapp.presentation.pet.PetEvent
-import nondas.pap.petcareapp.presentation.pet.PetState
 import java.time.LocalDate
-import java.util.Date
 
 @Composable
 fun AddMedicineScreen(
@@ -63,7 +51,7 @@ fun AddMedicineScreen(
         AddVerticalSpace(50)
 
 
-        MyTitle(title = "petname medicine")
+        MyTitle(title = "${state.petName} medicine")
 
 
         AddVerticalSpace(20)
@@ -71,9 +59,9 @@ fun AddMedicineScreen(
 
         MyDropdown(
             labelTitle = "Type",
-            items = listOf(),
-            selectedItem = "xx",
-            onItemSelected = {},
+            items = state.types,
+            selectedItem = state.type,
+            onItemSelected = { onEvent(MedicineEvent.TypeSelected(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
@@ -89,7 +77,7 @@ fun AddMedicineScreen(
         AddVerticalSpace(6)
 
         MyText(
-            text = "",
+            text = state.date,
             textAlignment = TextAlign.Start,
             modifier = Modifier
                 .padding(20.dp, 0.dp)
@@ -125,9 +113,9 @@ fun AddMedicineScreen(
 
         MyDropdown(
             labelTitle = "Repeat when",
-            items = listOf(),
-            selectedItem = "xx",
-            onItemSelected = {},
+            items = state.frequencyValues,
+            selectedItem = state.frequency,
+            onItemSelected = { onEvent(MedicineEvent.FrequencySelected(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
@@ -140,8 +128,8 @@ fun AddMedicineScreen(
         )
         AddVerticalSpace(6)
         Comments(
-            inputValue = "xx",
-            valueEntered = {}
+            inputValue = state.comments,
+            valueEntered = { onEvent(MedicineEvent.CommentsEntered(it)) }
         )
 
 
@@ -149,7 +137,7 @@ fun AddMedicineScreen(
 
         PrimaryButton(
             buttonTitle = "save",
-            onButtonClicked = {},
+            onButtonClicked = { onEvent(MedicineEvent.AddMedicine) },
             hasBorder = false
         )
 
@@ -157,17 +145,14 @@ fun AddMedicineScreen(
 
         SecondaryButton(
             buttonTitle = "cancel",
-            onButtonClicked = {},
+            onButtonClicked = { navController.popBackStack() },
             hasBorder = false
         )
 
 
         AddVerticalSpace(20)
 
-        
-
     }
-
 
 }
 

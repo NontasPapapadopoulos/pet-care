@@ -3,8 +3,11 @@ package nondas.pap.petcareapp.presentation.pet
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -30,7 +33,6 @@ fun AddPetScreen(
 ) {
 
 
-    val viewModel: PetViewModel = hiltViewModel()
 
     Column(
         modifier = Modifier
@@ -48,22 +50,22 @@ fun AddPetScreen(
         InputText(
             labelTitle = "Name",
             placeholder = "Roza xx",
-            inputValue = viewModel.state.name,
-            valueEntered = { viewModel.onEvent(PetEvent.NameEntered(it)) },
-            isValidationSuccessful = viewModel.state.nameValidation.isSuccessful,
-            errorMessage = viewModel.state.nameValidation.errorMessage
+            inputValue = state.name,
+            valueEntered = { onEvent(PetEvent.NameEntered(it)) },
+            isValidationSuccessful = state.nameValidation.isSuccessful,
+            errorMessage = state.nameValidation.errorMessage
         )
 
         AddVerticalSpace(15)
 
 
         InputText(
-            inputValue = viewModel.state.dob,
-            valueEntered = { viewModel.onEvent(PetEvent.DobEntered(it)) },
+            inputValue = state.dob,
+            valueEntered = { onEvent(PetEvent.DobEntered(it)) },
             labelTitle = "Date of birth",
             placeholder = "dd/MM/yyyy",
-            isValidationSuccessful = viewModel.state.dobValidation.isSuccessful,
-            errorMessage = viewModel.state.dobValidation.errorMessage,
+            isValidationSuccessful = state.dobValidation.isSuccessful,
+            errorMessage = state.dobValidation.errorMessage,
         )
 
         AddVerticalSpace(15)
@@ -71,9 +73,9 @@ fun AddPetScreen(
 
         MyDropdown(
             labelTitle = "Type",
-            items = viewModel.state.petTypes,
-            selectedItem = viewModel.state.type,
-            onItemSelected = { viewModel.onEvent(PetEvent.TypeEntered(it)) },
+            items = state.petTypes,
+            selectedItem = state.type,
+            onItemSelected = { onEvent(PetEvent.TypeEntered(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
@@ -81,12 +83,12 @@ fun AddPetScreen(
 
 
         InputText(
-            inputValue = viewModel.state.breed,
-            valueEntered = { viewModel.onEvent(PetEvent.BreedEntered(it)) },
+            inputValue = state.breed,
+            valueEntered = { onEvent(PetEvent.BreedEntered(it)) },
             labelTitle = "Breed",
             placeholder = "French bulldog",
-            isValidationSuccessful = viewModel.state.breedValidation.isSuccessful,
-            errorMessage = viewModel.state.breedValidation.errorMessage
+            isValidationSuccessful = state.breedValidation.isSuccessful,
+            errorMessage = state.breedValidation.errorMessage
         )
 
 
@@ -94,8 +96,8 @@ fun AddPetScreen(
 
         PrimaryButton(
             buttonTitle = "add",
-            onButtonClicked = { viewModel.onEvent(PetEvent.AddPet) },
-            isEnabled = viewModel.state.isAddButtonEnabled,
+            onButtonClicked = { onEvent(PetEvent.AddPet) },
+            isEnabled = state.isAddButtonEnabled,
             backgroundColor = R.color.pink,
             textColor = R.color.white,
             hasBorder = false,
