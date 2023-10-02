@@ -17,3 +17,11 @@ enum class TimePeriod(val frequency: String) {
     EVERY_SIX_MONTHS("every six months"),
     EVERY_YEAR("every year")
 }
+
+
+enum class MedicineType(val type: String) {
+    VACCINE("Vaccine"),
+    PILL("Pill"),
+    EXAMINATION("Examination"),
+    OTHER("Other")
+}
