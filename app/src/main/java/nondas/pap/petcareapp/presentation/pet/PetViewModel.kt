@@ -5,13 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
 import nondas.pap.petcareapp.domain.usecase.validator.NameValidator
 import javax.inject.Inject
 
 
 @HiltViewModel
 class PetViewModel @Inject constructor(
-    private val nameValidator: NameValidator
+    private val nameValidator: NameValidator,
+    private val dateValidator: DateValidator
 ): ViewModel() {
 
 
@@ -37,7 +39,16 @@ class PetViewModel @Inject constructor(
 
 
             is PetEvent.DobEntered -> {
-                state = state.copy(dob = event.userInput)
+                val validationResult = dateValidator.execute(
+                    date = event.userInput,
+                    fieldName = "date of birth",
+                    comparisonFlag = DateValidator.DATE_COMPARISON_FLAG.BEFORE_PRESENT_DATE
+                )
+
+                state = state.copy(
+                    dob = event.userInput,
+                    dobValidation = validationResult
+                )
             }
 
             is PetEvent.BreedEntered -> {

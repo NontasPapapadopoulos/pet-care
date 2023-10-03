@@ -13,4 +13,5 @@ sealed class MedicineEvent {
 
     data class EditButtonClicked(val medicine: Medicine): MedicineEvent()
     data class DeleteButtonClicked(val medicine: Medicine): MedicineEvent()
+    data class DatePerformedEntered(val date: String): MedicineEvent()
 }

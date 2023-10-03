@@ -3,11 +3,12 @@ package nondas.pap.petcareapp.presentation.medicine
 import nondas.pap.petcareapp.domain.model.Medicine
 import nondas.pap.petcareapp.domain.model.MedicineType
 import nondas.pap.petcareapp.domain.model.TimePeriod
+import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
 
 data class MedicineState(
     val type: String = "",
     val frequency: String = "",
-    val date: String = "",
+    var date: String = "",
     val comments: String = "",
     val petName: String = "",
 
@@ -25,5 +26,7 @@ data class MedicineState(
         TimePeriod.EVERY_YEAR.name,
     ),
 
-    val selectedMedicine: Medicine = Medicine()
+    val selectedMedicine: Medicine = Medicine(),
+
+    val dateValidation: ValidationResult = ValidationResult(true, "")
 )

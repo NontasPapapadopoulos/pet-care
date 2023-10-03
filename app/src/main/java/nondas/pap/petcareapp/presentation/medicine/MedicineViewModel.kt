@@ -5,11 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
 import javax.inject.Inject
 
 @HiltViewModel
 class MedicineViewModel @Inject constructor(
-
+    private val dateValidator: DateValidator
 ): ViewModel() {
 
 
@@ -20,21 +21,48 @@ class MedicineViewModel @Inject constructor(
     fun onEvent(event: MedicineEvent) {
         when(event) {
 
-            is MedicineEvent.TypeSelected -> TODO()
+            is MedicineEvent.TypeSelected -> {
+                state = state.copy(type = event.option)
+            }
 
-            is MedicineEvent.FrequencySelected -> TODO()
+            is MedicineEvent.FrequencySelected -> {
+                state = state.copy(frequency = event.option)
+            }
 
-            is MedicineEvent.CommentsEntered -> TODO()
+            is MedicineEvent.CommentsEntered -> {
+                state = state.copy(comments = event.userInput)
+            }
 
-
-
-            is MedicineEvent.AddMedicine -> TODO()
-
-            is MedicineEvent.DeleteButtonClicked -> TODO()
-            is MedicineEvent.EditButtonClicked -> TODO()
-            is MedicineEvent.UpdateMedicine -> TODO()
+            is MedicineEvent.DeleteButtonClicked -> {
 
 
+            }
+
+            is MedicineEvent.EditButtonClicked -> {
+
+            }
+
+            is MedicineEvent.UpdateMedicine -> {
+
+            }
+
+
+            is MedicineEvent.AddMedicine -> {
+
+            }
+
+            is MedicineEvent.DatePerformedEntered -> {
+                val validationResult = dateValidator.execute(
+                    date = event.date,
+                    fieldName = "date",
+                    comparisonFlag = DateValidator.DATE_COMPARISON_FLAG.NONE
+                )
+
+                state = state.copy(
+                    date = event.date,
+                    dateValidation = validationResult
+                 )
+            }
         }
     }
 

@@ -1,5 +1,7 @@
 package nondas.pap.petcareapp.presentation.medicine
 
+import android.app.DatePickerDialog
+import android.widget.DatePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,9 +15,13 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,7 +37,10 @@ import nondas.pap.petcareapp.presentation.component.MyText
 import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
+import nondas.pap.petcareapp.presentation.component.inputText.InputText
+import nondas.pap.petcareapp.presentation.pet.PetEvent
 import java.time.LocalDate
+import java.util.Calendar
 
 @Composable
 fun AddMedicineScreen(
@@ -40,7 +49,6 @@ fun AddMedicineScreen(
     onEvent: (MedicineEvent) -> Unit
 ) {
 
-    val showDialog = rememberSaveable { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -67,47 +75,17 @@ fun AddMedicineScreen(
 
         AddVerticalSpace(15)
 
-        MyText(
-            text = "Date performed",
-            textAlignment = TextAlign.Start,
-            fillMaxWidth = false,
-            modifier = Modifier.padding(start = 20.dp)
+        InputText(
+            inputValue = state.date,
+            valueEntered = { onEvent(MedicineEvent.DatePerformedEntered(it)) },
+            labelTitle = "Date performed",
+            placeholder = "dd/MM/yyyy",
+            isValidationSuccessful = state.dateValidation.isSuccessful,
+            errorMessage = state.dateValidation.errorMessage,
         )
 
-        AddVerticalSpace(6)
 
-        MyText(
-            text = state.date,
-            textAlignment = TextAlign.Start,
-            modifier = Modifier
-                .padding(20.dp, 0.dp)
-                .height(46.dp)
-                .background(
-                    color = colorResource(R.color.white),
-                    shape = RoundedCornerShape(size = 36.dp)
-                )
-                .border(
-                    width = 1.dp,
-                    color = colorResource(R.color.grey),
-                    shape = RoundedCornerShape(size = 36.dp)
-                )
-                .padding(14.dp, 0.dp)
-                .clickable { showDialog.value = true }
-        )
 
-        if (showDialog.value) {
-            ComposeCalendar(
-                onDone = { it: LocalDate ->
-                    // Hide dialog
-                    showDialog.value = false
-                    // Do something with the date
-                },
-                onDismiss = {
-                    // Hide dialog
-                    showDialog.value = false
-                }
-            )
-        }
 
         AddVerticalSpace(15)
 
@@ -169,3 +147,46 @@ private fun AddMedicineScreenPreview() {
         onEvent = {}
     )
 }
+
+//        MyText(
+//            text = "Date performed",
+//            textAlignment = TextAlign.Start,
+//            fillMaxWidth = false,
+//            modifier = Modifier.padding(start = 20.dp)
+//        )
+//
+//        val calendar = Calendar.getInstance()
+//
+//
+//        // Fetching current year, month and day
+//        val year = calendar[Calendar.YEAR]
+//        val month = calendar[Calendar.MONTH]
+//        val dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
+//
+//        val datePicker = DatePickerDialog(
+//            context,
+//            { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDayOfMonth: Int ->
+//              onEvent(MedicineEvent.SetDate("$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"))
+//            }, year, month, dayOfMonth
+//        )
+//
+//        AddVerticalSpace(6)
+//
+//        MyText(
+//            text = state.date,
+//            textAlignment = TextAlign.Start,
+//            modifier = Modifier
+//                .padding(20.dp, 0.dp)
+//                .height(46.dp)
+//                .background(
+//                    color = colorResource(R.color.white),
+//                    shape = RoundedCornerShape(size = 36.dp)
+//                )
+//                .border(
+//                    width = 1.dp,
+//                    color = colorResource(R.color.grey),
+//                    shape = RoundedCornerShape(size = 36.dp)
+//                )
+//                .padding(start = 14.dp, top = 5.dp, bottom = 5.dp)
+//                .clickable {  datePicker.show() }
+//        )
