@@ -21,7 +21,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import nondas.pap.petcareapp.presentation.ColorUtil.Companion.getPlaceHolderColor
+import nondas.pap.petcareapp.presentation.util.ColorUtil.Companion.getPlaceHolderColor
 
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.component.MyPlaceholder

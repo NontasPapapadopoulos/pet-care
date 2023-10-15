@@ -11,7 +11,7 @@ data class Medicine(
 
 
 
-enum class TimePeriod(val frequency: String) {
+enum class TimePeriod(val value: String) {
     EVERY_MONTH("every month"),
     EVERY_THREE_MONTHS("every three months"),
     EVERY_SIX_MONTHS("every six months"),

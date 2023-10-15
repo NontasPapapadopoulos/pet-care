@@ -55,6 +55,7 @@ fun PetsScreen(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.statusBars)
             .background(colorResource(id = R.color.mpez))) {
 
         val (column, dialog) = createRefs()

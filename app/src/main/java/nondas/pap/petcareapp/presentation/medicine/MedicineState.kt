@@ -13,17 +13,17 @@ data class MedicineState(
     val petName: String = "",
 
     val types: List<String> = listOf(
-        MedicineType.VACCINE.name,
-        MedicineType.PILL.name,
-        MedicineType.EXAMINATION.name,
-        MedicineType.OTHER.name
+        MedicineType.VACCINE.type,
+        MedicineType.PILL.type,
+        MedicineType.EXAMINATION.type,
+        MedicineType.OTHER.type
     ),
 
     val frequencyValues: List<String> = listOf(
-        TimePeriod.EVERY_MONTH.name,
-        TimePeriod.EVERY_THREE_MONTHS.name,
-        TimePeriod.EVERY_SIX_MONTHS.name,
-        TimePeriod.EVERY_YEAR.name,
+        TimePeriod.EVERY_MONTH.value,
+        TimePeriod.EVERY_THREE_MONTHS.value,
+        TimePeriod.EVERY_SIX_MONTHS.value,
+        TimePeriod.EVERY_YEAR.value,
     ),
 
     val selectedMedicine: Medicine = Medicine(),

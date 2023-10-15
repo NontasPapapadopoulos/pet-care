@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.presentation
+package nondas.pap.petcareapp.presentation.util
 
 
 import androidx.compose.ui.geometry.Offset

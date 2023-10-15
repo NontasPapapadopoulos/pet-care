@@ -6,20 +6,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -31,7 +25,6 @@ import androidx.navigation.compose.rememberNavController
 
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.domain.model.Medicine
-import nondas.pap.petcareapp.domain.model.Pet
 import nondas.pap.petcareapp.domain.model.TimePeriod
 import nondas.pap.petcareapp.infastracture.navigation.screen.MedicineScreen
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
@@ -42,8 +35,6 @@ import nondas.pap.petcareapp.presentation.component.MyImage
 import nondas.pap.petcareapp.presentation.component.MyText
 import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.WarningDialog
-import nondas.pap.petcareapp.presentation.pet.PetEvent
-import java.time.LocalDate
 import java.util.Date
 
 
@@ -183,7 +174,7 @@ fun MedicineItem(medicine: Medicine) {
                 color = R.color.white
             )
             MyText(
-                text = medicine.repeatRate.frequency,
+                text = medicine.repeatRate.value,
                 fillMaxWidth = false,
                 color = R.color.white
             )

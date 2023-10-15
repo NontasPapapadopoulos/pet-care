@@ -23,6 +23,7 @@ import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
 import nondas.pap.petcareapp.presentation.component.inputText.InputText
+import nondas.pap.petcareapp.presentation.util.DateTransformation
 
 
 @Composable
@@ -66,6 +67,7 @@ fun AddPetScreen(
             placeholder = "dd/MM/yyyy",
             isValidationSuccessful = state.dobValidation.isSuccessful,
             errorMessage = state.dobValidation.errorMessage,
+            visualTransformation = DateTransformation()
         )
 
         AddVerticalSpace(15)

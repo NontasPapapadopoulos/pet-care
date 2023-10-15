@@ -46,7 +46,8 @@ fun MyDropdown(
         if (labelTitle.isNotEmpty()) {
             MyText(
                 text = labelTitle,
-                textAlignment = TextAlign.Start
+                textAlignment = TextAlign.Start,
+                color = R.color.grey
             )
             AddVerticalSpace(6)
         }
@@ -73,7 +74,10 @@ fun MyDropdown(
         ) {
 
 
-            MyText(text = selectedItem)
+            MyText(
+                text = selectedItem,
+                color = R.color.grey
+            )
 
 
         }
@@ -109,27 +113,32 @@ fun ItemsContainer(
             .border(
                 1.dp,
                 color = colorResource(id = R.color.grey),
-                shape = RoundedCornerShape(24.dp)
+                shape = RoundedCornerShape(12.dp)
             )
             .background(
                 color = colorResource(id = R.color.white),
-                shape = RoundedCornerShape(24.dp)
+                shape = RoundedCornerShape(12.dp)
             )
             .padding(0.dp, 20.dp)
     ) {
 
-        LazyColumn {
-            items(items.size) { index ->
-
+//        LazyColumn {
+//            items(items.size) { index ->
+        Column {
+            items.forEach { item ->
                 MyText(
-                    text = items[index],
-                    modifier = Modifier.clickable {
-                        onItemSelected(items[index])
-                        onExpandedChange(false)
-                    }
+                    text = item,
+                    color = R.color.grey,
+                    modifier = Modifier
+                        .clickable {
+                            onItemSelected(item)
+                            onExpandedChange(false)
+                        }
                 )
+
+                AddVerticalSpace()
             }
-        }
+       }
     }
 }
 

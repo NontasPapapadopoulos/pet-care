@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -23,9 +22,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import nondas.pap.petcareapp.presentation.ColorUtil.Companion.getBackgroundColor
-import nondas.pap.petcareapp.presentation.ColorUtil.Companion.getBorderColor
-import nondas.pap.petcareapp.presentation.ColorUtil.Companion.getTextColor
+import nondas.pap.petcareapp.presentation.util.ColorUtil.Companion.getBackgroundColor
+import nondas.pap.petcareapp.presentation.util.ColorUtil.Companion.getBorderColor
+import nondas.pap.petcareapp.presentation.util.ColorUtil.Companion.getTextColor
 import nondas.pap.petcareapp.R
 
 import nondas.pap.petcareapp.component.inputText.PairImagesEnd

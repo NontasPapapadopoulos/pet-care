@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +41,7 @@ import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
 import nondas.pap.petcareapp.presentation.component.inputText.InputText
 import nondas.pap.petcareapp.presentation.pet.PetEvent
+import nondas.pap.petcareapp.presentation.util.DateTransformation
 import java.time.LocalDate
 import java.util.Calendar
 
@@ -52,6 +55,7 @@ fun AddMedicineScreen(
 
     Column(
         modifier = Modifier
+            .verticalScroll(rememberScrollState())
             .fillMaxSize()
             .background(colorResource(id = R.color.mpez))
     ) {
@@ -82,6 +86,7 @@ fun AddMedicineScreen(
             placeholder = "dd/MM/yyyy",
             isValidationSuccessful = state.dateValidation.isSuccessful,
             errorMessage = state.dateValidation.errorMessage,
+            visualTransformation = DateTransformation()
         )
 
 
@@ -99,12 +104,7 @@ fun AddMedicineScreen(
 
         AddVerticalSpace(15)
 
-        MyText(
-            text = "Comments",
-            textAlignment = TextAlign.Start,
-            modifier = Modifier.padding(start = 20.dp)
-        )
-        AddVerticalSpace(6)
+
         Comments(
             inputValue = state.comments,
             valueEntered = { onEvent(MedicineEvent.CommentsEntered(it)) }
