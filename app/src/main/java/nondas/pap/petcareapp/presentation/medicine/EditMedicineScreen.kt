@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
@@ -24,10 +27,11 @@ import nondas.pap.petcareapp.presentation.component.SecondaryButton
 
 @Composable
 fun EditMedicineScreen(
+    viewModel: MedicineViewModel = hiltViewModel(),
     navController: NavController,
-    state: MedicineState,
-    onEvent: (MedicineEvent) -> Unit
 ) {
+
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -48,7 +52,7 @@ fun EditMedicineScreen(
             labelTitle = "Type",
             items = state.types,
             selectedItem = state.type,
-            onItemSelected = { onEvent(MedicineEvent.TypeSelected(it)) },
+            onItemSelected = { viewModel.add(MedicineEvent.TypeSelected(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
@@ -58,7 +62,7 @@ fun EditMedicineScreen(
             labelTitle = "Repeat when",
             items = state.frequencyValues,
             selectedItem = state.frequency,
-            onItemSelected = { onEvent(MedicineEvent.FrequencySelected(it)) },
+            onItemSelected = { viewModel.add(MedicineEvent.FrequencySelected(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
@@ -74,7 +78,7 @@ fun EditMedicineScreen(
 
         Comments(
             inputValue = state.comments,
-            valueEntered = { onEvent(MedicineEvent.CommentsEntered(it)) }
+            valueEntered = { viewModel.add(MedicineEvent.CommentsEntered(it)) }
         )
 
 
@@ -82,7 +86,7 @@ fun EditMedicineScreen(
 
         PrimaryButton(
             buttonTitle = "update",
-            onButtonClicked = { onEvent(MedicineEvent.UpdateMedicine) },
+            onButtonClicked = { viewModel.add(MedicineEvent.UpdateMedicine) },
             hasBorder = false
         )
 
@@ -113,7 +117,6 @@ fun EditMedicineScreen(
 private fun AddMedicineScreenPreview() {
     EditMedicineScreen(
         navController = rememberNavController(),
-        state = MedicineState(),
-        onEvent = {}
+
     )
 }

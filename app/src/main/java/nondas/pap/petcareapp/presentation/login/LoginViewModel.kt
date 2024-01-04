@@ -1,27 +1,49 @@
 package nondas.pap.petcareapp.presentation.login
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import nondas.pap.petcareapp.domain.usecase.user.PerformLogin
+import nondas.pap.petcareapp.presentation.BlocViewModel
+import nondas.pap.petcareapp.presentation.Handler
 import nondas.pap.petcareapp.presentation.UIEvent
-import nondas.pap.petcareapp.presentation.login.LoginEvent
-import nondas.pap.petcareapp.presentation.login.LoginState
+import nondas.pap.petcareapp.presentation.flatMapMergeWith
 import javax.inject.Inject
 
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    private val performLogin: PerformLogin
+): BlocViewModel<LoginEvent, LoginState>() {
 
-): ViewModel() {
+    private val emailFlow = MutableSharedFlow<String>()
+    private val passwordFlow = MutableSharedFlow<String>()
+    private val loginHandler = MutableSharedFlow<Handler.Event<PerformLogin.Params>>()
 
-    var state by mutableStateOf(LoginState())
+    override val _uiState: StateFlow<LoginState> = combine(
+        emailFlow,
+        passwordFlow,
+        loginHandler.flatMapMergeWith(performLogin)
+    ) { email, password, loginState ->
+
+        LoginState(
+            email = email,
+            password = password,
+            isLoading = loginState is Handler.State.Running
+        )
+
+    }.stateIn(
+        scope = viewModelScope,
+        initialValue = LoginState(),
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+    )
+
 
     private val _uiEventFlow = MutableSharedFlow<UIEvent>()
     val uiEvent: SharedFlow<UIEvent> = _uiEventFlow.asSharedFlow()
@@ -29,30 +51,35 @@ class LoginViewModel @Inject constructor(
 
     init {
 
-
-    }
-
-
-    fun onEvent(event: LoginEvent) {
-        when(event) {
-            is LoginEvent.EmailEntered -> {
-                state = state.copy(email = event.userInput)
-            }
-
-            is LoginEvent.PasswordEntered -> {
-                state = state.copy(password = event.userInput)
-
-            }
-
-            is LoginEvent.LoginButtonClicked -> {
-                viewModelScope.launch {
-                    _uiEventFlow.emit(UIEvent.Navigate)
-                }
-            }
-
+        on(LoginEvent.EmailEntered::class) {
+            emailFlow.emit(it.userInput)
         }
-    }
 
+        on(LoginEvent.PasswordEntered::class) {
+            passwordFlow.emit(it.userInput)
+        }
+
+        on(LoginEvent.LoginButtonClicked::class) {
+            loginHandler.emit(Handler.Event.Execute(PerformLogin.Params(it.email, it.password)))
+        }
+
+    }
 
 
 }
+
+data class LoginState(
+    val email: String = "",
+    val password: String = "",
+    val isLoading: Boolean = false
+
+)
+
+sealed class LoginEvent {
+    data class EmailEntered(val userInput: String): LoginEvent()
+    data class PasswordEntered(val userInput: String): LoginEvent()
+    data class LoginButtonClicked(val email: String, val password: String): LoginEvent()
+
+}
+
+

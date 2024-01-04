@@ -25,12 +25,9 @@ fun NavGraphBuilder.petsNavGraph(
             route = PetScreen.Pets.route
         ) {
 
-            val viewModel = it.sharedViewModel<PetViewModel>(navController = navController)
 
             PetsScreen(
                 navController = navController,
-                state = viewModel.state,
-                onEvent = viewModel::onEvent
             )
         }
 
@@ -39,25 +36,17 @@ fun NavGraphBuilder.petsNavGraph(
             route = PetScreen.AddPet.route
         ) {
 
-            val viewModel = it.sharedViewModel<PetViewModel>(navController = navController)
-
-
             AddPetScreen(
                 navController = navController,
-                state = viewModel.state,
-                onEvent = viewModel::onEvent
             )
         }
 
         composable(
             route = PetScreen.EditPet.route
         ) {
-            val viewModel = it.sharedViewModel<PetViewModel>(navController = navController)
 
             EditPetScreen(
-                navController = navController,
-                state = viewModel.state,
-                onEvent = viewModel::onEvent
+                navController = navController
             )
         }
 

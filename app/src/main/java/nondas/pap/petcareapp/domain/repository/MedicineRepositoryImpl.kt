@@ -1,5 +1,6 @@
 package nondas.pap.petcareapp.domain.repository
 
+import kotlinx.coroutines.flow.Flow
 import nondas.pap.petcareapp.data.api.MedicineApi
 import nondas.pap.petcareapp.data.repository.MedicineRepository
 import nondas.pap.petcareapp.domain.model.Medicine
@@ -8,7 +9,7 @@ import retrofit2.Response
 class MedicineRepositoryImpl(
     private val medicineApi: MedicineApi
 ): MedicineRepository {
-    override suspend fun getMedicine(petId: Long): Response<List<Medicine>> {
+    override fun getMedicine(petId: Long): Flow<List<Medicine>> {
         return medicineApi.getMedicine(petId = petId)
     }
 

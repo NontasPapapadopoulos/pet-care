@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -20,6 +22,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
@@ -40,10 +43,11 @@ import java.util.Date
 
 @Composable
 fun PetMedicineScreen(
+    viewModel: MedicineViewModel = hiltViewModel(),
     navController: NavController,
-    state: MedicineState,
-    onEvent: (MedicineEvent) -> Unit
 ) {
+
+    val state by viewModel.uiState.collectAsState()
 
     val showDialog = remember { mutableStateOf(false) }
 
@@ -110,7 +114,7 @@ fun PetMedicineScreen(
                 title = "Delete ${state.selectedMedicine.type}",
                 primaryButtonText = "delete",
                 secondaryButtonText = "cancel",
-                onPrimaryButtonClicked = { onEvent(MedicineEvent.DeleteButtonClicked(state.selectedMedicine)) },
+                onPrimaryButtonClicked = { viewModel.add(MedicineEvent.DeleteButtonClicked(state.selectedMedicine)) },
                 onDismiss = { showDialog.value = false },
                 onSecondaryButtonClicked = { showDialog.value = false },
                 modifier = Modifier.constrainAs(dialog) {
@@ -197,7 +201,5 @@ fun MedicineItem(medicine: Medicine) {
 private fun MedicineScreenPreview() {
     PetMedicineScreen(
         navController = rememberNavController(),
-        state = MedicineState(),
-        onEvent = {}
     )
 }

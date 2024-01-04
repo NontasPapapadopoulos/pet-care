@@ -1,10 +1,11 @@
 package nondas.pap.petcareapp.data.repository
 
+import kotlinx.coroutines.flow.Flow
 import nondas.pap.petcareapp.domain.model.Pet
 import retrofit2.Response
 
 interface PetRepository {
-    suspend fun getPets(userId: Long): Response<List<Pet>>
+    fun getPets(userId: Long): Flow<List<Pet>>
 
     suspend fun addPet(pet: Pet): Response<Unit>
 

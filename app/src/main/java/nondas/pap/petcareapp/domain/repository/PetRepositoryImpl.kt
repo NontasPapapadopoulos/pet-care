@@ -4,11 +4,12 @@ import nondas.pap.petcareapp.data.api.PetApi
 import nondas.pap.petcareapp.data.repository.PetRepository
 import nondas.pap.petcareapp.domain.model.Pet
 import retrofit2.Response
+import kotlinx.coroutines.flow.Flow
 
 class PetRepositoryImpl(
     private val petApi: PetApi
 ): PetRepository {
-    override suspend fun getPets(userId: Long): Response<List<Pet>> {
+    override fun getPets(userId: Long): Flow<List<Pet>> {
         return petApi.getPets(userId = userId)
     }
 

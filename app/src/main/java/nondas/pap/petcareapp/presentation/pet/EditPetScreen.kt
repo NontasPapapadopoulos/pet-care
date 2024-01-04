@@ -3,17 +3,16 @@ package nondas.pap.petcareapp.presentation.pet
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
@@ -27,11 +26,11 @@ import nondas.pap.petcareapp.presentation.component.inputText.InputText
 
 @Composable
 fun EditPetScreen(
+    viewModel: PetViewModel = hiltViewModel(),
     navController: NavController,
-    state: PetState,
-    onEvent: (PetEvent) -> Unit
 ) {
 
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
 
     Column(
@@ -51,7 +50,7 @@ fun EditPetScreen(
             labelTitle = "Name",
             placeholder = "Roza xx",
             inputValue = state.name,
-            valueEntered = { onEvent(PetEvent.NameEntered(it)) },
+            valueEntered = { viewModel.add(PetEvent.NameEntered(it)) },
             isValidationSuccessful = state.nameValidation.isSuccessful,
             errorMessage = state.nameValidation.errorMessage
         )
@@ -61,7 +60,7 @@ fun EditPetScreen(
 
         InputText(
             inputValue = state.dob,
-            valueEntered = { onEvent(PetEvent.DobEntered(it)) },
+            valueEntered = { viewModel.add(PetEvent.DobEntered(it)) },
             labelTitle = "Date of birth",
             placeholder = "dd/MM/yyyy",
             isValidationSuccessful = state.dobValidation.isSuccessful,
@@ -75,7 +74,7 @@ fun EditPetScreen(
             labelTitle = "Type",
             items = state.petTypes,
             selectedItem = state.type,
-            onItemSelected = { onEvent(PetEvent.TypeEntered(it)) },
+            onItemSelected = { viewModel.add(PetEvent.TypeSelected(it)) },
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
@@ -84,7 +83,7 @@ fun EditPetScreen(
 
         InputText(
             inputValue = state.breed,
-            valueEntered = { onEvent(PetEvent.BreedEntered(it)) },
+            valueEntered = { viewModel.add(PetEvent.BreedEntered(it)) },
             labelTitle = "Breed",
             placeholder = "French bulldog",
             isValidationSuccessful = state.breedValidation.isSuccessful,
@@ -96,7 +95,7 @@ fun EditPetScreen(
 
         PrimaryButton(
             buttonTitle = "update",
-            onButtonClicked = { onEvent(PetEvent.EditPet) },
+            onButtonClicked = { viewModel.add(PetEvent.EditPet) },
             isEnabled = state.isAddButtonEnabled,
             backgroundColor = R.color.pink,
             textColor = R.color.white,
@@ -126,9 +125,6 @@ fun EditPetScreen(
 @Composable
 private fun AddPetScreenPreview() {
     AddPetScreen(
-        navController = rememberNavController(),
-        state = PetState(),
-        onEvent = {}
+        navController = rememberNavController()
     )
-
 }

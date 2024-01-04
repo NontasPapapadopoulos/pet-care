@@ -12,8 +12,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kotlinx.coroutines.delay
-import nondas.pap.petcareapp.infastracture.navigation.graph.medicineNavGraph
-import nondas.pap.petcareapp.infastracture.navigation.graph.petsNavGraph
 import nondas.pap.petcareapp.infastracture.navigation.screen.Screen
 
 import nondas.pap.petcareapp.presentation.SplashScreen
@@ -44,7 +42,7 @@ fun RootNavGraph(
             displaySplashScreen(
                 navController = navController,
                 milliseconds = 1200L,
-                route = Screen.Login.route
+                route = Screen.Products.route
             )
 
             SplashScreen(navController = navController)
@@ -52,14 +50,14 @@ fun RootNavGraph(
         }
 
         composable(
-            route = Screen.Login.route
+            route = Screen.Products.route
         ) {
 
             LoginScreen(navController = navController)
         }
 
         composable(
-            route = Screen.Register.route
+            route = Screen.Reports.route
         ) {
 
             RegisterScreen(navController = navController)

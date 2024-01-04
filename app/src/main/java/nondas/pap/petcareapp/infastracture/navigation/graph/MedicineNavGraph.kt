@@ -8,8 +8,8 @@ import nondas.pap.petcareapp.infastracture.navigation.screen.MEDICINE_ROUTE
 import nondas.pap.petcareapp.infastracture.navigation.screen.MedicineScreen
 import nondas.pap.petcareapp.presentation.medicine.AddMedicineScreen
 import nondas.pap.petcareapp.presentation.medicine.EditMedicineScreen
-import nondas.pap.petcareapp.presentation.medicine.PetMedicineScreen
 import nondas.pap.petcareapp.presentation.medicine.MedicineViewModel
+import nondas.pap.petcareapp.presentation.medicine.PetMedicineScreen
 
 
 fun NavGraphBuilder.medicineNavGraph(
@@ -25,26 +25,20 @@ fun NavGraphBuilder.medicineNavGraph(
             route = MedicineScreen.Medicine.route
         ) {
 
-            val viewModel = it.sharedViewModel<MedicineViewModel>(navController = navController)
 
 
             PetMedicineScreen(
                 navController = navController,
-                state = viewModel.state,
-                onEvent = viewModel::onEvent
-                )
+            )
         }
 
         composable(
             route = MedicineScreen.AddMedicine.route
         ) {
 
-            val viewModel = it.sharedViewModel<MedicineViewModel>(navController = navController)
 
             AddMedicineScreen(
                 navController = navController,
-                state = viewModel.state,
-                onEvent = viewModel::onEvent
             )
         }
 
@@ -53,12 +47,9 @@ fun NavGraphBuilder.medicineNavGraph(
             route = MedicineScreen.EditMedicine.route
         ) {
 
-            val viewModel = it.sharedViewModel<MedicineViewModel>(navController = navController)
 
             EditMedicineScreen(
                 navController = navController,
-                state = viewModel.state,
-                onEvent = viewModel::onEvent
             )
         }
 

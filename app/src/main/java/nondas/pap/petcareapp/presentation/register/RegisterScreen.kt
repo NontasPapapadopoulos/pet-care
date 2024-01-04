@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
@@ -28,11 +30,12 @@ import nondas.pap.petcareapp.presentation.register.RegisterViewModel
 
 @Composable
 fun RegisterScreen(
-    navController: NavController
+    navController: NavController,
 ) {
 
     val viewModel: RegisterViewModel = hiltViewModel()
 
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -51,30 +54,30 @@ fun RegisterScreen(
 
         InputText(
             placeholder = "Name",
-            inputValue = viewModel.state.name,
-            isValidationSuccessful = viewModel.state.nameValidation.isSuccessful,
-            errorMessage = viewModel.state.nameValidation.errorMessage,
-            valueEntered = { viewModel.onEvent(RegisterEvent.NameEntered(it)) },
+            inputValue = state.name,
+            isValidationSuccessful = state.nameValidation.isSuccessful,
+            errorMessage = state.nameValidation.errorMessage,
+            valueEntered = { viewModel.add(RegisterEvent.NameEntered(it)) },
         )
 
         AddVerticalSpace()
 
         InputText(
             placeholder = "Email",
-            inputValue = viewModel.state.email,
-            isValidationSuccessful = viewModel.state.emailValidation.isSuccessful,
-            errorMessage = viewModel.state.emailValidation.errorMessage,
-            valueEntered = { viewModel.onEvent(RegisterEvent.EmailEntered(it)) },
+            inputValue = state.email,
+            isValidationSuccessful = state.emailValidation.isSuccessful,
+            errorMessage = state.emailValidation.errorMessage,
+            valueEntered = { viewModel.add(RegisterEvent.EmailEntered(it)) },
         )
 
         AddVerticalSpace()
 
         InputText(
             placeholder = "Password",
-            inputValue = viewModel.state.password,
-            isValidationSuccessful = viewModel.state.passwordValidation.isSuccessful,
-            errorMessage = viewModel.state.passwordValidation.errorMessage,
-            valueEntered = { viewModel.onEvent(RegisterEvent.PasswordEntered(it)) },
+            inputValue = state.password,
+            isValidationSuccessful = state.passwordValidation.isSuccessful,
+            errorMessage = state.passwordValidation.errorMessage,
+            valueEntered = { viewModel.add(RegisterEvent.PasswordEntered(it)) },
 
         )
 
@@ -82,10 +85,10 @@ fun RegisterScreen(
 
         InputText(
             placeholder = "Confirm password",
-            inputValue = viewModel.state.confirmPassword,
-            isValidationSuccessful = viewModel.state.confirmPasswordValidation.isSuccessful,
-            errorMessage = viewModel.state.confirmPasswordValidation.errorMessage,
-            valueEntered = { viewModel.onEvent(RegisterEvent.ConfirmPasswordEntered(it)) },
+            inputValue = state.confirmPassword,
+            isValidationSuccessful = state.confirmPasswordValidation.isSuccessful,
+            errorMessage = state.confirmPasswordValidation.errorMessage,
+            valueEntered = { viewModel.add(RegisterEvent.ConfirmPasswordEntered(it)) },
         )
 
 
@@ -94,8 +97,8 @@ fun RegisterScreen(
 
         PrimaryButton(
             buttonTitle = "register",
-            onButtonClicked = { viewModel.onEvent(RegisterEvent.RegisterButtonClicked) },
-            isEnabled = viewModel.state.isRegisterButtonEnabled,
+            onButtonClicked = { viewModel.add(RegisterEvent.RegisterButtonClicked) },
+            isEnabled = state.isRegisterButtonEnabled,
             backgroundColor = R.color.light_green,
             textColor = R.color.white,
             hasBorder = false
