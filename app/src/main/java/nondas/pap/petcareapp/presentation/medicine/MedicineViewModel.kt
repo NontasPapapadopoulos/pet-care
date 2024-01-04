@@ -89,7 +89,7 @@ sealed class MedicineEvent {
 data class MedicineState(
     val type: String = "",
     val frequency: String = "",
-    var date: String = "",
+    var date: ValidatedField = ValidatedField(),
     val comments: String = "",
     val petName: String = "",
 

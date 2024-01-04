@@ -44,11 +44,25 @@ import java.util.Date
 @Composable
 fun PetMedicineScreen(
     viewModel: MedicineViewModel = hiltViewModel(),
-    navController: NavController,
+    navController: NavController
 ) {
 
     val state by viewModel.uiState.collectAsState()
 
+    PetMedicineContent(
+        selectedMedicine = state.selectedMedicine,
+        onDeleteButtonClicked = { viewModel.add(MedicineEvent.DeleteButtonClicked(it)) },
+        onAddNewMedicineButtonClicked = { navController.navigate(route = MedicineScreen.AddMedicine.route) }
+    )
+}
+
+
+@Composable
+private fun PetMedicineContent(
+    selectedMedicine: Medicine,
+    onDeleteButtonClicked: (Medicine) -> Unit,
+    onAddNewMedicineButtonClicked: () -> Unit
+) {
     val showDialog = remember { mutableStateOf(false) }
 
     ConstraintLayout(
@@ -84,7 +98,6 @@ fun PetMedicineScreen(
                 )
             )
 
-
             Spacer(modifier = Modifier.weight(1f))
 
 
@@ -98,11 +111,9 @@ fun PetMedicineScreen(
                     imageId = R.drawable.baseline_add_circle_24_blue,
                     modifier = Modifier
                         .size(60.dp)
-                        .clickable { navController.navigate(route = MedicineScreen.AddMedicine.route) }
+                        .clickable { onAddNewMedicineButtonClicked() }
                 )
             }
-
-
         }
 
 
@@ -111,10 +122,10 @@ fun PetMedicineScreen(
 
 
             WarningDialog(
-                title = "Delete ${state.selectedMedicine.type}",
+                title = "Delete ${selectedMedicine.type}",
                 primaryButtonText = "delete",
                 secondaryButtonText = "cancel",
-                onPrimaryButtonClicked = { viewModel.add(MedicineEvent.DeleteButtonClicked(state.selectedMedicine)) },
+                onPrimaryButtonClicked = { onDeleteButtonClicked(selectedMedicine) },
                 onDismiss = { showDialog.value = false },
                 onSecondaryButtonClicked = { showDialog.value = false },
                 modifier = Modifier.constrainAs(dialog) {
@@ -188,8 +199,6 @@ fun MedicineItem(medicine: Medicine) {
                 color = R.color.white
             )
 
-
-
         }
 
     }
@@ -199,7 +208,9 @@ fun MedicineItem(medicine: Medicine) {
 @Preview
 @Composable
 private fun MedicineScreenPreview() {
-    PetMedicineScreen(
-        navController = rememberNavController(),
+    PetMedicineContent(
+        selectedMedicine = Medicine(),
+        onDeleteButtonClicked = {},
+        onAddNewMedicineButtonClicked = {}
     )
 }

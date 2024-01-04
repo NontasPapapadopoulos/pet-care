@@ -17,6 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
+import nondas.pap.petcareapp.presentation.ValidatedField
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.Comments
 import nondas.pap.petcareapp.presentation.component.MyDropdown
@@ -24,6 +25,8 @@ import nondas.pap.petcareapp.presentation.component.MyText
 import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
+import nondas.pap.petcareapp.presentation.component.inputText.InputText
+import nondas.pap.petcareapp.presentation.util.DateTransformation
 
 @Composable
 fun EditMedicineScreen(
@@ -33,6 +36,41 @@ fun EditMedicineScreen(
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    EditMedicineContent(
+        petName = state.petName,
+        types = state.types,
+        type = state.type,
+        onTypeSelected = { viewModel.add(MedicineEvent.TypeSelected(it)) },
+        date = state.date,
+        onDatePerformedEntered = { viewModel.add(MedicineEvent.DatePerformedEntered(it)) } ,
+        frequencyValues = state.frequencyValues,
+        frequency = state.frequency,
+        onFrequencySelected = { viewModel.add(MedicineEvent.FrequencySelected(it)) },
+        comments = state.comments,
+        onCommentsEntered = { viewModel.add(MedicineEvent.CommentsEntered(it)) },
+        onEditMedicine = { viewModel.add(MedicineEvent.AddMedicine) },
+        onCancelClicked = { navController.popBackStack() }
+    )
+
+
+}
+
+@Composable
+private fun EditMedicineContent(
+    petName: String,
+    types: List<String>,
+    type: String,
+    onTypeSelected: (String) -> Unit,
+    date: ValidatedField,
+    onDatePerformedEntered: (String) -> Unit,
+    frequencyValues: List<String>,
+    frequency: String,
+    onFrequencySelected: (String) -> Unit,
+    comments: String,
+    onCommentsEntered: (String) -> Unit,
+    onEditMedicine: () -> Unit,
+    onCancelClicked: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,7 +80,7 @@ fun EditMedicineScreen(
         AddVerticalSpace(50)
 
 
-        MyTitle(title = "${state.petName} medicine")
+        MyTitle(title = "$petName medicine")
 
 
         AddVerticalSpace(20)
@@ -50,19 +88,31 @@ fun EditMedicineScreen(
 
         MyDropdown(
             labelTitle = "Type",
-            items = state.types,
-            selectedItem = state.type,
-            onItemSelected = { viewModel.add(MedicineEvent.TypeSelected(it)) },
+            items = types,
+            selectedItem = type,
+            onItemSelected = { onTypeSelected(it) },
             modifier = Modifier.padding(20.dp, 0.dp)
+        )
+
+        AddVerticalSpace(15)
+
+        InputText(
+            inputValue = date.value,
+            valueEntered = { onDatePerformedEntered(it) },
+            labelTitle = "Date performed",
+            placeholder = "dd/MM/yyyy",
+            isValidationSuccessful = date.validation.isSuccessful,
+            errorMessage = date.validation.errorMessage,
+            visualTransformation = DateTransformation()
         )
 
         AddVerticalSpace(15)
 
         MyDropdown(
             labelTitle = "Repeat when",
-            items = state.frequencyValues,
-            selectedItem = state.frequency,
-            onItemSelected = { viewModel.add(MedicineEvent.FrequencySelected(it)) },
+            items = frequencyValues,
+            selectedItem = frequency,
+            onItemSelected = { onFrequencySelected(it) },
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
@@ -77,8 +127,8 @@ fun EditMedicineScreen(
         AddVerticalSpace(6)
 
         Comments(
-            inputValue = state.comments,
-            valueEntered = { viewModel.add(MedicineEvent.CommentsEntered(it)) }
+            inputValue = comments,
+            valueEntered = { onCommentsEntered(it) }
         )
 
 
@@ -86,7 +136,7 @@ fun EditMedicineScreen(
 
         PrimaryButton(
             buttonTitle = "update",
-            onButtonClicked = { viewModel.add(MedicineEvent.UpdateMedicine) },
+            onButtonClicked = { onEditMedicine() },
             hasBorder = false
         )
 
@@ -94,29 +144,33 @@ fun EditMedicineScreen(
 
         SecondaryButton(
             buttonTitle = "cancel",
-            onButtonClicked = { navController.popBackStack() },
+            onButtonClicked = { onCancelClicked() },
             hasBorder = false
         )
 
-
         AddVerticalSpace(20)
 
-
-
     }
-
-
 }
-
-
-
 
 
 @Preview
 @Composable
-private fun AddMedicineScreenPreview() {
-    EditMedicineScreen(
-        navController = rememberNavController(),
+private fun EditMdicineContentPreview() {
 
+    EditMedicineContent(
+        petName = "xx",
+        types = listOf(),
+        type = "xxx",
+        onTypeSelected = {},
+        date = ValidatedField(value = "12/12/2024"),
+        onDatePerformedEntered = {},
+        frequencyValues = listOf(),
+        frequency = "asads",
+        onFrequencySelected = {},
+        comments = "|asdas",
+        onCommentsEntered = {},
+        onEditMedicine = {},
+        onCancelClicked = {}
     )
 }
