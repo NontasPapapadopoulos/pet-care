@@ -19,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
+import nondas.pap.petcareapp.presentation.ValidatedField
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
@@ -30,12 +31,46 @@ import nondas.pap.petcareapp.presentation.register.RegisterViewModel
 
 @Composable
 fun RegisterScreen(
+    viewModel: RegisterViewModel = hiltViewModel(),
     navController: NavController,
 ) {
 
-    val viewModel: RegisterViewModel = hiltViewModel()
-
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+
+
+    RegisterContent(
+        name = state.name,
+        email = state.email,
+        password = state.password,
+        confirmPassword = state.confirmPassword,
+        onNameEntered = { viewModel.add(RegisterEvent.NameEntered(it)) },
+        onEmailEntered = { viewModel.add(RegisterEvent.EmailEntered(it)) },
+        onPasswordEntered = { viewModel.add(RegisterEvent.PasswordEntered(it)) },
+        onConfirmPasswordEntered = { viewModel.add(RegisterEvent.ConfirmPasswordEntered(it)) } ,
+        onRegisterButtonClicked = { viewModel.add(RegisterEvent.RegisterButtonClicked) },
+        onCancelButtonClicked = { navController.popBackStack() },
+        isRegisterButtonEnabled = state.isRegisterButtonEnabled
+    )
+
+
+}
+
+@Composable
+private fun RegisterContent(
+    name: ValidatedField,
+    email: ValidatedField,
+    password: ValidatedField,
+    confirmPassword: ValidatedField,
+    onNameEntered: (String) -> Unit,
+    onEmailEntered: (String) -> Unit,
+    onPasswordEntered: (String) -> Unit,
+    onConfirmPasswordEntered: (String) -> Unit,
+    onRegisterButtonClicked: () -> Unit,
+    onCancelButtonClicked: () -> Unit,
+    isRegisterButtonEnabled: Boolean,
+) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,41 +89,41 @@ fun RegisterScreen(
 
         InputText(
             placeholder = "Name",
-            inputValue = state.name,
-            isValidationSuccessful = state.nameValidation.isSuccessful,
-            errorMessage = state.nameValidation.errorMessage,
-            valueEntered = { viewModel.add(RegisterEvent.NameEntered(it)) },
+            inputValue = name.value,
+            isValidationSuccessful = name.validation.isSuccessful,
+            errorMessage = name.validation.errorMessage,
+            valueEntered = { onNameEntered(it) },
         )
 
         AddVerticalSpace()
 
         InputText(
             placeholder = "Email",
-            inputValue = state.email,
-            isValidationSuccessful = state.emailValidation.isSuccessful,
-            errorMessage = state.emailValidation.errorMessage,
-            valueEntered = { viewModel.add(RegisterEvent.EmailEntered(it)) },
+            inputValue = email.value,
+            isValidationSuccessful = email.validation.isSuccessful,
+            errorMessage = email.validation.errorMessage,
+            valueEntered = { onEmailEntered(it) },
         )
 
         AddVerticalSpace()
 
         InputText(
             placeholder = "Password",
-            inputValue = state.password,
-            isValidationSuccessful = state.passwordValidation.isSuccessful,
-            errorMessage = state.passwordValidation.errorMessage,
-            valueEntered = { viewModel.add(RegisterEvent.PasswordEntered(it)) },
+            inputValue = password.value,
+            isValidationSuccessful = password.validation.isSuccessful,
+            errorMessage = password.validation.errorMessage,
+            valueEntered = { onPasswordEntered(it) },
 
-        )
+            )
 
         AddVerticalSpace()
 
         InputText(
             placeholder = "Confirm password",
-            inputValue = state.confirmPassword,
-            isValidationSuccessful = state.confirmPasswordValidation.isSuccessful,
-            errorMessage = state.confirmPasswordValidation.errorMessage,
-            valueEntered = { viewModel.add(RegisterEvent.ConfirmPasswordEntered(it)) },
+            inputValue = confirmPassword.value,
+            isValidationSuccessful = confirmPassword.validation.isSuccessful,
+            errorMessage = confirmPassword.validation.errorMessage,
+            valueEntered = { onConfirmPasswordEntered(it) },
         )
 
 
@@ -97,8 +132,8 @@ fun RegisterScreen(
 
         PrimaryButton(
             buttonTitle = "register",
-            onButtonClicked = { viewModel.add(RegisterEvent.RegisterButtonClicked) },
-            isEnabled = state.isRegisterButtonEnabled,
+            onButtonClicked = { onRegisterButtonClicked() },
+            isEnabled = isRegisterButtonEnabled,
             backgroundColor = R.color.light_green,
             textColor = R.color.white,
             hasBorder = false
@@ -108,21 +143,30 @@ fun RegisterScreen(
 
         SecondaryButton(
             buttonTitle = "cancel",
-            onButtonClicked = { navController.popBackStack() },
+            onButtonClicked = { onCancelButtonClicked() },
             backgroundColor = R.color.pink,
             textColor = R.color.white,
             hasBorder = false
         )
 
         AddVerticalSpace(20)
-
     }
-
 }
-
 
 @Composable
 @Preview
-fun RegisterScreenPreview() {
-    RegisterScreen(navController = rememberNavController())
+fun RegisterContentPreview() {
+    RegisterContent(
+        name = ValidatedField(),
+        email = ValidatedField(),
+        password = ValidatedField(),
+        confirmPassword = ValidatedField() ,
+        onNameEntered = {},
+        onEmailEntered = {},
+        onPasswordEntered = {},
+        onConfirmPasswordEntered = {},
+        onRegisterButtonClicked = {},
+        onCancelButtonClicked = {},
+        isRegisterButtonEnabled = true
+    )
 }

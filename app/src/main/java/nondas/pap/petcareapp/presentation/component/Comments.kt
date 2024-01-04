@@ -33,7 +33,6 @@ fun Comments(
     Column {
         MyText(
             text = "Comments",
-            color = R.color.grey,
             textAlignment = TextAlign.Start,
             modifier = Modifier.padding(start = 20.dp)
         )

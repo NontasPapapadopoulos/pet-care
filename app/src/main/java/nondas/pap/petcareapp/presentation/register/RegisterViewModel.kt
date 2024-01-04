@@ -55,10 +55,10 @@ class RegisterViewModel @Inject constructor(
 
 
         RegisterState(
-            name = name.value,
-            email = email.value,
-            password = password.value,
-            confirmPassword = confirmPassword.value,
+            name = name,
+            email = email,
+            password = password,
+            confirmPassword = confirmPassword,
             isRegisterButtonEnabled = buttonStatus,
             isLoading = false
         )
@@ -93,7 +93,7 @@ class RegisterViewModel @Inject constructor(
 
         on(RegisterEvent.ConfirmPasswordEntered::class) {
             val validationResult = confirmPasswordValidator.execute(
-                password = uiState.value.password,
+                password = uiState.value.password.value,
                 confirmPassword = it.userInput
             )
             val validatedField = ValidatedField(value = it.userInput, validationResult)
@@ -103,9 +103,9 @@ class RegisterViewModel @Inject constructor(
 
         on(RegisterEvent.RegisterButtonClicked::class) {
             val userDetails = UserDetails(
-                email = uiState.value.email,
-                password = uiState.value.password,
-                name = uiState.value.name,
+                email = uiState.value.email.value,
+                password = uiState.value.password.value,
+                name = uiState.value.name.value,
                 pets = listOf()
             )
 
@@ -116,10 +116,10 @@ class RegisterViewModel @Inject constructor(
 
 
     private suspend fun enableRegisterButton() {
-        val isFormValid = uiState.value.emailValidation.isSuccessful &&
-                uiState.value.nameValidation.isSuccessful &&
-                uiState.value.passwordValidation.isSuccessful &&
-                uiState.value.confirmPasswordValidation.isSuccessful &&
+        val isFormValid = uiState.value.email.validation.isSuccessful &&
+                uiState.value.name.validation.isSuccessful &&
+                uiState.value.password.validation.isSuccessful &&
+                uiState.value.confirmPassword.validation.isSuccessful &&
                 !uiState.value.isLoading
 
         registerButtonStatusFlow.emit(isFormValid)
@@ -128,14 +128,10 @@ class RegisterViewModel @Inject constructor(
 }
 
 data class RegisterState(
-    val name: String = "",
-    val email: String = "",
-    val password: String = "",
-    val confirmPassword: String = "",
-    val nameValidation: ValidationResult = ValidationResult(isSuccessful = true, errorMessage = ""),
-    val emailValidation: ValidationResult = ValidationResult(isSuccessful = true, errorMessage = ""),
-    val passwordValidation: ValidationResult = ValidationResult(isSuccessful = true, errorMessage = ""),
-    val confirmPasswordValidation: ValidationResult = ValidationResult(isSuccessful = true, errorMessage = ""),
+    val name: ValidatedField = ValidatedField(),
+    val email: ValidatedField = ValidatedField(),
+    val password: ValidatedField = ValidatedField(),
+    val confirmPassword: ValidatedField = ValidatedField(),
     val isRegisterButtonEnabled: Boolean = false,
     val isLoading: Boolean = false
 )

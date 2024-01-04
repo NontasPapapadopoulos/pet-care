@@ -39,8 +39,30 @@ fun LoginScreen(
                 navController.navigate(route = PETS_ROUTE)
         }
     }
-
     ManageSystemBars()
+
+
+    LoginContent(
+        email = state.email,
+        password = state.password,
+        onEmailEntered = { viewModel.add(LoginEvent.EmailEntered(it)) },
+        onPasswordEntered = { viewModel.add(LoginEvent.PasswordEntered(it)) },
+        onLoginButtonClicked = { viewModel.add(LoginEvent.LoginButtonClicked(state.email, state.password)) },
+        navController = navController
+    )
+
+}
+
+
+@Composable
+private fun LoginContent(
+    email: String,
+    password: String,
+    onEmailEntered: (String) -> Unit,
+    onPasswordEntered: (String) -> Unit,
+    onLoginButtonClicked: () -> Unit,
+    navController: NavController
+) {
 
 
     Column(
@@ -61,28 +83,28 @@ fun LoginScreen(
 
         InputText(
             placeholder = "Email",
-            inputValue = state.email,
-            valueEntered = { viewModel.add(LoginEvent.EmailEntered(it)) },
+            inputValue = email,
+            valueEntered = { onEmailEntered(it) },
         )
 
         AddVerticalSpace(20)
 
         InputText(
             placeholder = "Password",
-            inputValue = state.password,
-            valueEntered = { viewModel.add(LoginEvent.PasswordEntered(it)) },
+            inputValue = password,
+            valueEntered = { onPasswordEntered(it) },
         )
 
         AddVerticalSpace(20)
 
         PrimaryButton(
             buttonTitle = "login",
-            onButtonClicked = { viewModel.add(LoginEvent.LoginButtonClicked(state.email, state.password)) },
+            onButtonClicked = { onLoginButtonClicked() },
             backgroundColor = R.color.pink,
             textColor = R.color.white,
             hasBorder = false,
 
-        )
+            )
 
         AddVerticalSpace()
 
@@ -96,9 +118,15 @@ fun LoginScreen(
     }
 }
 
-
 @Composable
 @Preview
-private fun LoginPreview() {
-    LoginScreen(navController = rememberNavController())
+private fun LoginContentPreview() {
+    LoginContent(
+        email = "",
+        password = "",
+        onEmailEntered = {},
+        onPasswordEntered = {},
+        onLoginButtonClicked = {},
+        navController = rememberNavController()
+    )
 }
