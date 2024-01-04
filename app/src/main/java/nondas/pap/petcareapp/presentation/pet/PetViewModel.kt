@@ -112,22 +112,16 @@ sealed class PetEvent {
 }
 
 data class PetState(
-    val name: String = "",
-    val dob: String = "",
-    val type: String = "",
-    val breed: String = "",
+    val name: ValidatedField = ValidatedField(),
+    val dob:  ValidatedField = ValidatedField(),
+    val type:  String = "",
+    val breed:  ValidatedField = ValidatedField(),
     val isAboveOneYearOld: Boolean = false,
     val isAddButtonEnabled: Boolean = false,
     val options: List<String> = listOf("Yes", "No"),
     val petTypes: List<String> = listOf("Dog", "Cat"),
 
     val selectedOption: Int = 0,
-
-    val nameValidation: ValidationResult = ValidationResult(isSuccessful = true),
-    val dobValidation: ValidationResult = ValidationResult(isSuccessful = true),
-    val typeValidation: ValidationResult = ValidationResult(isSuccessful = true),
-    val breedValidation: ValidationResult = ValidationResult(isSuccessful = true),
-
 
     val selectedPet: Pet = Pet()
 )

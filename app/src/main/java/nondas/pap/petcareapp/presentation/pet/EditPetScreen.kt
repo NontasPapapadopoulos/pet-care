@@ -16,6 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
+import nondas.pap.petcareapp.presentation.ValidatedField
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.MyDropdown
 import nondas.pap.petcareapp.presentation.component.MyTitle
@@ -33,6 +34,38 @@ fun EditPetScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
 
+    EditPetContent(
+        name = state.name,
+        dob = state.dob,
+        type = state.type,
+        petTypes = state.petTypes,
+        breed = state.breed,
+        isButtonEnabled = state.isAddButtonEnabled,
+        onNameEntered = { viewModel.add(PetEvent.NameEntered(it)) },
+        onDobEntered = { viewModel.add(PetEvent.DobEntered(it)) },
+        onTypeSelected = { viewModel.add(PetEvent.TypeSelected(it)) },
+        onBreedEntered = { viewModel.add(PetEvent.BreedEntered(it)) },
+        onEditPet = { viewModel.add(PetEvent.EditPet) },
+        onCancelButtonClicked = { navController.popBackStack() }
+    )
+}
+
+@Composable
+private fun EditPetContent(
+    name: ValidatedField,
+    dob: ValidatedField,
+    type: String,
+    petTypes: List<String>,
+    breed: ValidatedField,
+    isButtonEnabled: Boolean,
+    onNameEntered: (String) -> Unit,
+    onDobEntered: (String) -> Unit,
+    onTypeSelected: (String) -> Unit,
+    onBreedEntered: (String) -> Unit,
+    onEditPet: () -> Unit,
+    onCancelButtonClicked: () -> Unit
+
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -49,22 +82,22 @@ fun EditPetScreen(
         InputText(
             labelTitle = "Name",
             placeholder = "Roza xx",
-            inputValue = state.name,
-            valueEntered = { viewModel.add(PetEvent.NameEntered(it)) },
-            isValidationSuccessful = state.nameValidation.isSuccessful,
-            errorMessage = state.nameValidation.errorMessage
+            inputValue = name.value,
+            valueEntered = { onNameEntered(it) },
+            isValidationSuccessful = name.validation.isSuccessful,
+            errorMessage = name.validation.errorMessage
         )
 
         AddVerticalSpace(15)
 
 
         InputText(
-            inputValue = state.dob,
-            valueEntered = { viewModel.add(PetEvent.DobEntered(it)) },
+            inputValue = dob.value,
+            valueEntered = { onDobEntered(it) },
             labelTitle = "Date of birth",
             placeholder = "dd/MM/yyyy",
-            isValidationSuccessful = state.dobValidation.isSuccessful,
-            errorMessage = state.dobValidation.errorMessage,
+            isValidationSuccessful = dob.validation.isSuccessful,
+            errorMessage = dob.validation.errorMessage,
         )
 
         AddVerticalSpace(15)
@@ -72,9 +105,9 @@ fun EditPetScreen(
 
         MyDropdown(
             labelTitle = "Type",
-            items = state.petTypes,
-            selectedItem = state.type,
-            onItemSelected = { viewModel.add(PetEvent.TypeSelected(it)) },
+            items = petTypes,
+            selectedItem = type,
+            onItemSelected = { onTypeSelected(it) },
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
@@ -82,12 +115,12 @@ fun EditPetScreen(
 
 
         InputText(
-            inputValue = state.breed,
-            valueEntered = { viewModel.add(PetEvent.BreedEntered(it)) },
+            inputValue = breed.value,
+            valueEntered = { onBreedEntered(it) },
             labelTitle = "Breed",
             placeholder = "French bulldog",
-            isValidationSuccessful = state.breedValidation.isSuccessful,
-            errorMessage = state.breedValidation.errorMessage
+            isValidationSuccessful = breed.validation.isSuccessful,
+            errorMessage = breed.validation.errorMessage
         )
 
 
@@ -95,8 +128,8 @@ fun EditPetScreen(
 
         PrimaryButton(
             buttonTitle = "update",
-            onButtonClicked = { viewModel.add(PetEvent.EditPet) },
-            isEnabled = state.isAddButtonEnabled,
+            onButtonClicked = { onEditPet() },
+            isEnabled = isButtonEnabled,
             backgroundColor = R.color.pink,
             textColor = R.color.white,
             hasBorder = false,
@@ -106,7 +139,7 @@ fun EditPetScreen(
 
         SecondaryButton(
             buttonTitle = "cancel",
-            onButtonClicked = { navController.popBackStack() },
+            onButtonClicked = { onCancelButtonClicked() },
             backgroundColor = R.color.oil_green,
             textColor = R.color.white,
             hasBorder = false,
@@ -115,16 +148,24 @@ fun EditPetScreen(
         AddVerticalSpace(20)
 
     }
-
 }
-
-
 
 
 @Preview
 @Composable
-private fun AddPetScreenPreview() {
-    AddPetScreen(
-        navController = rememberNavController()
+private fun EditPetScreenPreview() {
+    EditPetContent(
+        name = ValidatedField(),
+        dob = ValidatedField(),
+        type = "",
+        petTypes = listOf(),
+        breed = ValidatedField(),
+        isButtonEnabled = true,
+        onNameEntered = {},
+        onDobEntered = {},
+        onTypeSelected = {},
+        onBreedEntered = {},
+        onEditPet = { /*TODO*/ },
+        onCancelButtonClicked = {}
     )
 }

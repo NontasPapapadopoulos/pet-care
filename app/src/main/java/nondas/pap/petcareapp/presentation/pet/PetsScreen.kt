@@ -53,6 +53,27 @@ fun PetsScreen(
 ) {
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    PetsContent(
+        selectedPet = state.selectedPet,
+        onEditButtonClicked = { viewModel.add(PetEvent.EditButtonClicked(it)) },
+        onDeleteButtonClicked = { viewModel.add(PetEvent.DeleteButtonClicked(it)) },
+        onAddNewPetClicked = { navController.navigate(PetScreen.AddPet.route) },
+        onNavigateToPetsMedicineScreen = {
+            // TODO: pass the pet to the arguements
+            navController.navigate(route = MEDICINE_ROUTE) },
+    )
+}
+
+@Composable
+private fun PetsContent(
+    selectedPet: Pet,
+    onEditButtonClicked: (Pet) -> Unit,
+    onDeleteButtonClicked: (Pet) -> Unit,
+    onNavigateToPetsMedicineScreen: (Pet) -> Unit,
+    onAddNewPetClicked: () -> Unit,
+
+) {
     val showDialog = remember { mutableStateOf(false) }
 
     ConstraintLayout(
@@ -91,12 +112,10 @@ fun PetsScreen(
 
             PetItem(
                 pet = pet,
-                onEditButtonClicked = { viewModel.add(PetEvent.EditButtonClicked(pet)) },
+                onEditButtonClicked = { onEditButtonClicked(pet) },
                 onDeleteButtonClicked = { showDialog.value = true },
-                modifier = Modifier.clickable { navController.navigate(route = MEDICINE_ROUTE) }
+                modifier = Modifier.clickable { onNavigateToPetsMedicineScreen(pet) }
             )
-
-
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -112,7 +131,7 @@ fun PetsScreen(
                     R.drawable.baseline_add_circle_24,
                     modifier = Modifier
                         .size(60.dp)
-                        .clickable { navController.navigate(route = PetScreen.AddPet.route) }
+                        .clickable { onAddNewPetClicked() }
                 )
             }
 
@@ -125,10 +144,10 @@ fun PetsScreen(
 
 
             WarningDialog(
-                title = "Delete ${state.selectedPet.name}",
+                title = "Delete ${selectedPet.name}",
                 primaryButtonText = "delete",
                 secondaryButtonText = "cancel",
-                onPrimaryButtonClicked = { viewModel.add(PetEvent.DeleteButtonClicked(state.selectedPet)) },
+                onPrimaryButtonClicked = { onDeleteButtonClicked(selectedPet) },
                 onDismiss = { showDialog.value = false },
                 onSecondaryButtonClicked = { showDialog.value = false },
                 modifier = Modifier.constrainAs(dialog) {
@@ -138,7 +157,6 @@ fun PetsScreen(
         }
 
     }
-
 }
 
 
@@ -209,7 +227,11 @@ fun PetItem(
 @Composable
 @Preview
 private fun HomeScreenPreview() {
-    PetsScreen(
-        navController = rememberNavController(),
+    PetsContent(
+        selectedPet = Pet(),
+        onEditButtonClicked = {},
+        onDeleteButtonClicked = {},
+        onNavigateToPetsMedicineScreen = {},
+        onAddNewPetClicked = {}
     )
 }
