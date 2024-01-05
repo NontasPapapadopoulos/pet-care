@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.data.repository
+package nondas.pap.petcareapp.domain.repository
 
 import kotlinx.coroutines.flow.Flow
 import nondas.pap.petcareapp.domain.model.Pet

@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -80,7 +82,8 @@ private fun PetsContent(
         modifier = Modifier
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.statusBars)
-            .background(colorResource(id = R.color.mpez))) {
+            .background(colorResource(id = R.color.mpez)),
+    ) {
 
         val (column, dialog) = createRefs()
 
@@ -95,10 +98,11 @@ private fun PetsContent(
 
             AddVerticalSpace(50)
 
-            MyTitle(
-                title = "Yourname pets:",
-                textColor = R.color.dark_red
+            Text(
+                text ="Yourname pets:",
+                style = MaterialTheme.typography.displayMedium
             )
+
 
             AddVerticalSpace(20)
 

@@ -1,7 +1,7 @@
-package nondas.pap.petcareapp.domain.repository
+package nondas.pap.petcareapp.data.repository
 
 import nondas.pap.petcareapp.data.api.AuthApi
-import nondas.pap.petcareapp.data.repository.AuthenticateRepository
+import nondas.pap.petcareapp.domain.repository.AuthenticateRepository
 import nondas.pap.petcareapp.domain.model.Pet
 import nondas.pap.petcareapp.domain.model.UserCredentials
 import nondas.pap.petcareapp.domain.model.UserDetails

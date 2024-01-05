@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -15,17 +17,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.ValidatedField
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
-import nondas.pap.petcareapp.presentation.component.Comments
 import nondas.pap.petcareapp.presentation.component.MyDropdown
 import nondas.pap.petcareapp.presentation.component.MyText
 import nondas.pap.petcareapp.presentation.component.MyTitle
+import nondas.pap.petcareapp.presentation.component.OutLinedInputText
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
-import nondas.pap.petcareapp.presentation.component.inputText.InputText
 import nondas.pap.petcareapp.presentation.util.DateTransformation
 
 @Composable
@@ -80,7 +80,10 @@ private fun EditMedicineContent(
         AddVerticalSpace(50)
 
 
-        MyTitle(title = "$petName medicine")
+        Text(
+            text = "$petName medicine",
+            style = MaterialTheme.typography.displayMedium
+        )
 
 
         AddVerticalSpace(20)
@@ -96,13 +99,12 @@ private fun EditMedicineContent(
 
         AddVerticalSpace(15)
 
-        InputText(
+        OutLinedInputText(
             inputValue = date.value,
             valueEntered = { onDatePerformedEntered(it) },
-            labelTitle = "Date performed",
+            label = "Date performed",
             placeholder = "dd/MM/yyyy",
-            isValidationSuccessful = date.validation.isSuccessful,
-            errorMessage = date.validation.errorMessage,
+            validationResult = date.validation,
             visualTransformation = DateTransformation()
         )
 
@@ -126,11 +128,11 @@ private fun EditMedicineContent(
         )
         AddVerticalSpace(6)
 
-        Comments(
+        OutLinedInputText(
             inputValue = comments,
-            valueEntered = { onCommentsEntered(it) }
+            valueEntered = { onCommentsEntered(it) },
+            label = "Comments"
         )
-
 
         Spacer(modifier = Modifier.weight(1f))
 

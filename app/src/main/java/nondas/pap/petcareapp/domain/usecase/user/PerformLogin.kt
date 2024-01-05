@@ -2,7 +2,7 @@ package nondas.pap.petcareapp.domain.usecase.user
 
 import kotlinx.coroutines.CoroutineDispatcher
 import nondas.pap.inventoryapp.domain.SuspendUseCase
-import nondas.pap.petcareapp.data.repository.AuthenticateRepository
+import nondas.pap.petcareapp.domain.repository.AuthenticateRepository
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
 import nondas.pap.petcareapp.domain.model.UserCredentials
 import javax.inject.Inject

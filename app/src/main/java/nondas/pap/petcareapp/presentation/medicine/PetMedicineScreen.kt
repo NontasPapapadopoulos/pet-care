@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -68,7 +70,7 @@ private fun PetMedicineContent(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.mpez))) {
+    ) {
 
         val (column, dialog) = createRefs()
 
@@ -81,9 +83,10 @@ private fun PetMedicineContent(
 
             AddVerticalSpace(50)
 
-            MyTitle(
-                title = "Pet name medicine",
-                textColor = R.color.dark_red
+
+            Text(
+                text = "Pet name medicine",
+                style = MaterialTheme.typography.displayMedium
             )
 
             AddVerticalSpace(30)
@@ -136,8 +139,6 @@ private fun PetMedicineContent(
 
     }
 }
-
-
 
 
 @Composable

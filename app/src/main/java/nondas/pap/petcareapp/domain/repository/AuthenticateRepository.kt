@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.data.repository
+package nondas.pap.petcareapp.domain.repository
 
 import nondas.pap.petcareapp.domain.model.Pet
 import nondas.pap.petcareapp.domain.model.UserCredentials

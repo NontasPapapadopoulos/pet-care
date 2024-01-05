@@ -8,12 +8,12 @@ import dagger.hilt.components.SingletonComponent
 import nondas.pap.petcareapp.data.api.AuthApi
 import nondas.pap.petcareapp.data.api.MedicineApi
 import nondas.pap.petcareapp.data.api.PetApi
-import nondas.pap.petcareapp.data.repository.AuthenticateRepository
-import nondas.pap.petcareapp.data.repository.MedicineRepository
-import nondas.pap.petcareapp.data.repository.PetRepository
-import nondas.pap.petcareapp.domain.repository.AuthenticateRepositoryImpl
-import nondas.pap.petcareapp.domain.repository.MedicineRepositoryImpl
-import nondas.pap.petcareapp.domain.repository.PetRepositoryImpl
+import nondas.pap.petcareapp.data.repository.AuthenticateRepositoryImpl
+import nondas.pap.petcareapp.data.repository.MedicineRepositoryImpl
+import nondas.pap.petcareapp.data.repository.PetRepositoryImpl
+import nondas.pap.petcareapp.domain.repository.AuthenticateRepository
+import nondas.pap.petcareapp.domain.repository.MedicineRepository
+import nondas.pap.petcareapp.domain.repository.PetRepository
 import javax.inject.Singleton
 
 @Module

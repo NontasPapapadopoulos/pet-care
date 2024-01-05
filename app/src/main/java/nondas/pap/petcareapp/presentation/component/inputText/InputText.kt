@@ -34,7 +34,7 @@ import nondas.pap.petcareapp.presentation.component.FieldLabel
 
 
 @Composable
-fun InputText(
+private fun InputText(
     inputValue: String,
     valueEntered: (String) -> Unit,
     fontSize: Int = 16,

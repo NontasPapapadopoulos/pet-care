@@ -1,7 +1,7 @@
-package nondas.pap.petcareapp.domain.repository
+package nondas.pap.petcareapp.data.repository
 
 import nondas.pap.petcareapp.data.api.PetApi
-import nondas.pap.petcareapp.data.repository.PetRepository
+import nondas.pap.petcareapp.domain.repository.PetRepository
 import nondas.pap.petcareapp.domain.model.Pet
 import retrofit2.Response
 import kotlinx.coroutines.flow.Flow

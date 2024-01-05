@@ -4,14 +4,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import nondas.pap.inventoryapp.domain.FlowUseCase
-import nondas.pap.petcareapp.data.repository.MedicineRepository
+import nondas.pap.petcareapp.domain.repository.MedicineRepository
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
 import nondas.pap.petcareapp.domain.model.Medicine
 import javax.inject.Inject
 
 class GetMedicine @Inject constructor(
-   private val medicineRepository: MedicineRepository,
-   @IoDispatcher dispatcher: CoroutineDispatcher
+    private val medicineRepository: MedicineRepository,
+    @IoDispatcher dispatcher: CoroutineDispatcher
 ): FlowUseCase<List<Medicine>, GetMedicine.Params>(dispatcher) {
 
 

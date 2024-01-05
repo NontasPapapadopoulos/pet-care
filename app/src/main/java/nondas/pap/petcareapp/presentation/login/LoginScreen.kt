@@ -3,9 +3,12 @@ package nondas.pap.petcareapp.presentation.login
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,10 +23,9 @@ import nondas.pap.petcareapp.infastracture.navigation.screen.Screen
 import nondas.pap.petcareapp.presentation.UIEvent
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.ManageSystemBars
-import nondas.pap.petcareapp.presentation.component.MyTitle
+import nondas.pap.petcareapp.presentation.component.OutLinedInputText
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
-import nondas.pap.petcareapp.presentation.component.inputText.InputText
 
 @Composable
 fun LoginScreen(
@@ -68,43 +70,46 @@ private fun LoginContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = R.color.mpez))
+            .background(color = MaterialTheme.colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
 
         AddVerticalSpace(50)
 
-        MyTitle(
-            title = "Pet Care",
-            textColor = R.color.dark_red
+        Text(
+            text = "Pet Care",
+            style = MaterialTheme.typography.displayLarge,
+            color = MaterialTheme.colorScheme.primary
         )
 
         AddVerticalSpace(190)
 
-        InputText(
-            placeholder = "Email",
+        OutLinedInputText(
+            label = "Email",
             inputValue = email,
             valueEntered = { onEmailEntered(it) },
         )
 
         AddVerticalSpace(20)
 
-        InputText(
-            placeholder = "Password",
+        OutLinedInputText(
+            label = "Password",
             inputValue = password,
             valueEntered = { onPasswordEntered(it) },
         )
 
         AddVerticalSpace(20)
 
+
+
         PrimaryButton(
             buttonTitle = "login",
             onButtonClicked = { onLoginButtonClicked() },
             backgroundColor = R.color.pink,
             textColor = R.color.white,
-            hasBorder = false,
-
-            )
+            hasBorder = false
+        )
 
         AddVerticalSpace()
 

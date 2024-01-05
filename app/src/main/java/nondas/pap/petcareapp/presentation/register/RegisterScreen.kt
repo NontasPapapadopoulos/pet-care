@@ -3,31 +3,28 @@ package nondas.pap.petcareapp.presentation.register
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.ValidatedField
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.MyTitle
+import nondas.pap.petcareapp.presentation.component.OutLinedInputText
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
-import nondas.pap.petcareapp.presentation.component.inputText.InputText
-import nondas.pap.petcareapp.presentation.login.LoginEvent
-import nondas.pap.petcareapp.presentation.register.RegisterEvent
-import nondas.pap.petcareapp.presentation.register.RegisterViewModel
+
 
 @Composable
 fun RegisterScreen(
@@ -74,58 +71,54 @@ private fun RegisterContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.mpez))
+            .background(color = MaterialTheme.colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         AddVerticalSpace(50)
 
-        MyTitle(
-            title = "Register to Pet Care",
-            textColor = R.color.dark_red
+        Text(
+            text = "Register to Pet Care",
+            style = MaterialTheme.typography.displayMedium,
+            textAlign = TextAlign.Center
         )
 
 
-        AddVerticalSpace(150)
+        AddVerticalSpace(100)
 
-        InputText(
-            placeholder = "Name",
+        OutLinedInputText(
+            label = "Name",
             inputValue = name.value,
-            isValidationSuccessful = name.validation.isSuccessful,
-            errorMessage = name.validation.errorMessage,
+            validationResult = name.validation,
             valueEntered = { onNameEntered(it) },
         )
 
         AddVerticalSpace()
 
-        InputText(
-            placeholder = "Email",
+        OutLinedInputText(
+            label = "Email",
             inputValue = email.value,
-            isValidationSuccessful = email.validation.isSuccessful,
-            errorMessage = email.validation.errorMessage,
+            validationResult = email.validation,
             valueEntered = { onEmailEntered(it) },
         )
 
         AddVerticalSpace()
 
-        InputText(
-            placeholder = "Password",
+        OutLinedInputText(
+            label = "Password",
             inputValue = password.value,
-            isValidationSuccessful = password.validation.isSuccessful,
-            errorMessage = password.validation.errorMessage,
-            valueEntered = { onPasswordEntered(it) },
-
-            )
+            validationResult = password.validation,
+            valueEntered = { onPasswordEntered(it) }
+        )
 
         AddVerticalSpace()
 
-        InputText(
-            placeholder = "Confirm password",
+        OutLinedInputText(
+            label = "Confirm password",
             inputValue = confirmPassword.value,
-            isValidationSuccessful = confirmPassword.validation.isSuccessful,
-            errorMessage = confirmPassword.validation.errorMessage,
-            valueEntered = { onConfirmPasswordEntered(it) },
+            validationResult = confirmPassword.validation,
+            valueEntered = { onConfirmPasswordEntered(it) }
         )
-
 
 
         Spacer(modifier = Modifier.weight(1f))

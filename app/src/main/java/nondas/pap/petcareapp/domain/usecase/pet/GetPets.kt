@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import nondas.pap.inventoryapp.domain.FlowUseCase
-import nondas.pap.petcareapp.data.repository.PetRepository
+import nondas.pap.petcareapp.domain.repository.PetRepository
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
 import nondas.pap.petcareapp.domain.model.Pet
 import javax.inject.Inject
