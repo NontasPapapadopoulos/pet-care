@@ -3,7 +3,9 @@ package nondas.pap.petcareapp.presentation.pet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import nondas.pap.petcareapp.domain.model.Pet
+import nondas.pap.petcareapp.domain.usecase.pet.DeletePet
 import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
 import nondas.pap.petcareapp.domain.usecase.validator.NameValidator
 import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
@@ -14,60 +16,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PetViewModel @Inject constructor(
-    private val nameValidator: NameValidator,
-    private val dateValidator: DateValidator
+    private val deletePet: DeletePet
 ): BlocViewModel<PetEvent, PetState>() {
 
-    private val nameTextFlow = MutableSharedFlow<ValidatedField>()
-    private val petOptionFlow = MutableSharedFlow<String>()
-    private val validatedDateFlow = MutableSharedFlow<ValidatedField>()
-    private val breedTextFlow = MutableSharedFlow<ValidatedField>()
-    private val petTypeFlow = MutableSharedFlow<String>()
 
     override val _uiState: StateFlow<PetState>
         get() = TODO("Not yet implemented")
 
 
     init {
-
-        on(PetEvent.NameEntered::class) {
-            val validationResult = nameValidator.execute(it.userInput)
-            val validatedField = ValidatedField(value = it.userInput, validationResult)
-            nameTextFlow.emit(validatedField)
-        }
-
-        on(PetEvent.OptionSelected::class) {
-            petOptionFlow.emit(it.option)
-        }
-
-        on(PetEvent.DobEntered::class) {
-            val validationResult = dateValidator.execute(
-                date = it.userInput,
-                fieldName = "date of birth",
-                comparisonFlag = DateValidator.DATE_COMPARISON_FLAG.BEFORE_PRESENT_DATE
-            )
-
-            val validatedField = ValidatedField(value = it.userInput, validationResult)
-            validatedDateFlow.emit(validatedField)
-        }
-
-        on(PetEvent.BreedEntered::class) {
-            val validationResult = nameValidator.execute(it.userInput)
-            val validatedField = ValidatedField(value = it.userInput, validationResult)
-            breedTextFlow.emit(validatedField)
-        }
-
-        on(PetEvent.TypeSelected::class) {
-            petOptionFlow.emit(it.userInput)
-        }
-
-        on(PetEvent.AddPet::class) {
-            addPet()
-        }
-
-        on(PetEvent.EditPet::class) {
-            editPet()
-        }
 
         on(PetEvent.DeleteButtonClicked::class) {
             it.pet
@@ -80,18 +37,6 @@ class PetViewModel @Inject constructor(
     }
 
 
-    private fun editPet() {
-        TODO("Not yet implemented")
-    }
-
-    private fun isAboveOneYearOld(selectedOption: Int): Boolean {
-        val option = uiState.value.options[selectedOption]
-        if (option.lowercase() == "yes" )
-            return true
-        return false
-    }
-
-
     private fun addPet() {
         TODO("Not yet implemented")
     }
@@ -99,29 +44,12 @@ class PetViewModel @Inject constructor(
 }
 
 sealed class PetEvent {
-    data class NameEntered(val userInput: String): PetEvent()
-    data class DobEntered(val userInput: String): PetEvent()
-    data class TypeSelected(val userInput: String): PetEvent()
-    data class BreedEntered(val userInput: String): PetEvent()
-    data class OptionSelected(val option: String): PetEvent()
     object AddPet: PetEvent()
-    object EditPet: PetEvent()
-
     data class EditButtonClicked(val pet: Pet): PetEvent()
     data class DeleteButtonClicked(val pet: Pet): PetEvent()
 }
 
 data class PetState(
-    val name: ValidatedField = ValidatedField(),
-    val dob:  ValidatedField = ValidatedField(),
-    val type:  String = "",
-    val breed:  ValidatedField = ValidatedField(),
-    val isAboveOneYearOld: Boolean = false,
-    val isAddButtonEnabled: Boolean = false,
-    val options: List<String> = listOf("Yes", "No"),
-    val petTypes: List<String> = listOf("Dog", "Cat"),
-
-    val selectedOption: Int = 0,
-
-    val selectedPet: Pet = Pet()
+    val pets: List<Pet> = listOf(),
+    val selectedPet: Pet
 )

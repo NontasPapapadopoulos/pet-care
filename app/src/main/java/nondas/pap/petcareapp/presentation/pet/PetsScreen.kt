@@ -82,7 +82,7 @@ private fun PetsContent(
         modifier = Modifier
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.statusBars)
-            .background(colorResource(id = R.color.mpez)),
+            .background(color = MaterialTheme.colorScheme.background),
     ) {
 
         val (column, dialog) = createRefs()

@@ -26,6 +26,7 @@ import nondas.pap.petcareapp.presentation.component.ManageSystemBars
 import nondas.pap.petcareapp.presentation.component.OutLinedInputText
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
+import nondas.pap.petcareapp.presentation.component.inputText.InputText
 
 @Composable
 fun LoginScreen(
@@ -85,6 +86,8 @@ private fun LoginContent(
 
         AddVerticalSpace(190)
 
+//        InputText(inputValue = email, valueEntered = { onEmailEntered(it) })
+
         OutLinedInputText(
             label = "Email",
             inputValue = email,
@@ -102,10 +105,12 @@ private fun LoginContent(
         AddVerticalSpace(20)
 
 
-
         PrimaryButton(
             buttonTitle = "login",
-            onButtonClicked = { onLoginButtonClicked() },
+            onButtonClicked = {
+                navController.navigate(route = PETS_ROUTE)
+                onLoginButtonClicked()
+                              },
             backgroundColor = R.color.pink,
             textColor = R.color.white,
             hasBorder = false

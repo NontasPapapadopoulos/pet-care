@@ -53,7 +53,8 @@ fun PetMedicineScreen(
 
     PetMedicineContent(
         selectedMedicine = state.selectedMedicine,
-        onDeleteButtonClicked = { viewModel.add(MedicineEvent.DeleteButtonClicked(it)) },
+        onDeleteButtonClicked = { viewModel.add(MedicineEvent.DeleteButtonClicked(state.selectedMedicine)) },
+        onEditButtonClicked = { viewModel.add(MedicineEvent.EditButtonClicked(state.selectedMedicine)) },
         onAddNewMedicineButtonClicked = { navController.navigate(route = MedicineScreen.AddMedicine.route) }
     )
 }
@@ -63,6 +64,7 @@ fun PetMedicineScreen(
 private fun PetMedicineContent(
     selectedMedicine: Medicine,
     onDeleteButtonClicked: (Medicine) -> Unit,
+    onEditButtonClicked: (Medicine) -> Unit,
     onAddNewMedicineButtonClicked: () -> Unit
 ) {
     val showDialog = remember { mutableStateOf(false) }
@@ -70,6 +72,7 @@ private fun PetMedicineContent(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
 
         val (column, dialog) = createRefs()
@@ -212,6 +215,7 @@ private fun MedicineScreenPreview() {
     PetMedicineContent(
         selectedMedicine = Medicine(),
         onDeleteButtonClicked = {},
+        onEditButtonClicked = {},
         onAddNewMedicineButtonClicked = {}
     )
 }

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import nondas.pap.petcareapp.domain.usecase.user.PerformLogin
 import nondas.pap.petcareapp.presentation.BlocViewModel
@@ -27,8 +28,8 @@ class LoginViewModel @Inject constructor(
     private val loginHandler = MutableSharedFlow<Handler.Event<PerformLogin.Params>>()
 
     override val _uiState: StateFlow<LoginState> = combine(
-        emailFlow,
-        passwordFlow,
+        emailFlow.onStart { emit("") },
+        passwordFlow.onStart { emit("") },
         loginHandler.flatMapMergeWith(performLogin)
     ) { email, password, loginState ->
 

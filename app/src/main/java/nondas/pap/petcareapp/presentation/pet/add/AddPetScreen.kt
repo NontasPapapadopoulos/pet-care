@@ -26,12 +26,14 @@ import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.OutLinedInputText
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
+import nondas.pap.petcareapp.presentation.pet.add.AddPetEvent
+import nondas.pap.petcareapp.presentation.pet.add.AddPetViewModel
 import nondas.pap.petcareapp.presentation.util.DateTransformation
 
 
 @Composable
 fun AddPetScreen(
-    viewModel: PetViewModel = hiltViewModel(),
+    viewModel: AddPetViewModel = hiltViewModel(),
     navController: NavController
 ) {
 
@@ -45,11 +47,11 @@ fun AddPetScreen(
         petTypes = state.petTypes,
         breed = state.breed,
         isButtonEnabled = state.isAddButtonEnabled,
-        onNameEntered = { viewModel.add(PetEvent.NameEntered(it)) },
-        onDobEntered = { viewModel.add(PetEvent.DobEntered(it)) },
-        onTypeSelected = { viewModel.add(PetEvent.TypeSelected(it)) },
-        onBreedEntered = { viewModel.add(PetEvent.BreedEntered(it)) },
-        onAddPetClicked = { viewModel.add(PetEvent.AddPet) },
+        onNameEntered = { viewModel.add(AddPetEvent.NameEntered(it)) },
+        onDobEntered = { viewModel.add(AddPetEvent.DobEntered(it)) },
+        onTypeSelected = { viewModel.add(AddPetEvent.TypeSelected(it)) },
+        onBreedEntered = { viewModel.add(AddPetEvent.BreedEntered(it)) },
+        onAddPetClicked = { viewModel.add(AddPetEvent.AddPet) },
         onCancelButtonClicked = { navController.popBackStack() }
     )
 
@@ -74,7 +76,7 @@ private fun AddPetContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.mpez)),
+            .background(color = MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 

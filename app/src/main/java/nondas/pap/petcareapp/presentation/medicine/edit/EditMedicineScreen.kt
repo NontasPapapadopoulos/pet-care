@@ -1,30 +1,27 @@
-package nondas.pap.petcareapp.presentation.medicine
+package nondas.pap.petcareapp.presentation.medicine.edit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.ValidatedField
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.MyDropdown
+import nondas.pap.petcareapp.presentation.component.MyText
 import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.OutLinedInputText
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
@@ -32,34 +29,34 @@ import nondas.pap.petcareapp.presentation.component.SecondaryButton
 import nondas.pap.petcareapp.presentation.util.DateTransformation
 
 @Composable
-fun AddMedicineScreen(
-    viewModel: MedicineViewModel = hiltViewModel(),
+fun EditMedicineScreen(
+    viewModel: EditMedicineViewModel = hiltViewModel(),
     navController: NavController,
 ) {
 
-
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    AddMedicineContent(
+    EditMedicineContent(
         petName = state.petName,
         types = state.types,
         type = state.type,
-        onTypeSelected = { viewModel.add(MedicineEvent.TypeSelected(it)) },
+        onTypeSelected = { viewModel.add(EditMedicineEvent.TypeSelected(it)) },
         date = state.date,
-        onDatePerformedEntered = { viewModel.add(MedicineEvent.DatePerformedEntered(it)) } ,
+        onDatePerformedEntered = { viewModel.add(EditMedicineEvent.DatePerformedEntered(it)) } ,
         frequencyValues = state.frequencyValues,
         frequency = state.frequency,
-        onFrequencySelected = { viewModel.add(MedicineEvent.FrequencySelected(it)) },
+        onFrequencySelected = { viewModel.add(EditMedicineEvent.FrequencySelected(it)) },
         comments = state.comments,
-        onCommentsEntered = { viewModel.add(MedicineEvent.CommentsEntered(it)) },
-        onAddMedicine = { viewModel.add(MedicineEvent.AddMedicine) },
+        onCommentsEntered = { viewModel.add(EditMedicineEvent.CommentsEntered(it)) },
+        onEditMedicine = { viewModel.add(EditMedicineEvent.AddMedicine) },
         onCancelClicked = { navController.popBackStack() }
     )
+
 
 }
 
 @Composable
-private fun AddMedicineContent(
+private fun EditMedicineContent(
     petName: String,
     types: List<String>,
     type: String,
@@ -71,24 +68,26 @@ private fun AddMedicineContent(
     onFrequencySelected: (String) -> Unit,
     comments: String,
     onCommentsEntered: (String) -> Unit,
-    onAddMedicine: () -> Unit,
+    onEditMedicine: () -> Unit,
     onCancelClicked: () -> Unit
-
 ) {
     Column(
         modifier = Modifier
-            .verticalScroll(rememberScrollState())
             .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
 
         AddVerticalSpace(50)
+
 
         Text(
             text = "$petName medicine",
             style = MaterialTheme.typography.displayMedium
         )
 
+
         AddVerticalSpace(20)
+
 
         MyDropdown(
             labelTitle = "Type",
@@ -103,7 +102,7 @@ private fun AddMedicineContent(
         OutLinedInputText(
             inputValue = date.value,
             valueEntered = { onDatePerformedEntered(it) },
-            label= "Date performed",
+            label = "Date performed",
             placeholder = "dd/MM/yyyy",
             validationResult = date.validation,
             visualTransformation = DateTransformation()
@@ -119,7 +118,15 @@ private fun AddMedicineContent(
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
+
         AddVerticalSpace(15)
+
+        MyText(
+            text = "Comments",
+            textAlignment = TextAlign.Start,
+            modifier = Modifier.padding(start = 20.dp)
+        )
+        AddVerticalSpace(6)
 
         OutLinedInputText(
             inputValue = comments,
@@ -130,8 +137,8 @@ private fun AddMedicineContent(
         Spacer(modifier = Modifier.weight(1f))
 
         PrimaryButton(
-            buttonTitle = "save",
-            onButtonClicked = { onAddMedicine() },
+            buttonTitle = "update",
+            onButtonClicked = { onEditMedicine() },
             hasBorder = false
         )
 
@@ -149,11 +156,11 @@ private fun AddMedicineContent(
 }
 
 
-
 @Preview
 @Composable
-private fun AddMedicineContentPreview() {
-    AddMedicineContent(
+private fun EditMdicineContentPreview() {
+
+    EditMedicineContent(
         petName = "xx",
         types = listOf(),
         type = "xxx",
@@ -165,7 +172,7 @@ private fun AddMedicineContentPreview() {
         onFrequencySelected = {},
         comments = "|asdas",
         onCommentsEntered = {},
-        onAddMedicine = {},
+        onEditMedicine = {},
         onCancelClicked = {}
     )
 }
