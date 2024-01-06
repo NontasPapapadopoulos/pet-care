@@ -3,7 +3,9 @@ package nondas.pap.petcareapp.presentation.login
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -57,6 +59,7 @@ fun LoginScreen(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LoginContent(
     email: String,
@@ -85,8 +88,6 @@ private fun LoginContent(
         )
 
         AddVerticalSpace(190)
-
-//        InputText(inputValue = email, valueEntered = { onEmailEntered(it) })
 
         OutLinedInputText(
             label = "Email",

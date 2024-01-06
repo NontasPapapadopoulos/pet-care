@@ -28,15 +28,17 @@ class LoginViewModel @Inject constructor(
     private val loginHandler = MutableSharedFlow<Handler.Event<PerformLogin.Params>>()
 
     override val _uiState: StateFlow<LoginState> = combine(
+        loginHandler.flatMapMergeWith(performLogin).onStart { emit(Handler.State.Idle) },
         emailFlow.onStart { emit("") },
         passwordFlow.onStart { emit("") },
-        loginHandler.flatMapMergeWith(performLogin)
-    ) { email, password, loginState ->
+    ) { loginState, email, password,  ->
+
+        val isLoading = loginState is Handler.State.Running
 
         LoginState(
             email = email,
             password = password,
-            isLoading = loginState is Handler.State.Running
+            isLoading = isLoading
         )
 
     }.stateIn(

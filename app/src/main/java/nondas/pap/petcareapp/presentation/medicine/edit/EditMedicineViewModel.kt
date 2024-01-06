@@ -1,12 +1,12 @@
 package nondas.pap.petcareapp.presentation.medicine.edit
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import nondas.pap.petcareapp.domain.model.Medicine
 import nondas.pap.petcareapp.domain.model.MedicineType
 import nondas.pap.petcareapp.domain.model.TimePeriod
@@ -24,11 +24,26 @@ class EditMedicineViewModel @Inject constructor(
     private val optionFlow = MutableSharedFlow<String>()
     private val frequencyFlow = MutableSharedFlow<String>()
     private val commentsTextFlow = MutableSharedFlow<String>()
-    private val validatedDateFlow = MutableSharedFlow<ValidatedField>()
+    private val date = MutableSharedFlow<ValidatedField>()
 
-    override val _uiState: StateFlow<EditMedicineState>
-        get() = TODO("Not yet implemented")
+    override val _uiState: StateFlow<EditMedicineState> = combine(
+        optionFlow,
+        frequencyFlow,
+        commentsTextFlow,
+        date
+    ) { option, frequency, comments, date ->
 
+        EditMedicineState(
+            type = option,
+            frequency = frequency,
+            comments = comments,
+            date = date
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        initialValue = EditMedicineState(),
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+    )
 
     init {
         on(EditMedicineEvent.TypeSelected::class) {
@@ -54,7 +69,7 @@ class EditMedicineViewModel @Inject constructor(
                 comparisonFlag = DateValidator.DATE_COMPARISON_FLAG.NONE
             )
             val validatedField = ValidatedField(value = it.date, validationResult)
-            validatedDateFlow.emit(validatedField)
+            date.emit(validatedField)
         }
 
     }

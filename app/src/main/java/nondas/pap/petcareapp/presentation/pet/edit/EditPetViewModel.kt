@@ -1,14 +1,19 @@
 package nondas.pap.petcareapp.presentation.pet.edit
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import nondas.pap.petcareapp.domain.model.Pet
 import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
 import nondas.pap.petcareapp.domain.usecase.validator.NameValidator
 import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
 import nondas.pap.petcareapp.presentation.BlocViewModel
 import nondas.pap.petcareapp.presentation.ValidatedField
+import nondas.pap.petcareapp.presentation.pet.add.AddPetState
 import javax.inject.Inject
 
 
@@ -24,9 +29,24 @@ class EditPetViewModel @Inject constructor(
     private val breedTextFlow = MutableSharedFlow<ValidatedField>()
     private val petTypeFlow = MutableSharedFlow<String>()
 
-    override val _uiState: StateFlow<EditPetState>
-        get() = TODO("Not yet implemented")
+    override val _uiState: StateFlow<EditPetState> = combine(
+        nameTextFlow,
+        petOptionFlow,
+        validatedDateFlow,
+        breedTextFlow
+    ) { name, option, date, breed ->
 
+        EditPetState(
+            name = name,
+            dob = date,
+            breed = breed,
+            type = option
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        initialValue = EditPetState(),
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+    )
 
     init {
 

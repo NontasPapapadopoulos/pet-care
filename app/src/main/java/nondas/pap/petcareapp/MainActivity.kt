@@ -45,7 +45,6 @@ class MainActivity : ComponentActivity() {
                         .windowInsetsPadding(WindowInsets.navigationBars),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
                     RootNavGraph(navController = rememberNavController())
                 }
             }
