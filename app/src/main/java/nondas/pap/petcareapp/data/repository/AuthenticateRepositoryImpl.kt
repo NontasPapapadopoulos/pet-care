@@ -1,10 +1,9 @@
 package nondas.pap.petcareapp.data.repository
 
 import nondas.pap.petcareapp.data.api.AuthApi
+import nondas.pap.petcareapp.domain.entity.UserCredentials
 import nondas.pap.petcareapp.domain.repository.AuthenticateRepository
-import nondas.pap.petcareapp.domain.model.Pet
-import nondas.pap.petcareapp.domain.model.UserCredentials
-import nondas.pap.petcareapp.domain.model.UserDetails
+import nondas.pap.petcareapp.domain.entity.UserDomainEntity
 
 class AuthenticateRepositoryImpl(
     private val authApi: AuthApi
@@ -13,8 +12,8 @@ class AuthenticateRepositoryImpl(
         authApi.login(userCredentials)
     }
 
-    override suspend fun register(userDetails: UserDetails) {
-       authApi.register(userDetails)
+    override suspend fun register(userDomainEntity: UserDomainEntity) {
+       authApi.register(userDomainEntity)
     }
 
 

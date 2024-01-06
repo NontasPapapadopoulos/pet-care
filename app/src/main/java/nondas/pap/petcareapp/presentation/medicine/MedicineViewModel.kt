@@ -1,24 +1,14 @@
 package nondas.pap.petcareapp.presentation.medicine
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import nondas.pap.petcareapp.domain.model.Medicine
-import nondas.pap.petcareapp.domain.model.MedicineType
-import nondas.pap.petcareapp.domain.model.Pet
-import nondas.pap.petcareapp.domain.model.TimePeriod
-import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
-import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
+import nondas.pap.petcareapp.domain.entity.Medicine
 import nondas.pap.petcareapp.presentation.BlocViewModel
-import nondas.pap.petcareapp.presentation.ValidatedField
 import javax.inject.Inject
 
 @HiltViewModel

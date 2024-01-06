@@ -1,8 +1,7 @@
 package nondas.pap.petcareapp.data.api
 
 import kotlinx.coroutines.flow.Flow
-import nondas.pap.petcareapp.domain.model.Medicine
-import nondas.pap.petcareapp.domain.model.Pet
+import nondas.pap.petcareapp.domain.entity.Medicine
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE

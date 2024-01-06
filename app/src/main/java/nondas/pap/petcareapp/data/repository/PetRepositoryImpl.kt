@@ -2,27 +2,27 @@ package nondas.pap.petcareapp.data.repository
 
 import nondas.pap.petcareapp.data.api.PetApi
 import nondas.pap.petcareapp.domain.repository.PetRepository
-import nondas.pap.petcareapp.domain.model.Pet
+import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import retrofit2.Response
 import kotlinx.coroutines.flow.Flow
 
 class PetRepositoryImpl(
     private val petApi: PetApi
 ): PetRepository {
-    override fun getPets(userId: Long): Flow<List<Pet>> {
+    override fun getPets(userId: Long): Flow<List<PetDomainEntity>> {
         return petApi.getPets(userId = userId)
     }
 
-    override suspend fun addPet(pet: Pet): Response<Unit> {
-        return petApi.addPet(pet)
+    override suspend fun addPet(petDomainEntity: PetDomainEntity): Response<Unit> {
+        return petApi.addPet(petDomainEntity)
     }
 
-    override suspend fun editPet(pet: Pet): Response<Unit> {
-        return petApi.editPet(pet)
+    override suspend fun editPet(petDomainEntity: PetDomainEntity): Response<Unit> {
+        return petApi.editPet(petDomainEntity)
     }
 
-    override suspend fun deletePet(pet: Pet): Response<Unit> {
-        return petApi.deletePet(pet)
+    override suspend fun deletePet(petDomainEntity: PetDomainEntity): Response<Unit> {
+        return petApi.deletePet(petDomainEntity)
     }
 
 }

@@ -3,7 +3,7 @@ package nondas.pap.petcareapp.data.repository
 import kotlinx.coroutines.flow.Flow
 import nondas.pap.petcareapp.data.api.MedicineApi
 import nondas.pap.petcareapp.domain.repository.MedicineRepository
-import nondas.pap.petcareapp.domain.model.Medicine
+import nondas.pap.petcareapp.domain.entity.Medicine
 import retrofit2.Response
 
 class MedicineRepositoryImpl(

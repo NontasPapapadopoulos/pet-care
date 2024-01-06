@@ -1,8 +1,7 @@
 package nondas.pap.petcareapp.domain.repository
 
 import kotlinx.coroutines.flow.Flow
-import nondas.pap.petcareapp.domain.model.Medicine
-import nondas.pap.petcareapp.domain.model.Pet
+import nondas.pap.petcareapp.domain.entity.Medicine
 import retrofit2.Response
 
 interface MedicineRepository {

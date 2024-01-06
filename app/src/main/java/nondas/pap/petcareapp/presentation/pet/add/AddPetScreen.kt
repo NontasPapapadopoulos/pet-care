@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.presentation.pet
+package nondas.pap.petcareapp.presentation.pet.add
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -39,22 +39,18 @@ fun AddPetScreen(
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-
     AddPetContent(
         name = state.name,
         dob = state.dob,
         type = state.type,
         petTypes = state.petTypes,
-        breed = state.breed,
         isButtonEnabled = state.isAddButtonEnabled,
         onNameEntered = { viewModel.add(AddPetEvent.NameEntered(it)) },
         onDobEntered = { viewModel.add(AddPetEvent.DobEntered(it)) },
         onTypeSelected = { viewModel.add(AddPetEvent.TypeSelected(it)) },
-        onBreedEntered = { viewModel.add(AddPetEvent.BreedEntered(it)) },
         onAddPetClicked = { viewModel.add(AddPetEvent.AddPet) },
         onCancelButtonClicked = { navController.popBackStack() }
     )
-
 
 }
 
@@ -64,12 +60,10 @@ private fun AddPetContent(
     dob: ValidatedField,
     type: String,
     petTypes: List<String>,
-    breed: ValidatedField,
     isButtonEnabled: Boolean,
     onNameEntered: (String) -> Unit,
     onDobEntered: (String) -> Unit,
     onTypeSelected: (String) -> Unit,
-    onBreedEntered: (String) -> Unit,
     onAddPetClicked: () -> Unit,
     onCancelButtonClicked: () -> Unit
 ) {
@@ -83,7 +77,7 @@ private fun AddPetContent(
         AddVerticalSpace(50)
 
         Text(
-            text ="Add New Pett",
+            text ="Add New Pet",
             style = MaterialTheme.typography.displayMedium
         )
 
@@ -119,14 +113,6 @@ private fun AddPetContent(
         )
 
         AddVerticalSpace(15)
-
-
-        OutLinedInputText(
-            inputValue = breed.value,
-            valueEntered = { onBreedEntered(it) },
-            label = "Breed",
-            validationResult = breed.validation
-        )
 
 
         Spacer(modifier = Modifier.weight(1f))
@@ -166,12 +152,10 @@ private fun AddPetScreenPreview() {
         dob = ValidatedField("12/12/2022"),
         type = "cat",
         petTypes = listOf(),
-        breed = ValidatedField("xx"),
         isButtonEnabled = true,
         onNameEntered = {},
         onDobEntered = {},
         onTypeSelected = {},
-        onBreedEntered = {},
         onAddPetClicked = { /*TODO*/ },
         onCancelButtonClicked = {}
     )

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import nondas.pap.petcareapp.domain.model.UserDetails
+import nondas.pap.petcareapp.domain.entity.UserDomainEntity
 import nondas.pap.petcareapp.domain.usecase.user.PerformRegister
 import nondas.pap.petcareapp.domain.usecase.validator.ConfirmPasswordValidator
 import nondas.pap.petcareapp.domain.usecase.validator.EmailValidator
@@ -102,14 +102,13 @@ class RegisterViewModel @Inject constructor(
         }
 
         on(RegisterEvent.RegisterButtonClicked::class) {
-            val userDetails = UserDetails(
+            val userDomainEntity = UserDomainEntity(
                 email = uiState.value.email.value,
                 password = uiState.value.password.value,
                 name = uiState.value.name.value,
-                pets = listOf()
             )
 
-            registerHandler.emit(Handler.Event.Execute(PerformRegister.Params(userDetails)))
+            registerHandler.emit(Handler.Event.Execute(PerformRegister.Params(userDomainEntity)))
             enableRegisterButton()
         }
     }

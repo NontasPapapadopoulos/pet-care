@@ -13,9 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,9 +29,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import nondas.pap.petcareapp.R
-import nondas.pap.petcareapp.domain.model.Pet
+import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import nondas.pap.petcareapp.infastracture.navigation.screen.MEDICINE_ROUTE
 import nondas.pap.petcareapp.infastracture.navigation.screen.PetScreen
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
@@ -42,10 +39,7 @@ import nondas.pap.petcareapp.presentation.component.EditDeleteButtons
 import nondas.pap.petcareapp.presentation.component.GreyBackground
 import nondas.pap.petcareapp.presentation.component.MyImage
 import nondas.pap.petcareapp.presentation.component.MyText
-import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.WarningDialog
-import nondas.pap.petcareapp.presentation.pet.PetEvent
-import nondas.pap.petcareapp.presentation.pet.PetState
 
 
 @Composable
@@ -57,7 +51,7 @@ fun PetsScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     PetsContent(
-        selectedPet = state.selectedPet,
+        selectedPetDomainEntity = state.selectedPetDomainEntity,
         onEditButtonClicked = { viewModel.add(PetEvent.EditButtonClicked(it)) },
         onDeleteButtonClicked = { viewModel.add(PetEvent.DeleteButtonClicked(it)) },
         onAddNewPetClicked = { navController.navigate(PetScreen.AddPet.route) },
@@ -69,13 +63,13 @@ fun PetsScreen(
 
 @Composable
 private fun PetsContent(
-    selectedPet: Pet,
-    onEditButtonClicked: (Pet) -> Unit,
-    onDeleteButtonClicked: (Pet) -> Unit,
-    onNavigateToPetsMedicineScreen: (Pet) -> Unit,
+    selectedPetDomainEntity: PetDomainEntity,
+    onEditButtonClicked: (PetDomainEntity) -> Unit,
+    onDeleteButtonClicked: (PetDomainEntity) -> Unit,
+    onNavigateToPetsMedicineScreen: (PetDomainEntity) -> Unit,
     onAddNewPetClicked: () -> Unit,
 
-) {
+    ) {
     val showDialog = remember { mutableStateOf(false) }
 
     ConstraintLayout(
@@ -107,18 +101,17 @@ private fun PetsContent(
             AddVerticalSpace(20)
 
 
-            val pet = Pet(
+            val petDomainEntity = PetDomainEntity(
                 name = "Roza",
                 age = 3,
-                breed = "Frenchie",
                 kind = "dog",
             )
 
             PetItem(
-                pet = pet,
-                onEditButtonClicked = { onEditButtonClicked(pet) },
+                petDomainEntity = petDomainEntity,
+                onEditButtonClicked = { onEditButtonClicked(petDomainEntity) },
                 onDeleteButtonClicked = { showDialog.value = true },
-                modifier = Modifier.clickable { onNavigateToPetsMedicineScreen(pet) }
+                modifier = Modifier.clickable { onNavigateToPetsMedicineScreen(petDomainEntity) }
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -148,10 +141,10 @@ private fun PetsContent(
 
 
             WarningDialog(
-                title = "Delete ${selectedPet.name}",
+                title = "Delete ${selectedPetDomainEntity.name}",
                 primaryButtonText = "delete",
                 secondaryButtonText = "cancel",
-                onPrimaryButtonClicked = { onDeleteButtonClicked(selectedPet) },
+                onPrimaryButtonClicked = { onDeleteButtonClicked(selectedPetDomainEntity) },
                 onDismiss = { showDialog.value = false },
                 onSecondaryButtonClicked = { showDialog.value = false },
                 modifier = Modifier.constrainAs(dialog) {
@@ -166,7 +159,7 @@ private fun PetsContent(
 
 @Composable
 fun PetItem(
-    pet: Pet,
+    petDomainEntity: PetDomainEntity,
     onEditButtonClicked: () -> Unit,
     onDeleteButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
@@ -201,7 +194,7 @@ fun PetItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 MyText(
-                    text = pet.name,
+                    text = petDomainEntity.name,
                     fillMaxWidth = false,
                     color = R.color.white
                 )
@@ -212,14 +205,9 @@ fun PetItem(
                 )
             }
 
-            MyText(
-                text = pet.breed,
-                fillMaxWidth = false,
-                color = R.color.white
 
-            )
             MyText(
-                text = "${pet.age.toString()} years old",
+                text = "${petDomainEntity.age.toString()} years old",
                 fillMaxWidth = false,
                 color = R.color.white
             )
@@ -232,7 +220,7 @@ fun PetItem(
 @Preview
 private fun HomeScreenPreview() {
     PetsContent(
-        selectedPet = Pet(),
+        selectedPetDomainEntity = PetDomainEntity(),
         onEditButtonClicked = {},
         onDeleteButtonClicked = {},
         onNavigateToPetsMedicineScreen = {},

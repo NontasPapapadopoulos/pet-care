@@ -6,16 +6,16 @@ import kotlinx.coroutines.flow.catch
 import nondas.pap.inventoryapp.domain.FlowUseCase
 import nondas.pap.petcareapp.domain.repository.PetRepository
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
-import nondas.pap.petcareapp.domain.model.Pet
+import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import javax.inject.Inject
 
 class GetPets @Inject constructor(
     @IoDispatcher dispatcher: CoroutineDispatcher,
     private val petRepository: PetRepository
-): FlowUseCase<List<Pet>, Unit>(dispatcher) {
+): FlowUseCase<List<PetDomainEntity>, Unit>(dispatcher) {
 
 
-    override fun invoke(params: Unit): Flow<List<Pet>> {
+    override fun invoke(params: Unit): Flow<List<PetDomainEntity>> {
         return petRepository.getPets(11)
             .catch { emit(listOf()) }
     }

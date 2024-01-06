@@ -7,13 +7,11 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import nondas.pap.petcareapp.domain.model.Pet
+import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
 import nondas.pap.petcareapp.domain.usecase.validator.NameValidator
-import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
 import nondas.pap.petcareapp.presentation.BlocViewModel
 import nondas.pap.petcareapp.presentation.ValidatedField
-import nondas.pap.petcareapp.presentation.register.RegisterState
 import javax.inject.Inject
 
 
@@ -26,20 +24,17 @@ class AddPetViewModel @Inject constructor(
     private val nameTextFlow = MutableSharedFlow<ValidatedField>()
     private val petOptionFlow = MutableSharedFlow<String>()
     private val validatedDateFlow = MutableSharedFlow<ValidatedField>()
-    private val breedTextFlow = MutableSharedFlow<ValidatedField>()
     private val petTypeFlow = MutableSharedFlow<String>()
 
     override val _uiState: StateFlow<AddPetState> = combine(
         nameTextFlow,
         petOptionFlow,
         validatedDateFlow,
-        breedTextFlow
-    ) { name, option, date, breed ->
+    ) { name, option, date ->
 
         AddPetState(
             name = name,
             dob = date,
-            breed = breed,
             type = option
         )
 
@@ -51,7 +46,6 @@ class AddPetViewModel @Inject constructor(
 
 
     init {
-
         on(AddPetEvent.NameEntered::class) {
             val validationResult = nameValidator.execute(it.userInput)
             val validatedField = ValidatedField(value = it.userInput, validationResult)
@@ -73,19 +67,9 @@ class AddPetViewModel @Inject constructor(
             validatedDateFlow.emit(validatedField)
         }
 
-        on(AddPetEvent.BreedEntered::class) {
-            val validationResult = nameValidator.execute(it.userInput)
-            val validatedField = ValidatedField(value = it.userInput, validationResult)
-            breedTextFlow.emit(validatedField)
-        }
-
-
-
         on(AddPetEvent.AddPet::class) {
             addPet()
         }
-
-
 
     }
 
@@ -112,7 +96,6 @@ sealed class AddPetEvent {
     data class NameEntered(val userInput: String): AddPetEvent()
     data class DobEntered(val userInput: String): AddPetEvent()
     data class TypeSelected(val userInput: String): AddPetEvent()
-    data class BreedEntered(val userInput: String): AddPetEvent()
     data class OptionSelected(val option: String): AddPetEvent()
     object AddPet: AddPetEvent()
 
@@ -122,7 +105,6 @@ data class AddPetState(
     val name: ValidatedField = ValidatedField(),
     val dob:  ValidatedField = ValidatedField(),
     val type:  String = "",
-    val breed:  ValidatedField = ValidatedField(),
     val isAboveOneYearOld: Boolean = false,
     val isAddButtonEnabled: Boolean = false,
     val options: List<String> = listOf("Yes", "No"),
@@ -130,5 +112,5 @@ data class AddPetState(
 
     val selectedOption: Int = 0,
 
-    val selectedPet: Pet = Pet()
+    val selectedPetDomainEntity: PetDomainEntity = PetDomainEntity()
 )

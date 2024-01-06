@@ -8,14 +8,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import nondas.pap.petcareapp.domain.model.Pet
+import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import nondas.pap.petcareapp.domain.usecase.pet.DeletePet
-import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
-import nondas.pap.petcareapp.domain.usecase.validator.NameValidator
-import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
 import nondas.pap.petcareapp.presentation.BlocViewModel
-import nondas.pap.petcareapp.presentation.ValidatedField
-import nondas.pap.petcareapp.presentation.register.RegisterState
 import javax.inject.Inject
 
 
@@ -24,17 +19,17 @@ class PetViewModel @Inject constructor(
     private val deletePet: DeletePet
 ): BlocViewModel<PetEvent, PetState>() {
 
-    private val pets = MutableSharedFlow<List<Pet>>()
-    private val selectedPet = MutableSharedFlow<Pet>()
+    private val pets = MutableSharedFlow<List<PetDomainEntity>>()
+    private val selectedPetDomainEntity = MutableSharedFlow<PetDomainEntity>()
 
     override val _uiState: StateFlow<PetState> = combine(
         pets.onStart { emit(listOf()) },
-        selectedPet
+        selectedPetDomainEntity
     ) { pets, selectedPet ->
 
         PetState(
-            pets = pets,
-            selectedPet = selectedPet
+            petDomainEntities = pets,
+            selectedPetDomainEntity = selectedPet
         )
     }.stateIn(
         scope = viewModelScope,
@@ -45,11 +40,11 @@ class PetViewModel @Inject constructor(
     init {
 
         on(PetEvent.DeleteButtonClicked::class) {
-            it.pet
+            it.petDomainEntity
         }
 
         on(PetEvent.EditButtonClicked::class) {
-            it.pet
+            it.petDomainEntity
         }
 
     }
@@ -58,11 +53,11 @@ class PetViewModel @Inject constructor(
 
 sealed class PetEvent {
     object AddPet: PetEvent()
-    data class EditButtonClicked(val pet: Pet): PetEvent()
-    data class DeleteButtonClicked(val pet: Pet): PetEvent()
+    data class EditButtonClicked(val petDomainEntity: PetDomainEntity): PetEvent()
+    data class DeleteButtonClicked(val petDomainEntity: PetDomainEntity): PetEvent()
 }
 
 data class PetState(
-    val pets: List<Pet> = listOf(),
-    val selectedPet: Pet = Pet()
+    val petDomainEntities: List<PetDomainEntity> = listOf(),
+    val selectedPetDomainEntity: PetDomainEntity = PetDomainEntity()
 )

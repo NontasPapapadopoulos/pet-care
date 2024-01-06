@@ -26,11 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 
 import nondas.pap.petcareapp.R
-import nondas.pap.petcareapp.domain.model.Medicine
-import nondas.pap.petcareapp.domain.model.TimePeriod
+import nondas.pap.petcareapp.domain.entity.Medicine
+import nondas.pap.petcareapp.domain.entity.TimePeriod
 import nondas.pap.petcareapp.infastracture.navigation.screen.MedicineScreen
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
@@ -38,7 +37,6 @@ import nondas.pap.petcareapp.presentation.component.EditDeleteButtons
 import nondas.pap.petcareapp.presentation.component.GreyBackground
 import nondas.pap.petcareapp.presentation.component.MyImage
 import nondas.pap.petcareapp.presentation.component.MyText
-import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.WarningDialog
 import java.util.Date
 

@@ -7,13 +7,11 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import nondas.pap.petcareapp.domain.model.Pet
+import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
 import nondas.pap.petcareapp.domain.usecase.validator.NameValidator
-import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
 import nondas.pap.petcareapp.presentation.BlocViewModel
 import nondas.pap.petcareapp.presentation.ValidatedField
-import nondas.pap.petcareapp.presentation.pet.add.AddPetState
 import javax.inject.Inject
 
 
@@ -26,20 +24,17 @@ class EditPetViewModel @Inject constructor(
     private val nameTextFlow = MutableSharedFlow<ValidatedField>()
     private val petOptionFlow = MutableSharedFlow<String>()
     private val validatedDateFlow = MutableSharedFlow<ValidatedField>()
-    private val breedTextFlow = MutableSharedFlow<ValidatedField>()
     private val petTypeFlow = MutableSharedFlow<String>()
 
     override val _uiState: StateFlow<EditPetState> = combine(
         nameTextFlow,
         petOptionFlow,
         validatedDateFlow,
-        breedTextFlow
-    ) { name, option, date, breed ->
+    ) { name, option, date ->
 
         EditPetState(
             name = name,
             dob = date,
-            breed = breed,
             type = option
         )
     }.stateIn(
@@ -71,19 +66,13 @@ class EditPetViewModel @Inject constructor(
             validatedDateFlow.emit(validatedField)
         }
 
-        on(EditPetEvent.BreedEntered::class) {
-            val validationResult = nameValidator.execute(it.userInput)
-            val validatedField = ValidatedField(value = it.userInput, validationResult)
-            breedTextFlow.emit(validatedField)
-        }
-
         on(EditPetEvent.TypeSelected::class) {
             petOptionFlow.emit(it.userInput)
         }
 
 
         on(EditPetEvent.EditButtonClicked::class) {
-            it.pet
+            it.petDomainEntity
         }
 
     }
@@ -111,16 +100,14 @@ sealed class EditPetEvent {
     data class NameEntered(val userInput: String): EditPetEvent()
     data class DobEntered(val userInput: String): EditPetEvent()
     data class TypeSelected(val userInput: String): EditPetEvent()
-    data class BreedEntered(val userInput: String): EditPetEvent()
     data class OptionSelected(val option: String): EditPetEvent()
-    data class EditButtonClicked(val pet: Pet): EditPetEvent()
+    data class EditButtonClicked(val petDomainEntity: PetDomainEntity): EditPetEvent()
 }
 
 data class EditPetState(
     val name: ValidatedField = ValidatedField(),
     val dob:  ValidatedField = ValidatedField(),
     val type:  String = "",
-    val breed:  ValidatedField = ValidatedField(),
     val isAboveOneYearOld: Boolean = false,
     val isAddButtonEnabled: Boolean = false,
     val options: List<String> = listOf("Yes", "No"),
@@ -128,5 +115,5 @@ data class EditPetState(
 
     val selectedOption: Int = 0,
 
-    val selectedPet: Pet = Pet()
+    val selectedPetDomainEntity: PetDomainEntity = PetDomainEntity()
 )

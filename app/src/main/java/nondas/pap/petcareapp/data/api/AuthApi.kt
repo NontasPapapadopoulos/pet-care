@@ -1,10 +1,9 @@
 package nondas.pap.petcareapp.data.api
 
-import nondas.pap.petcareapp.domain.model.UserCredentials
-import nondas.pap.petcareapp.domain.model.UserDetails
+import nondas.pap.petcareapp.domain.entity.UserCredentials
+import nondas.pap.petcareapp.domain.entity.UserDomainEntity
 import retrofit2.http.Body
 import retrofit2.http.POST
-import retrofit2.http.Path
 
 interface AuthApi {
 
@@ -13,5 +12,5 @@ interface AuthApi {
 
 
     @POST("petCare/v1/auth/register")
-    suspend fun register(@Body user: UserDetails)
+    suspend fun register(@Body user: UserDomainEntity)
 }

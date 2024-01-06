@@ -1,14 +1,13 @@
 package nondas.pap.petcareapp.domain.repository
 
-import nondas.pap.petcareapp.domain.model.Pet
-import nondas.pap.petcareapp.domain.model.UserCredentials
-import nondas.pap.petcareapp.domain.model.UserDetails
+import nondas.pap.petcareapp.domain.entity.UserCredentials
+import nondas.pap.petcareapp.domain.entity.UserDomainEntity
 
 interface AuthenticateRepository {
 
     suspend fun login(userCredentials: UserCredentials)
 
-    suspend fun register(userDetails: UserDetails)
+    suspend fun register(userDomainEntity: UserDomainEntity)
 
 
 

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.catch
 import nondas.pap.inventoryapp.domain.FlowUseCase
 import nondas.pap.petcareapp.domain.repository.MedicineRepository
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
-import nondas.pap.petcareapp.domain.model.Medicine
+import nondas.pap.petcareapp.domain.entity.Medicine
 import javax.inject.Inject
 
 class GetMedicine @Inject constructor(

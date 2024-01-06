@@ -6,10 +6,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import nondas.pap.petcareapp.infastracture.navigation.screen.PETS_ROUTE
 import nondas.pap.petcareapp.infastracture.navigation.screen.PetScreen
-import nondas.pap.petcareapp.presentation.pet.AddPetScreen
 import nondas.pap.petcareapp.presentation.pet.EditPetScreen
 import nondas.pap.petcareapp.presentation.pet.PetViewModel
 import nondas.pap.petcareapp.presentation.pet.PetsScreen
+import nondas.pap.petcareapp.presentation.pet.add.AddPetScreen
 
 
 fun NavGraphBuilder.petsNavGraph(

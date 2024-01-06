@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import nondas.pap.inventoryapp.domain.SuspendUseCase
 import nondas.pap.petcareapp.domain.repository.PetRepository
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
-import nondas.pap.petcareapp.domain.model.Pet
+import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import javax.inject.Inject
 
 class DeletePet @Inject constructor(
@@ -13,8 +13,8 @@ class DeletePet @Inject constructor(
 ): SuspendUseCase<Unit, DeletePet.Params>(dispatcher) {
 
     override suspend fun invoke(params: Params) {
-        petRepository.deletePet(params.pet)
+        petRepository.deletePet(params.petDomainEntity)
     }
 
-    data class Params(val pet: Pet)
+    data class Params(val petDomainEntity: PetDomainEntity)
 }

@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.domain.model
+package nondas.pap.petcareapp.domain.entity
 
 import java.util.Date
 

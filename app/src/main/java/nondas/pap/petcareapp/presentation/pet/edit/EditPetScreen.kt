@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,7 +20,6 @@ import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.ValidatedField
 import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
 import nondas.pap.petcareapp.presentation.component.MyDropdown
-import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.OutLinedInputText
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
@@ -43,14 +41,12 @@ fun EditPetScreen(
         dob = state.dob,
         type = state.type,
         petTypes = state.petTypes,
-        breed = state.breed,
         isButtonEnabled = state.isAddButtonEnabled,
         onNameEntered = { viewModel.add(EditPetEvent.NameEntered(it)) },
         onDobEntered = { viewModel.add(EditPetEvent.DobEntered(it)) },
         onTypeSelected = { viewModel.add(EditPetEvent.TypeSelected(it)) },
-        onBreedEntered = { viewModel.add(EditPetEvent.BreedEntered(it)) },
         onCancelButtonClicked = { navController.popBackStack() },
-        onEditPet = { viewModel.add(EditPetEvent.EditButtonClicked(state.selectedPet)) }
+        onEditPet = { viewModel.add(EditPetEvent.EditButtonClicked(state.selectedPetDomainEntity)) }
     )
 }
 
@@ -60,12 +56,10 @@ private fun EditPetContent(
     dob: ValidatedField,
     type: String,
     petTypes: List<String>,
-    breed: ValidatedField,
     isButtonEnabled: Boolean,
     onNameEntered: (String) -> Unit,
     onDobEntered: (String) -> Unit,
     onTypeSelected: (String) -> Unit,
-    onBreedEntered: (String) -> Unit,
     onEditPet: () -> Unit,
     onCancelButtonClicked: () -> Unit
 
@@ -119,15 +113,6 @@ private fun EditPetContent(
         AddVerticalSpace(15)
 
 
-        OutLinedInputText(
-            inputValue = breed.value,
-            valueEntered = { onBreedEntered(it) },
-            label = "Breed",
-            placeholder = "French bulldog",
-            validationResult = breed.validation
-        )
-
-
         Spacer(modifier = Modifier.weight(1f))
 
         PrimaryButton(
@@ -163,12 +148,10 @@ private fun EditPetScreenPreview() {
         dob = ValidatedField(),
         type = "",
         petTypes = listOf(),
-        breed = ValidatedField(),
         isButtonEnabled = true,
         onNameEntered = {},
         onDobEntered = {},
         onTypeSelected = {},
-        onBreedEntered = {},
         onEditPet = { /*TODO*/ },
         onCancelButtonClicked = {}
     )

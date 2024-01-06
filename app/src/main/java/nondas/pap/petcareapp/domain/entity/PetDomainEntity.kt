@@ -1,9 +1,8 @@
-package nondas.pap.petcareapp.domain.model
+package nondas.pap.petcareapp.domain.entity
 
-data class Pet(
+data class PetDomainEntity(
     val name: String = "",
     val kind: String = "",
-    val breed: String = "",
     val age: Int = 0,
     val medicines: List<Medicine> = listOf()
 
