@@ -1,13 +1,13 @@
-package nondas.pap.petcareapp.data.entity
+package nondas.pap.petcareapp.data.network.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "medicine")
-data class MedicineDataEntity(
+@Entity
+data class MedicineNetworkEntity(
     @PrimaryKey(autoGenerate = true)
-    val medicineId: Int,
+    val id: Int,
     val type: String,
     val repeatRate: String,
     val dateReceived: String,

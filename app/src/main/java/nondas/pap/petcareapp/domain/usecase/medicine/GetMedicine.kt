@@ -6,16 +6,16 @@ import kotlinx.coroutines.flow.catch
 import nondas.pap.inventoryapp.domain.FlowUseCase
 import nondas.pap.petcareapp.domain.repository.MedicineRepository
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
-import nondas.pap.petcareapp.domain.entity.Medicine
+import nondas.pap.petcareapp.domain.entity.MedicineDomainEntity
 import javax.inject.Inject
 
 class GetMedicine @Inject constructor(
     private val medicineRepository: MedicineRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-): FlowUseCase<List<Medicine>, GetMedicine.Params>(dispatcher) {
+): FlowUseCase<List<MedicineDomainEntity>, GetMedicine.Params>(dispatcher) {
 
 
-    override fun invoke(params: Params): Flow<List<Medicine>> {
+    override fun invoke(params: Params): Flow<List<MedicineDomainEntity>> {
         return medicineRepository.getMedicine(params.petId)
             .catch { emit(emptyList()) }
     }

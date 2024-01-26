@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import nondas.pap.petcareapp.R
 
 @Composable
-private fun MyDropdown(
+fun MyDropdown(
     labelTitle: String = "",
     items: List<String> = listOf(),
     selectedItem: String,

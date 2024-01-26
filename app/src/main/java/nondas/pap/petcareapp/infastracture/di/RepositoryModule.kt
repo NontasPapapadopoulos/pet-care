@@ -5,9 +5,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import nondas.pap.petcareapp.data.api.AuthApi
-import nondas.pap.petcareapp.data.api.MedicineApi
-import nondas.pap.petcareapp.data.api.PetApi
+import nondas.pap.petcareapp.data.network.api.AuthApi
+import nondas.pap.petcareapp.data.network.api.MedicineApi
+import nondas.pap.petcareapp.data.network.api.PetApi
 import nondas.pap.petcareapp.data.repository.AuthenticateRepositoryImpl
 import nondas.pap.petcareapp.data.repository.MedicineRepositoryImpl
 import nondas.pap.petcareapp.data.repository.PetRepositoryImpl

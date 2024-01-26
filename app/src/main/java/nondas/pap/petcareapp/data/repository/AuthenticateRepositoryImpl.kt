@@ -1,6 +1,6 @@
 package nondas.pap.petcareapp.data.repository
 
-import nondas.pap.petcareapp.data.api.AuthApi
+import nondas.pap.petcareapp.data.network.api.AuthApi
 import nondas.pap.petcareapp.domain.entity.UserCredentials
 import nondas.pap.petcareapp.domain.repository.AuthenticateRepository
 import nondas.pap.petcareapp.domain.entity.UserDomainEntity

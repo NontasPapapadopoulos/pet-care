@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import nondas.pap.petcareapp.data.entity.PetDataEntity
@@ -13,8 +14,10 @@ import nondas.pap.petcareapp.data.entity.PetDataEntity
 @Dao
 interface PetDao {
 
-    @Query("SELECT * FROM pet")
-    fun getPets(): Flow<List<PetDataEntity>>
+//    @Transaction
+//    @Query("SELECT * FROM")
+//    fun getPetMedicines(): List<>
+//
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addPet(pet: PetDataEntity)

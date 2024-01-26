@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import nondas.pap.petcareapp.domain.entity.Medicine
+import nondas.pap.petcareapp.domain.entity.MedicineDomainEntity
 import nondas.pap.petcareapp.domain.entity.MedicineType
 import nondas.pap.petcareapp.domain.entity.TimePeriod
 import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
@@ -88,8 +88,8 @@ sealed class AddMedicineEvent {
     object AddMedicine: AddMedicineEvent()
     object UpdateMedicine: AddMedicineEvent()
 
-    data class EditButtonClicked(val medicine: Medicine): AddMedicineEvent()
-    data class DeleteButtonClicked(val medicine: Medicine): AddMedicineEvent()
+    data class EditButtonClicked(val medicineDomainEntity: MedicineDomainEntity): AddMedicineEvent()
+    data class DeleteButtonClicked(val medicineDomainEntity: MedicineDomainEntity): AddMedicineEvent()
     data class DatePerformedEntered(val date: String): AddMedicineEvent()
 }
 
@@ -115,7 +115,7 @@ data class AddMedicineState(
         TimePeriod.EVERY_YEAR.value,
     ),
 
-    val selectedMedicine: Medicine = Medicine(),
+    val selectedMedicineDomainEntity: MedicineDomainEntity = MedicineDomainEntity(),
 
     val dateValidation: ValidationResult = ValidationResult(true, "")
 )

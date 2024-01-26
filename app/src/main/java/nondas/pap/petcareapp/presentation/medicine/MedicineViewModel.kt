@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import nondas.pap.petcareapp.domain.entity.Medicine
+import nondas.pap.petcareapp.domain.entity.MedicineDomainEntity
 import nondas.pap.petcareapp.presentation.BlocViewModel
 import javax.inject.Inject
 
@@ -15,17 +15,17 @@ import javax.inject.Inject
 class MedicineViewModel @Inject constructor(
 ): BlocViewModel<MedicineEvent, MedicineState>() {
 
-    private val selectedMedicine = MutableSharedFlow<Medicine>()
-    private val medicines = MutableSharedFlow<List<Medicine>>()
+    private val selectedMedicineDomainEntity = MutableSharedFlow<MedicineDomainEntity>()
+    private val medicines = MutableSharedFlow<List<MedicineDomainEntity>>()
 
     override val _uiState: StateFlow<MedicineState> = combine(
         medicines,
-        selectedMedicine,
+        selectedMedicineDomainEntity,
     ) { medicines, selectedMedicine ->
 
         MedicineState(
-            medicines = medicines,
-            selectedMedicine = selectedMedicine
+            medicineDomainEntities = medicines,
+            selectedMedicineDomainEntity = selectedMedicine
         )
     }.stateIn(
         scope = viewModelScope,
@@ -47,12 +47,12 @@ class MedicineViewModel @Inject constructor(
 
 sealed class MedicineEvent {
     object AddMedicine: MedicineEvent()
-    data class EditButtonClicked(val medicine: Medicine): MedicineEvent()
-    data class DeleteButtonClicked(val medicine: Medicine): MedicineEvent()
+    data class EditButtonClicked(val medicineDomainEntity: MedicineDomainEntity): MedicineEvent()
+    data class DeleteButtonClicked(val medicineDomainEntity: MedicineDomainEntity): MedicineEvent()
 }
 
 
 data class MedicineState(
-    val selectedMedicine: Medicine = Medicine(),
-    val medicines: List<Medicine> = listOf()
+    val selectedMedicineDomainEntity: MedicineDomainEntity = MedicineDomainEntity(),
+    val medicineDomainEntities: List<MedicineDomainEntity> = listOf()
 )

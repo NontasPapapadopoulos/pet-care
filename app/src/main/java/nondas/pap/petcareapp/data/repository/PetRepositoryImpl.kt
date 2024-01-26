@@ -1,6 +1,6 @@
 package nondas.pap.petcareapp.data.repository
 
-import nondas.pap.petcareapp.data.api.PetApi
+import nondas.pap.petcareapp.data.network.api.PetApi
 import nondas.pap.petcareapp.domain.repository.PetRepository
 import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import retrofit2.Response

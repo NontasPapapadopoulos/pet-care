@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.data.api
+package nondas.pap.petcareapp.data.network.api
 
 import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import retrofit2.Response

@@ -4,6 +4,6 @@ data class PetDomainEntity(
     val name: String = "",
     val kind: String = "",
     val age: Int = 0,
-    val medicines: List<Medicine> = listOf()
+    val medicineDomainEntities: List<MedicineDomainEntity> = listOf()
 
 )

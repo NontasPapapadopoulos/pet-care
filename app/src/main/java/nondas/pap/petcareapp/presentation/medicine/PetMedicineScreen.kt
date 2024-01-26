@@ -28,7 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 
 import nondas.pap.petcareapp.R
-import nondas.pap.petcareapp.domain.entity.Medicine
+import nondas.pap.petcareapp.domain.entity.MedicineDomainEntity
 import nondas.pap.petcareapp.domain.entity.TimePeriod
 import nondas.pap.petcareapp.infastracture.navigation.screen.MedicineScreen
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
@@ -50,9 +50,9 @@ fun PetMedicineScreen(
     val state by viewModel.uiState.collectAsState()
 
     PetMedicineContent(
-        selectedMedicine = state.selectedMedicine,
-        onDeleteButtonClicked = { viewModel.add(MedicineEvent.DeleteButtonClicked(state.selectedMedicine)) },
-        onEditButtonClicked = { viewModel.add(MedicineEvent.EditButtonClicked(state.selectedMedicine)) },
+        selectedMedicineDomainEntity = state.selectedMedicineDomainEntity,
+        onDeleteButtonClicked = { viewModel.add(MedicineEvent.DeleteButtonClicked(state.selectedMedicineDomainEntity)) },
+        onEditButtonClicked = { viewModel.add(MedicineEvent.EditButtonClicked(state.selectedMedicineDomainEntity)) },
         onAddNewMedicineButtonClicked = { navController.navigate(route = MedicineScreen.AddMedicine.route) }
     )
 }
@@ -60,9 +60,9 @@ fun PetMedicineScreen(
 
 @Composable
 private fun PetMedicineContent(
-    selectedMedicine: Medicine,
-    onDeleteButtonClicked: (Medicine) -> Unit,
-    onEditButtonClicked: (Medicine) -> Unit,
+    selectedMedicineDomainEntity: MedicineDomainEntity,
+    onDeleteButtonClicked: (MedicineDomainEntity) -> Unit,
+    onEditButtonClicked: (MedicineDomainEntity) -> Unit,
     onAddNewMedicineButtonClicked: () -> Unit
 ) {
     val showDialog = remember { mutableStateOf(false) }
@@ -94,10 +94,10 @@ private fun PetMedicineContent(
 
 
             MedicineItem(
-                medicine = Medicine(
+                medicineDomainEntity = MedicineDomainEntity(
                     type = "Vaccine",
-                    dateReceived = Date(),
-                    repeatRate = TimePeriod.EVERY_YEAR,
+                    dateReceived = Date().toString(),
+                    repeatRate = TimePeriod.EVERY_YEAR.value,
                     comments = "xxx"
                 )
             )
@@ -126,10 +126,10 @@ private fun PetMedicineContent(
 
 
             WarningDialog(
-                title = "Delete ${selectedMedicine.type}",
+                title = "Delete ${selectedMedicineDomainEntity.type}",
                 primaryButtonText = "delete",
                 secondaryButtonText = "cancel",
-                onPrimaryButtonClicked = { onDeleteButtonClicked(selectedMedicine) },
+                onPrimaryButtonClicked = { onDeleteButtonClicked(selectedMedicineDomainEntity) },
                 onDismiss = { showDialog.value = false },
                 onSecondaryButtonClicked = { showDialog.value = false },
                 modifier = Modifier.constrainAs(dialog) {
@@ -143,7 +143,7 @@ private fun PetMedicineContent(
 
 
 @Composable
-fun MedicineItem(medicine: Medicine) {
+fun MedicineItem(medicineDomainEntity: MedicineDomainEntity) {
 
     Row(
         modifier = Modifier
@@ -174,7 +174,7 @@ fun MedicineItem(medicine: Medicine) {
             ) {
 
                 MyText(
-                    text = medicine.type,
+                    text = medicineDomainEntity.type,
                     fillMaxWidth = false,
                     color = R.color.white
                 )
@@ -186,17 +186,17 @@ fun MedicineItem(medicine: Medicine) {
             }
 
             MyText(
-                text = medicine.dateReceived.toString(),
+                text = medicineDomainEntity.dateReceived.toString(),
                 fillMaxWidth = false,
                 color = R.color.white
             )
             MyText(
-                text = medicine.repeatRate.value,
+                text = medicineDomainEntity.repeatRate,
                 fillMaxWidth = false,
                 color = R.color.white
             )
             MyText(
-                text = medicine.comments,
+                text = medicineDomainEntity.comments,
                 fillMaxWidth = false,
                 color = R.color.white
             )
@@ -211,7 +211,7 @@ fun MedicineItem(medicine: Medicine) {
 @Composable
 private fun MedicineScreenPreview() {
     PetMedicineContent(
-        selectedMedicine = Medicine(),
+        selectedMedicineDomainEntity = MedicineDomainEntity(),
         onDeleteButtonClicked = {},
         onEditButtonClicked = {},
         onAddNewMedicineButtonClicked = {}

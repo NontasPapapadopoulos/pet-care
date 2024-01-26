@@ -2,10 +2,10 @@ package nondas.pap.petcareapp.domain.entity
 
 import java.util.Date
 
-data class Medicine(
+data class MedicineDomainEntity(
     val type: String = "",
-    val repeatRate: TimePeriod = TimePeriod.EVERY_YEAR,
-    val dateReceived: Date = Date(),
+    val repeatRate: String = "" ,//TimePeriod = TimePeriod.EVERY_YEAR,
+    val dateReceived: String = "", //Date = Date(),
     val comments: String = ""
 )
 
