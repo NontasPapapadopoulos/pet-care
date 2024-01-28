@@ -18,15 +18,17 @@ fun PetDataEntity.toDomain(): PetDomainEntity = PetDomainEntity(
     name = name,
     kind = kind,
     age = age,
+    userId = userId,
+    petId = petId
 )
 
 
-fun PetDataEntity.toData(): PetDataEntity = PetDataEntity(
+fun PetDomainEntity.toData(): PetDataEntity = PetDataEntity(
     name = name,
     kind = kind,
     age = age,
-    petId = petId,
-    userId = userId
+    userId = userId,
+    petId = petId
 )
 
 

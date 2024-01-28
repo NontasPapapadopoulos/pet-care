@@ -22,7 +22,7 @@ fun MedicineDataEntity.toDomain(): MedicineDomainEntity = MedicineDomainEntity(
 )
 
 
-fun MedicineDataEntity.toData(): MedicineDataEntity = MedicineDataEntity(
+fun MedicineDomainEntity.toData(): MedicineDataEntity = MedicineDataEntity(
     type = type,
     repeatRate = repeatRate,
     dateReceived = dateReceived,

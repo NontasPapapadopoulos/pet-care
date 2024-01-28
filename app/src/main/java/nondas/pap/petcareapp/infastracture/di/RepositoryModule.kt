@@ -5,11 +5,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import nondas.pap.petcareapp.data.datasource.MedicineDataSource
+import nondas.pap.petcareapp.data.datasource.PetDataSource
+import nondas.pap.petcareapp.data.datasource.UserDataSource
 import nondas.pap.petcareapp.data.network.api.AuthApi
-import nondas.pap.petcareapp.data.network.api.MedicineApi
-import nondas.pap.petcareapp.data.network.api.PetApi
-import nondas.pap.petcareapp.data.repository.AuthenticateRepositoryImpl
-import nondas.pap.petcareapp.data.repository.MedicineRepositoryImpl
+import nondas.pap.petcareapp.data.repository.AuthenticateDataRepository
+import nondas.pap.petcareapp.data.repository.MedicineDataRepository
 import nondas.pap.petcareapp.data.repository.PetRepositoryImpl
 import nondas.pap.petcareapp.domain.repository.AuthenticateRepository
 import nondas.pap.petcareapp.domain.repository.MedicineRepository
@@ -23,21 +24,21 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideAuthorizationRepository(authApi: AuthApi): AuthenticateRepository {
-        return AuthenticateRepositoryImpl(authApi)
+    fun provideAuthorizationRepository(userDataSource: UserDataSource): AuthenticateRepository {
+        return AuthenticateDataRepository(userDataSource)
     }
 
 
     @Provides
     @Singleton
-    fun providePetRepository(petApi: PetApi): PetRepository {
-        return PetRepositoryImpl(petApi)
+    fun providePetRepository(petDataSource: PetDataSource): PetRepository {
+        return PetRepositoryImpl(petDataSource)
     }
 
     @Provides
     @Singleton
-    fun provideMedicineRepository(medicineApi: MedicineApi): MedicineRepository {
-        return MedicineRepositoryImpl(medicineApi)
+    fun provideMedicineRepository(medicineDataSource: MedicineDataSource): MedicineRepository {
+        return MedicineDataRepository(medicineDataSource)
     }
 
 }

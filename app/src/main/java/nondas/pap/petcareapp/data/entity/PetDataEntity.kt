@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity
+@Entity(tableName = "pet")
 data class PetDataEntity(
     @PrimaryKey(autoGenerate = true)
     val petId: Int,

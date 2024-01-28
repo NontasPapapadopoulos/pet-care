@@ -40,7 +40,9 @@ class RegisterViewModel @Inject constructor(
 
     private val registerHandler = MutableSharedFlow<Handler.Event<PerformRegister.Params>>()
     private val registerFlow = registerHandler.flatMapMergeWith(performRegister).onEach {
-        if (it is Handler.State.Success) {}
+        if (it is Handler.State.Success) {
+
+        }
             // navigate
     }
 
@@ -120,7 +122,7 @@ class RegisterViewModel @Inject constructor(
                 uiState.value.password.validation.isSuccessful &&
                 uiState.value.confirmPassword.validation.isSuccessful &&
                 !uiState.value.isLoading
-
+        
         registerButtonStatusFlow.emit(isFormValid)
     }
 

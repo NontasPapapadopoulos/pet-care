@@ -21,6 +21,6 @@ class GetMedicine @Inject constructor(
     }
 
 
-    data class Params(val petId: Long)
+    data class Params(val petId: Int)
 
 }

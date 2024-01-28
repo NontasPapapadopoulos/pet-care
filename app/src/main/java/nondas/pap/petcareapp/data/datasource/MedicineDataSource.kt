@@ -4,18 +4,16 @@ import kotlinx.coroutines.flow.Flow
 import nondas.pap.petcareapp.data.cache.dao.MedicineDao
 import nondas.pap.petcareapp.data.entity.MedicineDataEntity
 import nondas.pap.petcareapp.data.network.api.MedicineApi
-import nondas.pap.petcareapp.domain.entity.MedicineDomainEntity
 import javax.inject.Inject
 
 interface MedicineDataSource {
+    fun fetchMedicines(petId: Int): Flow<List<MedicineDataEntity>>
 
-    fun fetchMedicines(): Flow<List<MedicineDataEntity>>
+    suspend fun addMedicine(medicineDataEntity: MedicineDataEntity)
 
-    fun saveMedicine(medicineDomainEntity: MedicineDomainEntity)
+    suspend fun updateMedicine(medicineDataEntity: MedicineDataEntity)
 
-    fun editMedicine(medicineDomainEntity: MedicineDomainEntity)
-
-    fun deleteMedicine(medicineDomainEntity: MedicineDomainEntity)
+    suspend fun deleteMedicine(medicineDataEntity: MedicineDataEntity)
 }
 
 
@@ -23,20 +21,20 @@ class MedicineDataSourceImpl @Inject constructor(
     private val medicineDao: MedicineDao,
     private val medicineApi: MedicineApi
 ): MedicineDataSource {
-    override fun fetchMedicines(): Flow<List<MedicineDataEntity>> {
-        TODO("Not yet implemented")
+    override fun fetchMedicines(petId: Int): Flow<List<MedicineDataEntity>> {
+        return medicineDao.getPetMedicines(petId)
     }
 
-    override fun saveMedicine(medicineDomainEntity: MedicineDomainEntity) {
-        TODO("Not yet implemented")
+    override suspend fun addMedicine(medicineDataEntity: MedicineDataEntity) {
+        medicineDao.addMedicine(medicineDataEntity)
     }
 
-    override fun editMedicine(medicineDomainEntity: MedicineDomainEntity) {
-        TODO("Not yet implemented")
+    override suspend fun updateMedicine(medicineDataEntity: MedicineDataEntity) {
+        medicineDao.updateMedicine(medicineDataEntity)
     }
 
-    override fun deleteMedicine(medicineDomainEntity: MedicineDomainEntity) {
-        TODO("Not yet implemented")
+    override suspend fun deleteMedicine(medicineDataEntity: MedicineDataEntity) {
+        medicineDao.deleteMedicine(medicineDataEntity)
     }
 
 }

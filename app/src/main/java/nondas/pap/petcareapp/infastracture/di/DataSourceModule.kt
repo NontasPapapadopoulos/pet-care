@@ -6,10 +6,14 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import nondas.pap.petcareapp.data.cache.dao.MedicineDao
 import nondas.pap.petcareapp.data.cache.dao.PetDao
+import nondas.pap.petcareapp.data.cache.dao.UserDao
 import nondas.pap.petcareapp.data.datasource.MedicineDataSource
 import nondas.pap.petcareapp.data.datasource.MedicineDataSourceImpl
 import nondas.pap.petcareapp.data.datasource.PetDataSource
 import nondas.pap.petcareapp.data.datasource.PetDataSourceImpl
+import nondas.pap.petcareapp.data.datasource.UserDataSource
+import nondas.pap.petcareapp.data.datasource.UserDataSourceImpl
+import nondas.pap.petcareapp.data.network.api.AuthApi
 import nondas.pap.petcareapp.data.network.api.MedicineApi
 import nondas.pap.petcareapp.data.network.api.PetApi
 import javax.inject.Singleton
@@ -33,5 +37,11 @@ object DataSourceModule {
     }
 
 
+
+    @Provides
+    @Singleton
+    fun provideUserDataSource(userDao: UserDao, authApi: AuthApi): UserDataSource {
+        return UserDataSourceImpl(userDao, authApi)
+    }
 
 }

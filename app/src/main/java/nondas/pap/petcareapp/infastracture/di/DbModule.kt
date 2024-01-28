@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import nondas.pap.petcareapp.data.cache.AppDatabase
 import nondas.pap.petcareapp.data.cache.dao.MedicineDao
 import nondas.pap.petcareapp.data.cache.dao.PetDao
+import nondas.pap.petcareapp.data.cache.dao.UserDao
 import javax.inject.Singleton
 
 @Module
@@ -25,15 +26,21 @@ object DbModule {
 
     @Provides
     @Singleton
-    fun providePetDao(articleDatabase: AppDatabase): PetDao {
-        return articleDatabase.getPetDao()
+    fun providePetDao(database: AppDatabase): PetDao {
+        return database.getPetDao()
     }
 
     @Provides
     @Singleton
-    fun provideMedicineDao(articleDatabase: AppDatabase): MedicineDao {
-        return articleDatabase.getMedicineDao()
+    fun provideMedicineDao(database: AppDatabase): MedicineDao {
+        return database.getMedicineDao()
     }
 
+
+    @Provides
+    @Singleton
+    fun provideUserDao(database: AppDatabase): UserDao {
+        return database.getUserDao()
+    }
 
 }

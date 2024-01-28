@@ -8,13 +8,13 @@ import javax.inject.Inject
 
 interface PetDataSource {
 
-    fun fetchPets(): Flow<List<PetDataEntity>>
+    fun fetchPets(userId: Int): Flow<List<PetDataEntity>>
 
-    fun savePet(pet: PetDataEntity)
+    suspend fun addPet(pet: PetDataEntity)
 
-    fun editPet(pet: PetDataEntity)
+    suspend fun updatePet(pet: PetDataEntity)
 
-    fun deletePet(pet: PetDataEntity)
+    suspend fun deletePet(pet: PetDataEntity)
 
 }
 
@@ -23,20 +23,20 @@ class PetDataSourceImpl @Inject constructor(
     private val petApi: PetApi
 ): PetDataSource {
 
-    override fun fetchPets(): Flow<List<PetDataEntity>> {
-        TODO("Not yet implemented")
+    override fun fetchPets(userId: Int): Flow<List<PetDataEntity>> {
+        return petDao.getPets(userId)
     }
 
-    override fun savePet(pet: PetDataEntity) {
-        TODO("Not yet implemented")
+    override suspend fun addPet(pet: PetDataEntity) {
+        petDao.addPet(pet)
     }
 
-    override fun editPet(pet: PetDataEntity) {
-        TODO("Not yet implemented")
+    override suspend fun updatePet(pet: PetDataEntity) {
+        petDao.updatePet(pet)
     }
 
-    override fun deletePet(pet: PetDataEntity) {
-        TODO("Not yet implemented")
+    override suspend fun deletePet(pet: PetDataEntity) {
+        petDao.deletePet(pet)
     }
 
 }

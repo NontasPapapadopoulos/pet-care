@@ -17,7 +17,7 @@ interface MedicineDao {
 
     @Transaction
     @Query("SELECT * FROM medicine WHERE petId = :petId")
-    fun getPetMedicines(petId: Int): List<MedicineDataEntity>
+    fun getPetMedicines(petId: Int): Flow<List<MedicineDataEntity>>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addMedicine(medicine: MedicineDataEntity)
