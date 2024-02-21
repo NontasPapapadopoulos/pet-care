@@ -2,6 +2,7 @@ package nondas.pap.petcareapp.data.datasource
 
 import nondas.pap.petcareapp.data.cache.dao.UserDao
 import nondas.pap.petcareapp.data.entity.UserDataEntity
+import nondas.pap.petcareapp.data.mapper.toNetwork
 import nondas.pap.petcareapp.data.network.api.AuthApi
 import nondas.pap.petcareapp.domain.entity.UserCredentials
 import nondas.pap.petcareapp.domain.entity.UserDomainEntity
@@ -26,8 +27,8 @@ class UserDataSourceImpl(
     }
 
     override suspend fun register(userDataEntity: UserDataEntity) {
-        TODO("Not yet implemented")
-    // userDao.addUser(userDataEntity)
+        authApi.register(userDataEntity.toNetwork())
+
     }
 
     override suspend fun logout() {

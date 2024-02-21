@@ -110,7 +110,9 @@ class RegisterViewModel @Inject constructor(
                 name = uiState.value.name.value,
             )
 
-            registerHandler.emit(Handler.Event.Execute(PerformRegister.Params(userDomainEntity)))
+            performRegister.execute(PerformRegister.Params(userDomainEntity))
+
+           // registerHandler.emit(Handler.Event.Execute(PerformRegister.Params(userDomainEntity)))
             enableRegisterButton()
         }
     }

@@ -126,7 +126,7 @@ private fun RegisterContent(
         PrimaryButton(
             buttonTitle = "register",
             onButtonClicked = { onRegisterButtonClicked() },
-            isEnabled = isRegisterButtonEnabled,
+            isEnabled = true,
             backgroundColor = R.color.light_green,
             textColor = R.color.white,
             hasBorder = false
