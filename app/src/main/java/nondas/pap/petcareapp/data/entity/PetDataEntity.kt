@@ -12,4 +12,5 @@ data class PetDataEntity(
     val kind: String,
     val age: Int,
     val userId: Int
+
     )

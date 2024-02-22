@@ -1,7 +1,7 @@
 package nondas.pap.petcareapp.infastracture.di
 
 
-import com.squaredem.composecalendar.BuildConfig
+import nondas.pap.petcareapp.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,6 +13,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
@@ -37,7 +39,7 @@ object NetModule {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build())
-            .baseUrl("http://localhost:8090/")
+            .baseUrl(BuildConfig.BASE_URL)
             .build()
     }
 
@@ -60,6 +62,8 @@ object NetModule {
     fun provideAuthApi(retrofit: Retrofit): AuthApi {
         return retrofit.create(AuthApi::class.java)
     }
+
+
 
 
 
