@@ -1,6 +1,5 @@
 package nondas.pap.petcareapp.presentation.component
 
-import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -51,20 +50,20 @@ fun WarningDialog(
             )
         }
 
-        AddVerticalSpace(20)
+        VerticalSpace(20)
 
         MyTitle(
             title = title,
         )
 
-        AddVerticalSpace(20)
+        VerticalSpace(20)
 
         PrimaryButton(
             onButtonClicked = { onPrimaryButtonClicked() },
             buttonTitle = primaryButtonText,
         )
 
-        AddVerticalSpace(10)
+        VerticalSpace(10)
 
         SecondaryButton(
             onButtonClicked = { onSecondaryButtonClicked() },

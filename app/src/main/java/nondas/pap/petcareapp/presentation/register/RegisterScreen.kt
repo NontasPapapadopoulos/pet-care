@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,8 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.ValidatedField
-import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
-import nondas.pap.petcareapp.presentation.component.MyTitle
+import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.OutLinedInputText
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
@@ -75,7 +73,7 @@ private fun RegisterContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        AddVerticalSpace(50)
+        VerticalSpace(50)
 
         Text(
             text = "Register to Pet Care",
@@ -84,7 +82,7 @@ private fun RegisterContent(
         )
 
 
-        AddVerticalSpace(100)
+        VerticalSpace(100)
 
         OutLinedInputText(
             label = "Name",
@@ -93,7 +91,7 @@ private fun RegisterContent(
             valueEntered = { onNameEntered(it) },
         )
 
-        AddVerticalSpace()
+        VerticalSpace()
 
         OutLinedInputText(
             label = "Email",
@@ -102,7 +100,7 @@ private fun RegisterContent(
             valueEntered = { onEmailEntered(it) },
         )
 
-        AddVerticalSpace()
+        VerticalSpace()
 
         OutLinedInputText(
             label = "Password",
@@ -111,7 +109,7 @@ private fun RegisterContent(
             valueEntered = { onPasswordEntered(it) }
         )
 
-        AddVerticalSpace()
+        VerticalSpace()
 
         OutLinedInputText(
             label = "Confirm password",
@@ -132,7 +130,7 @@ private fun RegisterContent(
             hasBorder = false
         )
 
-        AddVerticalSpace()
+        VerticalSpace()
 
         SecondaryButton(
             buttonTitle = "cancel",
@@ -142,7 +140,7 @@ private fun RegisterContent(
             hasBorder = false
         )
 
-        AddVerticalSpace(20)
+        VerticalSpace(20)
     }
 }
 

@@ -52,7 +52,7 @@ fun Dialog(
             fontSize = 20.sp,
         )
 
-        AddVerticalSpace(40)
+        VerticalSpace(40)
 
         PrimaryButton(
             buttonTitle = primaryButtonTitle,
@@ -60,7 +60,7 @@ fun Dialog(
             padding = 0
         )
 
-        AddVerticalSpace(12)
+        VerticalSpace(12)
 
         SecondaryButton(
             buttonTitle = secondaryButtonTitle,

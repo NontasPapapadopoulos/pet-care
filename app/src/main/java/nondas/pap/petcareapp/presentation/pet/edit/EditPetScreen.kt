@@ -18,7 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.ValidatedField
-import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
+import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.MyDropdown
 import nondas.pap.petcareapp.presentation.component.OutLinedInputText
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
@@ -71,7 +71,7 @@ private fun EditPetContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        AddVerticalSpace(50)
+        VerticalSpace(50)
 
 
         Text(
@@ -79,7 +79,7 @@ private fun EditPetContent(
             style = MaterialTheme.typography.displayMedium
         )
 
-        AddVerticalSpace(30)
+        VerticalSpace(30)
 
         OutLinedInputText(
             label = "Name",
@@ -88,7 +88,7 @@ private fun EditPetContent(
             validationResult = name.validation
         )
 
-        AddVerticalSpace(15)
+        VerticalSpace(15)
 
 
         OutLinedInputText(
@@ -99,7 +99,7 @@ private fun EditPetContent(
             validationResult = dob.validation
         )
 
-        AddVerticalSpace(15)
+        VerticalSpace(15)
 
 
         MyDropdown(
@@ -110,7 +110,7 @@ private fun EditPetContent(
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
-        AddVerticalSpace(15)
+        VerticalSpace(15)
 
 
         Spacer(modifier = Modifier.weight(1f))
@@ -124,7 +124,7 @@ private fun EditPetContent(
             hasBorder = false,
         )
 
-        AddVerticalSpace()
+        VerticalSpace()
 
         SecondaryButton(
             buttonTitle = "cancel",
@@ -134,7 +134,7 @@ private fun EditPetContent(
             hasBorder = false,
         )
 
-        AddVerticalSpace(20)
+        VerticalSpace(20)
 
     }
 }

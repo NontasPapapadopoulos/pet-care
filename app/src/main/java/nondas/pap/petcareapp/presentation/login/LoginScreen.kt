@@ -1,9 +1,25 @@
 package nondas.pap.petcareapp.presentation.login
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Key
+import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Pets
+
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -12,24 +28,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.collectLatest
-import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.infastracture.navigation.screen.PETS_ROUTE
 import nondas.pap.petcareapp.infastracture.navigation.screen.Screen
 import nondas.pap.petcareapp.presentation.UIEvent
-import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
+import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.ManageSystemBars
-import nondas.pap.petcareapp.presentation.component.OutLinedInputText
-import nondas.pap.petcareapp.presentation.component.PrimaryButton
-import nondas.pap.petcareapp.presentation.component.SecondaryButton
-import nondas.pap.petcareapp.presentation.component.inputText.InputText
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navController: NavController,
@@ -44,12 +56,12 @@ fun LoginScreen(
                 navController.navigate(route = PETS_ROUTE)
         }
     }
+
     ManageSystemBars()
 
 
     LoginContent(
-        email = state.email,
-        password = state.password,
+        content = state,
         onEmailEntered = { viewModel.add(LoginEvent.EmailEntered(it)) },
         onPasswordEntered = { viewModel.add(LoginEvent.PasswordEntered(it)) },
         onLoginButtonClicked = { viewModel.add(LoginEvent.LoginButtonClicked(state.email, state.password)) },
@@ -59,11 +71,10 @@ fun LoginScreen(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@ExperimentalMaterial3Api
 @Composable
 private fun LoginContent(
-    email: String,
-    password: String,
+    content: LoginState,
     onEmailEntered: (String) -> Unit,
     onPasswordEntered: (String) -> Unit,
     onLoginButtonClicked: () -> Unit,
@@ -74,12 +85,11 @@ private fun LoginContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background),
+            .background(color = MaterialTheme.colorScheme.background)
+            .padding(top = 50.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-
-        AddVerticalSpace(50)
 
         Text(
             text = "Pet Care",
@@ -87,54 +97,94 @@ private fun LoginContent(
             color = MaterialTheme.colorScheme.primary
         )
 
-        AddVerticalSpace(190)
+        Spacer(modifier = Modifier.weight(1f))
 
-        OutLinedInputText(
-            label = "Email",
-            inputValue = email,
-            valueEntered = { onEmailEntered(it) },
+        Icon(
+            Icons.Default.Pets,
+            contentDescription = null,
+            modifier = Modifier.size(120.dp)
         )
 
-        AddVerticalSpace(20)
+        Spacer(modifier = Modifier.weight(1f))
 
-        OutLinedInputText(
-            label = "Password",
-            inputValue = password,
-            valueEntered = { onPasswordEntered(it) },
+
+        OutlinedTextField(
+            value = content.email,
+            onValueChange = { onEmailEntered(it) },
+            label = { Text(text = "Email") },
+            trailingIcon = {
+                Icon(
+                    Icons.Default.Email,
+                    contentDescription = null,
+                )
+             },
+            modifier = Modifier.fillMaxWidth()
         )
 
-        AddVerticalSpace(20)
+        OutlinedTextField(
+            value = content.password,
+            onValueChange = { onPasswordEntered(it) },
+            label = { Text(text = "Password") },
+            trailingIcon = {
+                Icon(
+                    Icons.Default.Key,
+                    contentDescription = null,
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
 
 
-        PrimaryButton(
-            buttonTitle = "login",
-            onButtonClicked = {
+        VerticalSpace(20)
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Text(
+                text = "Forgot password?",
+                style =  MaterialTheme.typography.bodySmall,
+                modifier = Modifier.clickable {  }
+            )
+        }
+
+
+        VerticalSpace(20)
+
+        Spacer(modifier = Modifier.weight(1f))
+
+
+        Button(
+            onClick = {
                 navController.navigate(route = PETS_ROUTE)
                 onLoginButtonClicked()
-                              },
-            backgroundColor = R.color.pink,
-            textColor = R.color.white,
-            hasBorder = false
-        )
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(text = "Login")
+        }
 
-        AddVerticalSpace()
+        VerticalSpace()
 
-        SecondaryButton(
-            buttonTitle = "register",
-            onButtonClicked = { navController.navigate(route = Screen.Reports.route) },
-            backgroundColor = R.color.oil_green,
-            textColor = R.color.white,
-            hasBorder = false,
-        )
+        Button(
+            onClick = { navController.navigate(route = Screen.Reports.route) },
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(text = "Register")
+        }
+
+
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 private fun LoginContentPreview() {
     LoginContent(
-        email = "",
-        password = "",
+        content = LoginState(email = "", password = ""),
         onEmailEntered = {},
         onPasswordEntered = {},
         onLoginButtonClicked = {},

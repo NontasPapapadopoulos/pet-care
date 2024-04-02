@@ -34,7 +34,7 @@ import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import nondas.pap.petcareapp.infastracture.navigation.screen.MEDICINE_ROUTE
 import nondas.pap.petcareapp.infastracture.navigation.screen.PetScreen
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
-import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
+import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.EditDeleteButtons
 import nondas.pap.petcareapp.presentation.component.GreyBackground
 import nondas.pap.petcareapp.presentation.component.MyImage
@@ -90,7 +90,7 @@ private fun PetsContent(
 
         ) {
 
-            AddVerticalSpace(50)
+            VerticalSpace(50)
 
             Text(
                 text ="Yourname pets:",
@@ -98,7 +98,7 @@ private fun PetsContent(
             )
 
 
-            AddVerticalSpace(20)
+            VerticalSpace(20)
 
 
             val petDomainEntity = PetDomainEntity(

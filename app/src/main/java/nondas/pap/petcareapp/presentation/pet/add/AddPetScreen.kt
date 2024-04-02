@@ -5,14 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,14 +18,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.ValidatedField
-import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
+import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.MyDropdown
-import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.OutLinedInputText
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
-import nondas.pap.petcareapp.presentation.pet.add.AddPetEvent
-import nondas.pap.petcareapp.presentation.pet.add.AddPetViewModel
 import nondas.pap.petcareapp.presentation.util.DateTransformation
 
 
@@ -74,14 +69,14 @@ private fun AddPetContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        AddVerticalSpace(50)
+        VerticalSpace(50)
 
         Text(
             text ="Add New Pet",
             style = MaterialTheme.typography.displayMedium
         )
 
-        AddVerticalSpace(30)
+        VerticalSpace(30)
 
         OutLinedInputText(
             label = "Name",
@@ -90,7 +85,7 @@ private fun AddPetContent(
             validationResult = name.validation,
         )
 
-        AddVerticalSpace(15)
+        VerticalSpace(15)
 
 
         OutLinedInputText(
@@ -101,7 +96,7 @@ private fun AddPetContent(
             visualTransformation = DateTransformation()
         )
 
-        AddVerticalSpace(15)
+        VerticalSpace(15)
 
 
         MyDropdown(
@@ -112,7 +107,7 @@ private fun AddPetContent(
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
-        AddVerticalSpace(15)
+        VerticalSpace(15)
 
 
         Spacer(modifier = Modifier.weight(1f))
@@ -126,7 +121,7 @@ private fun AddPetContent(
             hasBorder = false,
         )
 
-        AddVerticalSpace()
+        VerticalSpace()
 
         SecondaryButton(
             buttonTitle = "cancel",
@@ -136,7 +131,7 @@ private fun AddPetContent(
             hasBorder = false,
         )
 
-        AddVerticalSpace(20)
+        VerticalSpace(20)
 
     }
 }

@@ -14,18 +14,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 
-import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.ValidatedField
-import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
+import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.MyDropdown
-import nondas.pap.petcareapp.presentation.component.MyTitle
 import nondas.pap.petcareapp.presentation.component.OutLinedInputText
 import nondas.pap.petcareapp.presentation.component.PrimaryButton
 import nondas.pap.petcareapp.presentation.component.SecondaryButton
@@ -82,14 +79,14 @@ private fun AddMedicineContent(
             .background(color = MaterialTheme.colorScheme.background)
     ) {
 
-        AddVerticalSpace(50)
+        VerticalSpace(50)
 
         Text(
             text = "$petName medicine",
             style = MaterialTheme.typography.displayMedium
         )
 
-        AddVerticalSpace(20)
+        VerticalSpace(20)
 
         MyDropdown(
             labelTitle = "Type",
@@ -99,7 +96,7 @@ private fun AddMedicineContent(
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
-        AddVerticalSpace(15)
+        VerticalSpace(15)
 
         OutLinedInputText(
             inputValue = date.value,
@@ -110,7 +107,7 @@ private fun AddMedicineContent(
             visualTransformation = DateTransformation()
         )
 
-        AddVerticalSpace(15)
+        VerticalSpace(15)
 
         MyDropdown(
             labelTitle = "Repeat when",
@@ -120,7 +117,7 @@ private fun AddMedicineContent(
             modifier = Modifier.padding(20.dp, 0.dp)
         )
 
-        AddVerticalSpace(15)
+        VerticalSpace(15)
 
         OutLinedInputText(
             inputValue = comments,
@@ -136,7 +133,7 @@ private fun AddMedicineContent(
             hasBorder = false
         )
 
-        AddVerticalSpace()
+        VerticalSpace()
 
         SecondaryButton(
             buttonTitle = "cancel",
@@ -144,7 +141,7 @@ private fun AddMedicineContent(
             hasBorder = false
         )
 
-        AddVerticalSpace(20)
+        VerticalSpace(20)
 
     }
 }

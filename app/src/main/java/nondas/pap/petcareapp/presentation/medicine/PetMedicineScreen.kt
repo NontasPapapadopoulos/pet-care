@@ -32,7 +32,7 @@ import nondas.pap.petcareapp.domain.entity.MedicineDomainEntity
 import nondas.pap.petcareapp.domain.entity.TimePeriod
 import nondas.pap.petcareapp.infastracture.navigation.screen.MedicineScreen
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
-import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
+import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.EditDeleteButtons
 import nondas.pap.petcareapp.presentation.component.GreyBackground
 import nondas.pap.petcareapp.presentation.component.MyImage
@@ -82,7 +82,7 @@ private fun PetMedicineContent(
 
         ) {
 
-            AddVerticalSpace(50)
+            VerticalSpace(50)
 
 
             Text(
@@ -90,7 +90,7 @@ private fun PetMedicineContent(
                 style = MaterialTheme.typography.displayMedium
             )
 
-            AddVerticalSpace(30)
+            VerticalSpace(30)
 
 
             MedicineItem(

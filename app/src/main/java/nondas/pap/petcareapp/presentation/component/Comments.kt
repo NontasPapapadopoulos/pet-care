@@ -36,7 +36,7 @@ fun Comments(
             textAlignment = TextAlign.Start,
             modifier = Modifier.padding(start = 20.dp)
         )
-        AddVerticalSpace(6)
+        VerticalSpace(6)
 
         val isFocused = remember { mutableStateOf(false) }
 

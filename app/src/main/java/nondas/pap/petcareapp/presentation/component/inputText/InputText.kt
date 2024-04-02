@@ -28,7 +28,7 @@ import nondas.pap.petcareapp.presentation.util.ColorUtil.Companion.getTextColor
 import nondas.pap.petcareapp.R
 
 import nondas.pap.petcareapp.component.inputText.PairImagesEnd
-import nondas.pap.petcareapp.presentation.component.AddVerticalSpace
+import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.ErrorMessage
 import nondas.pap.petcareapp.presentation.component.FieldLabel
 
@@ -71,7 +71,7 @@ fun InputText(
                 labelTitle = labelTitle,
                 color = getTextColor(isValidationSuccessful)
             )
-            AddVerticalSpace(6)
+            VerticalSpace(6)
         }
 
 
