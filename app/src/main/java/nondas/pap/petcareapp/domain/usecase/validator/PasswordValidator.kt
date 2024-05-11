@@ -8,19 +8,19 @@ class PasswordValidator @Inject constructor() {
         ")",",","_","+","-","=","{","}","[","]",":",";","\"","'","<",">",
         ".","?","/","|","\\")
 
-    fun execute(password: String, errorMessage: String = ""): ValidationResult {
+    fun validate(password: String, errorMessage: String = ""): ValidationResult {
         if (hasUppercaseLetter(password) &&
                 hasLowercaseLetter(password) &&
                 hasDigit(password) &&
                 hasSpecialCharacter(password) &&
                 hasSixCharacters(password)) {
             return ValidationResult(
-                isSuccessful = true,
+                isError = false,
             )
         }
 
         return ValidationResult(
-            isSuccessful = false,
+            isError = true,
             errorMessage = errorMessage
 
         )

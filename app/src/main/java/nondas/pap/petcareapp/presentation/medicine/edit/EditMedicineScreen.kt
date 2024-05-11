@@ -97,8 +97,8 @@ private fun EditMedicineContent(
         VerticalSpace(15)
 
         OutLinedInputText(
-            inputValue = date.value,
-            valueEntered = { onDatePerformedEntered(it) },
+            value = date.value,
+            onValueChange = { onDatePerformedEntered(it) },
             label = "Date performed",
             placeholder = "dd/MM/yyyy",
             validationResult = date.validation,
@@ -126,8 +126,8 @@ private fun EditMedicineContent(
         VerticalSpace(6)
 
         OutLinedInputText(
-            inputValue = comments,
-            valueEntered = { onCommentsEntered(it) },
+            value = comments,
+            onValueChange = { onCommentsEntered(it) },
             label = "Comments"
         )
 

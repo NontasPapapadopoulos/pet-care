@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.domain.usecase.pet
+package nondas.pap.petcareapp.domain.usecase.user
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -7,16 +7,17 @@ import nondas.pap.inventoryapp.domain.FlowUseCase
 import nondas.pap.petcareapp.domain.repository.PetRepository
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
 import nondas.pap.petcareapp.domain.entity.PetDomainEntity
+import nondas.pap.petcareapp.domain.entity.UserDomainEntity
+import nondas.pap.petcareapp.domain.repository.UserRepository
 import javax.inject.Inject
 
-class GetPets @Inject constructor(
+class GetUser @Inject constructor(
     @IoDispatcher dispatcher: CoroutineDispatcher,
-    private val petRepository: PetRepository
-): FlowUseCase<List<PetDomainEntity>, GetPets.Params>(dispatcher) {
+    private val userRepository: UserRepository
+): FlowUseCase<UserDomainEntity, Unit>(dispatcher) {
 
-
-    override fun invoke(params: Params): Flow<List<PetDomainEntity>> {
-        return petRepository.getPets(params.userId)
+    override fun invoke(params: Unit): Flow<UserDomainEntity> {
+        return userRepository.getCurrentUser()
     }
-   data class Params(val userId: String)
+
 }

@@ -1,5 +1,6 @@
 package nondas.pap.petcareapp.presentation.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,8 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Key
-import androidx.compose.material.icons.filled.Password
-import androidx.compose.material.icons.filled.Person
+
 import androidx.compose.material.icons.filled.Pets
 
 import androidx.compose.material3.Button
@@ -28,6 +28,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,7 +39,6 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.collectLatest
 import nondas.pap.petcareapp.infastracture.navigation.screen.PETS_ROUTE
 import nondas.pap.petcareapp.infastracture.navigation.screen.Screen
-import nondas.pap.petcareapp.presentation.UIEvent
 import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.ManageSystemBars
 
@@ -48,17 +49,27 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.errorFlow.collect { error ->
+            Toast.makeText(
+                context,
+                error.message,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collectLatest {event ->
-            if (event is UIEvent.Navigate)
+    LaunchedEffect(Unit) {
+        viewModel.navigationFlow.collectLatest { navigate ->
+            if (navigate)
                 navController.navigate(route = PETS_ROUTE)
         }
     }
 
     ManageSystemBars()
 
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LoginContent(
         content = state,
@@ -85,8 +96,7 @@ private fun LoginContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-            .padding(top = 50.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
+            .background(color = MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -118,6 +128,7 @@ private fun LoginContent(
                     contentDescription = null,
                 )
              },
+            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -131,6 +142,8 @@ private fun LoginContent(
                     contentDescription = null,
                 )
             },
+            visualTransformation = PasswordVisualTransformation(),
+            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -155,10 +168,7 @@ private fun LoginContent(
 
 
         Button(
-            onClick = {
-                navController.navigate(route = PETS_ROUTE)
-                onLoginButtonClicked()
-            },
+            onClick = { onLoginButtonClicked() },
             modifier = Modifier
                 .fillMaxWidth()
         ) {

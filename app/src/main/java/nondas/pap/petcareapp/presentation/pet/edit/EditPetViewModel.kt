@@ -46,7 +46,7 @@ class EditPetViewModel @Inject constructor(
     init {
 
         on(EditPetEvent.NameEntered::class) {
-            val validationResult = nameValidator.execute(it.userInput)
+            val validationResult = nameValidator.validate(it.userInput)
             val validatedField = ValidatedField(value = it.userInput, validationResult)
             nameTextFlow.emit(validatedField)
         }

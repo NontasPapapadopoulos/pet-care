@@ -16,7 +16,7 @@ interface PetDao {
 
     @Transaction
     @Query("SELECT * FROM pet where petId = :petId ")
-    fun getPets(petId: Int): Flow<List<PetDataEntity>>
+    fun getPets(petId: String): Flow<List<PetDataEntity>>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addPet(pet: PetDataEntity)

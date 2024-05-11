@@ -6,12 +6,9 @@ import nondas.pap.petcareapp.domain.entity.UserDomainEntity
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface AuthApi {
+interface UserApi {
 
-    @POST("/api/v1/auth/authenticate")
-    suspend fun login(@Body userCredentials: UserCredentials)//: String
-
-    @POST("/api/v1/auth/register")
-    suspend fun register(@Body user: UserNetworkEntity)
+    @POST("/api/v1/user/details")
+    suspend fun getUser()
     
 }

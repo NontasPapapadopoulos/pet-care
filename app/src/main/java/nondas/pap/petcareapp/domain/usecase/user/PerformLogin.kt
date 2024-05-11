@@ -6,10 +6,12 @@ import nondas.pap.petcareapp.domain.entity.UserCredentials
 import nondas.pap.petcareapp.domain.repository.AuthenticateRepository
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
 import nondas.pap.petcareapp.domain.entity.UserDomainEntity
+import nondas.pap.petcareapp.domain.repository.PetRepository
 import javax.inject.Inject
 
 open class PerformLogin @Inject constructor(
     private val authenticateRepository: AuthenticateRepository,
+    private val petRepository: PetRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, PerformLogin.Params>(dispatcher) {
 

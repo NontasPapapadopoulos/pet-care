@@ -5,5 +5,5 @@ import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
 
 data class ValidatedField(
     val value: String = "",
-    val validation: ValidationResult = ValidationResult(isSuccessful = true, errorMessage = "")
+    val validation: ValidationResult = ValidationResult(isError = false, errorMessage = "")
 )

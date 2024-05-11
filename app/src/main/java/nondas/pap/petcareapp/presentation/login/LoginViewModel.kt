@@ -12,9 +12,6 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import nondas.pap.petcareapp.domain.usecase.user.PerformLogin
 import nondas.pap.petcareapp.presentation.BlocViewModel
-import nondas.pap.petcareapp.presentation.Handler
-import nondas.pap.petcareapp.presentation.UIEvent
-import nondas.pap.petcareapp.presentation.flatMapMergeWith
 import javax.inject.Inject
 
 
@@ -25,15 +22,19 @@ class LoginViewModel @Inject constructor(
 
     private val emailFlow = MutableSharedFlow<String>()
     private val passwordFlow = MutableSharedFlow<String>()
-    private val loginHandler = MutableSharedFlow<Handler.Event<PerformLogin.Params>>()
+
+    private val isLoading = MutableSharedFlow<Boolean>()
+
+    private val _navigationFlow = MutableSharedFlow<Boolean>()
+    val navigationFlow: SharedFlow<Boolean> = _navigationFlow.asSharedFlow()
+
 
     override val _uiState: StateFlow<LoginState> = combine(
-        loginHandler.flatMapMergeWith(performLogin).onStart { emit(Handler.State.Idle) },
         emailFlow.onStart { emit("") },
         passwordFlow.onStart { emit("") },
-    ) { loginState, email, password,  ->
+        isLoading.onStart { emit(false) }
+    ) { email, password, isLoading  ->
 
-        val isLoading = loginState is Handler.State.Running
 
         LoginState(
             email = email,
@@ -48,9 +49,6 @@ class LoginViewModel @Inject constructor(
     )
 
 
-    private val _uiEventFlow = MutableSharedFlow<UIEvent>()
-    val uiEvent: SharedFlow<UIEvent> = _uiEventFlow.asSharedFlow()
-
 
     init {
 
@@ -63,7 +61,12 @@ class LoginViewModel @Inject constructor(
         }
 
         on(LoginEvent.LoginButtonClicked::class) {
-            loginHandler.emit(Handler.Event.Execute(PerformLogin.Params(it.email, it.password)))
+            isLoading.emit(true)
+            performLogin.execute(params = PerformLogin.Params(it.email, it.password)).fold(
+                onSuccess = { _navigationFlow.emit(true) },
+                onFailure = { addError(it) }
+            )
+            isLoading.emit(false)
         }
 
     }

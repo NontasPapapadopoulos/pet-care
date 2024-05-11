@@ -1,5 +1,6 @@
 package nondas.pap.petcareapp.presentation.pet
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,14 +15,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,13 +39,18 @@ import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import nondas.pap.petcareapp.infastracture.navigation.screen.MEDICINE_ROUTE
 import nondas.pap.petcareapp.infastracture.navigation.screen.PetScreen
+import nondas.pap.petcareapp.presentation.DummyEntities
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
 import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.EditDeleteButtons
 import nondas.pap.petcareapp.presentation.component.GreyBackground
+import nondas.pap.petcareapp.presentation.component.LoadingBox
 import nondas.pap.petcareapp.presentation.component.MyImage
 import nondas.pap.petcareapp.presentation.component.MyText
-import nondas.pap.petcareapp.presentation.component.WarningDialog
+import nondas.pap.petcareapp.presentation.component.MyTitle
+import nondas.pap.petcareapp.presentation.component.PrimaryButton
+import nondas.pap.petcareapp.presentation.component.SecondaryButton
+import nondas.pap.petcareapp.presentation.user
 
 
 @Composable
@@ -48,113 +59,135 @@ fun PetsScreen(
     navController: NavController
 ) {
 
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.errorFlow.collect { error ->
+            Toast.makeText(
+                context,
+                error.message,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
-    PetsContent(
-        selectedPetDomainEntity = state.selectedPetDomainEntity,
-        onEditButtonClicked = { viewModel.add(PetEvent.EditButtonClicked(it)) },
-        onDeleteButtonClicked = { viewModel.add(PetEvent.DeleteButtonClicked(it)) },
-        onAddNewPetClicked = { navController.navigate(PetScreen.AddPet.route) },
-        onNavigateToPetsMedicineScreen = {
-            // TODO: pass the pet to the arguements
-            navController.navigate(route = MEDICINE_ROUTE) },
-    )
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when(val state = uiState) {
+        is PetState.Content -> {
+            PetsContent(
+                content = state,
+                onEditButtonClicked = { viewModel.add(PetEvent.EditButtonClicked(it)) },
+                onDeleteButtonClicked = { viewModel.add(PetEvent.DeleteButtonClicked(it)) },
+                onAddNewPetClicked = { navController.navigate(PetScreen.AddPet.route) },
+                onNavigateToPetsMedicineScreen = {
+                    // TODO: pass the pet to the arguements
+                    navController.navigate(route = MEDICINE_ROUTE) },
+            )
+        }
+        PetState.Idle -> {
+            LoadingBox()
+        }
+    }
+
+
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PetsContent(
-    selectedPetDomainEntity: PetDomainEntity,
+    content: PetState.Content,
     onEditButtonClicked: (PetDomainEntity) -> Unit,
     onDeleteButtonClicked: (PetDomainEntity) -> Unit,
     onNavigateToPetsMedicineScreen: (PetDomainEntity) -> Unit,
     onAddNewPetClicked: () -> Unit,
 
-    ) {
-    val showDialog = remember { mutableStateOf(false) }
+) {
+val showDialog = remember { mutableStateOf(false) }
 
-    ConstraintLayout(
+
+    Column(
         modifier = Modifier
-            .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.statusBars)
-            .background(color = MaterialTheme.colorScheme.background),
+
+
     ) {
 
-        val (column, dialog) = createRefs()
+
+        Text(
+            text ="${content.user.name} pets:",
+            style = MaterialTheme.typography.displayMedium
+        )
 
 
-        Column(
+        VerticalSpace(20)
+
+
+        val petDomainEntity = PetDomainEntity(
+            name = "Roza",
+            age = 3,
+            kind = "dog",
+        )
+
+        PetItem(
+            petDomainEntity = petDomainEntity,
+            onEditButtonClicked = { onEditButtonClicked(petDomainEntity) },
+            onDeleteButtonClicked = { showDialog.value = true },
+            modifier = Modifier.clickable { onNavigateToPetsMedicineScreen(petDomainEntity) }
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+
+        Row(
             modifier = Modifier
-                .constrainAs(column) {
-                    top.linkTo(parent.top)
-                }
-
+                .fillMaxWidth()
+                .padding(bottom = 30.dp),
+            horizontalArrangement = Arrangement.Center
         ) {
-
-            VerticalSpace(50)
-
-            Text(
-                text ="Yourname pets:",
-                style = MaterialTheme.typography.displayMedium
+            MyImage(
+                imageId =
+                R.drawable.baseline_add_circle_24,
+                modifier = Modifier
+                    .size(60.dp)
+                    .clickable { onAddNewPetClicked() }
             )
+        }
 
+
+    }
+
+    GreyBackground(isVisible = showDialog.value)
+
+    val sheetState = rememberModalBottomSheetState()
+
+
+    if (showDialog.value) {
+        ModalBottomSheet(
+            onDismissRequest = {},
+            sheetState = sheetState
+        ) {
+            MyTitle(
+                title = "Delete ${content.selectedPetDomainEntity!!.name}",
+            )
 
             VerticalSpace(20)
 
-
-            val petDomainEntity = PetDomainEntity(
-                name = "Roza",
-                age = 3,
-                kind = "dog",
+            PrimaryButton(
+                onButtonClicked = { onDeleteButtonClicked(content.selectedPetDomainEntity) },
+                buttonTitle = "delete",
             )
 
-            PetItem(
-                petDomainEntity = petDomainEntity,
-                onEditButtonClicked = { onEditButtonClicked(petDomainEntity) },
-                onDeleteButtonClicked = { showDialog.value = true },
-                modifier = Modifier.clickable { onNavigateToPetsMedicineScreen(petDomainEntity) }
-            )
+            VerticalSpace(10)
 
-            Spacer(modifier = Modifier.weight(1f))
-
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 30.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                MyImage(
-                    imageId =
-                    R.drawable.baseline_add_circle_24,
-                    modifier = Modifier
-                        .size(60.dp)
-                        .clickable { onAddNewPetClicked() }
-                )
-            }
-
-
-        }
-
-        GreyBackground(isVisible = showDialog.value)
-
-        if (showDialog.value) {
-
-
-            WarningDialog(
-                title = "Delete ${selectedPetDomainEntity.name}",
-                primaryButtonText = "delete",
-                secondaryButtonText = "cancel",
-                onPrimaryButtonClicked = { onDeleteButtonClicked(selectedPetDomainEntity) },
-                onDismiss = { showDialog.value = false },
-                onSecondaryButtonClicked = { showDialog.value = false },
-                modifier = Modifier.constrainAs(dialog) {
-                    bottom.linkTo(parent.bottom)
-                }
+            SecondaryButton(
+                onButtonClicked = { showDialog.value = false },
+                buttonTitle = "cancel",
+                hasBorder = true,
             )
         }
-
     }
+
 }
+
 
 
 @Composable
@@ -220,7 +253,11 @@ fun PetItem(
 @Preview
 private fun HomeScreenPreview() {
     PetsContent(
-        selectedPetDomainEntity = PetDomainEntity(),
+        content = PetState.Content(
+            petDomainEntities = listOf(),
+            selectedPetDomainEntity = null,
+            user = DummyEntities.user
+        ),
         onEditButtonClicked = {},
         onDeleteButtonClicked = {},
         onNavigateToPetsMedicineScreen = {},

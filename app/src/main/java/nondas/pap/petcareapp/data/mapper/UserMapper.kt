@@ -6,11 +6,12 @@ import nondas.pap.petcareapp.data.network.entity.UserNetworkEntity
 import nondas.pap.petcareapp.domain.entity.UserDomainEntity
 
 
-fun UserDomainEntity.toData(): UserDataEntity = UserDataEntity(
+fun UserDomainEntity.toData(isCurrentUser: Boolean): UserDataEntity = UserDataEntity(
     name = name,
     email = email,
     password = password,
-    id = userId
+    id = userId,
+    isCurrentUser = isCurrentUser
 )
 
 

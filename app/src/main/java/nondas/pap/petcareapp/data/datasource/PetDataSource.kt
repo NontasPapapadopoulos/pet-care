@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 interface PetDataSource {
 
-    fun fetchPets(userId: Int): Flow<List<PetDataEntity>>
+    fun getPets(userId: String): Flow<List<PetDataEntity>>
 
     suspend fun addPet(pet: PetDataEntity)
 
@@ -23,7 +23,7 @@ class PetDataSourceImpl @Inject constructor(
     private val petApi: PetApi
 ): PetDataSource {
 
-    override fun fetchPets(userId: Int): Flow<List<PetDataEntity>> {
+    override fun getPets(userId: String): Flow<List<PetDataEntity>> {
         return petDao.getPets(userId)
     }
 

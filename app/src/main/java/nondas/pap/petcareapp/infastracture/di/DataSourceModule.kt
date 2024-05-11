@@ -16,6 +16,7 @@ import nondas.pap.petcareapp.data.datasource.UserDataSourceImpl
 import nondas.pap.petcareapp.data.network.api.AuthApi
 import nondas.pap.petcareapp.data.network.api.MedicineApi
 import nondas.pap.petcareapp.data.network.api.PetApi
+import nondas.pap.petcareapp.data.network.api.UserApi
 import javax.inject.Singleton
 
 

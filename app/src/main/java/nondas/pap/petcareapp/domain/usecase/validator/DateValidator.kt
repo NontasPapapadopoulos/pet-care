@@ -31,13 +31,13 @@ class DateValidator @Inject constructor() {
                 return getValidationResultForAfterPresentDates(date, comparisonDate)
             else
                 return ValidationResult(
-                    isSuccessful = true,
+                    isError = true,
                 )
         }
 
 
         return ValidationResult(
-            isSuccessful = false,
+            isError = false,
             errorMessage = "Please enter a valid ${fieldName.lowercase()}"
         )
 
@@ -46,11 +46,11 @@ class DateValidator @Inject constructor() {
     private fun getValidationResultForBeforePresentDates(date: String, comparisonDate: String): ValidationResult {
         if (isBeforePresentDate(date, comparisonDate)) {
             return ValidationResult(
-                isSuccessful = true,
+                isError = true,
             )
         } else {
             return ValidationResult(
-                isSuccessful = false,
+                isError = false,
                 errorMessage = "Future dates are not accepted"
             )
         }
@@ -59,11 +59,11 @@ class DateValidator @Inject constructor() {
     private fun getValidationResultForAfterPresentDates(date: String, comparisonDate: String): ValidationResult {
         if (isAfterPresentDate(date, comparisonDate)) {
             return ValidationResult(
-                isSuccessful = true,
+                isError = true,
             )
         } else {
             return ValidationResult(
-                isSuccessful = false,
+                isError = false,
                 errorMessage = "Before present dates are not accepted"
             )
         }

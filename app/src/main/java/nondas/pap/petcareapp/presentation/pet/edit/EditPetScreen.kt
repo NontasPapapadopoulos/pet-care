@@ -83,8 +83,8 @@ private fun EditPetContent(
 
         OutLinedInputText(
             label = "Name",
-            inputValue = name.value,
-            valueEntered = { onNameEntered(it) },
+            value = name.value,
+            onValueChange = { onNameEntered(it) },
             validationResult = name.validation
         )
 
@@ -92,8 +92,8 @@ private fun EditPetContent(
 
 
         OutLinedInputText(
-            inputValue = dob.value,
-            valueEntered = { onDobEntered(it) },
+            value = dob.value,
+            onValueChange = { onDobEntered(it) },
             label = "Date of birth",
             placeholder = "dd/MM/yyyy",
             validationResult = dob.validation

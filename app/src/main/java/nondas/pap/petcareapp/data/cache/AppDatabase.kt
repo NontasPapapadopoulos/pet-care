@@ -9,12 +9,14 @@ import nondas.pap.petcareapp.data.cache.dao.UserDao
 
 import nondas.pap.petcareapp.data.entity.MedicineDataEntity
 import nondas.pap.petcareapp.data.entity.PetDataEntity
+import nondas.pap.petcareapp.data.entity.UserDataEntity
 
 
 @Database(
     entities = [
         MedicineDataEntity::class,
-        PetDataEntity::class
+        PetDataEntity::class,
+        UserDataEntity::class
     ],
     exportSchema = false,
     version = 1

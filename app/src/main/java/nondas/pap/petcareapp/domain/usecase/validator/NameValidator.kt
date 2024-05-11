@@ -4,17 +4,17 @@ import javax.inject.Inject
 
 class NameValidator @Inject constructor() {
 
-    fun execute(firstName: String): ValidationResult {
+    fun validate(firstName: String): ValidationResult {
 
         if(firstName.trim().isNotBlank() &&
             containsOnlyLatinCharacters(firstName)) {
             return ValidationResult(
-                isSuccessful = true
+                isError = false
             )
         }
 
         return ValidationResult(
-            isSuccessful = false,
+            isError = true,
             errorMessage = "Name should contain only latin characters"
 
         )

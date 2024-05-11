@@ -5,7 +5,7 @@ import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import retrofit2.Response
 
 interface PetRepository {
-    fun getPets(userId: Int): Flow<List<PetDomainEntity>>
+    fun getPets(userId: String): Flow<List<PetDomainEntity>>
 
     suspend fun addPet(petDomainEntity: PetDomainEntity)
 

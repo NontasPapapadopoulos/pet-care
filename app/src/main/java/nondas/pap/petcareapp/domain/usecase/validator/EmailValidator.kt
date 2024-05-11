@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class EmailValidator @Inject constructor() {
 
-    fun execute(
+    fun validate(
         email: String,
         isMandatory: Boolean = true
     ): ValidationResult {
@@ -13,18 +13,18 @@ class EmailValidator @Inject constructor() {
 
         if(isMandatory && email.isBlank()) {
             return ValidationResult(
-                isSuccessful = false,
+                isError = true,
                 errorMessage = "The email can't be blank"
             )
         }
        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             return ValidationResult(
-                isSuccessful = false,
+                isError = true,
                 errorMessage = "That's not a valid email"
             )
         }
         return ValidationResult(
-            isSuccessful = true
+            isError = false
         )
     }
 }

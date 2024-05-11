@@ -15,7 +15,7 @@ class AuthenticateDataRepository(
     }
 
     override suspend fun register(userDomainEntity: UserDomainEntity) {
-        userDataSource.register(userDomainEntity.toData())
+        userDataSource.register(userDomainEntity.toData(false))
     }
 
 
