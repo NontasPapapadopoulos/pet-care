@@ -1,5 +1,7 @@
 package nondas.pap.petcareapp.infastracture.di
 
+import android.app.Application
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -8,6 +10,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -19,4 +22,9 @@ object ApplicationModule {
     fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO.limitedParallelism(4)
 
 
+    @Provides
+    @Singleton
+    fun provideContext(application: Application): Context {
+        return application.applicationContext
+    }
 }

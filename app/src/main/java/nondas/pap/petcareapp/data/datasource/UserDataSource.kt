@@ -1,12 +1,12 @@
 package nondas.pap.petcareapp.data.datasource
 
 
-//import android.content.Context
-//import androidx.datastore.core.DataStore
-//import androidx.datastore.preferences.core.Preferences
-//import androidx.datastore.preferences.core.edit
-//import androidx.datastore.preferences.core.stringPreferencesKey
-//import androidx.datastore.preferences.preferencesDataStore
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import nondas.pap.petcareapp.data.cache.dao.UserDao
 import nondas.pap.petcareapp.data.entity.UserDataEntity
@@ -24,19 +24,19 @@ interface UserDataSource {
 
 }
 
-//private val TOKEN_KEY = stringPreferencesKey("auth_token")
-//val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
+private val TOKEN_KEY = stringPreferencesKey("auth_token")
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
 
 class UserDataSourceImpl(
     private val userDao: UserDao,
     private val authApi: AuthApi,
     private val userApi: UserApi,
-   // private val context: Context,
+    private val context: Context,
 ): UserDataSource {
     override suspend fun login(userCredentials: UserCredentials) {
         val token = authApi.login(userCredentials).token
         saveToken(token)
-        userApi.getUser(UserEmailNetworkEntity(userCredentials.email))
+        val user = userApi.getUser(UserEmailNetworkEntity(userCredentials.email))
 
         // store the user to dao
         // TODO: get the user details, store them in the local db. get the user`s pets and pet`s medicine's
@@ -57,9 +57,9 @@ class UserDataSourceImpl(
 
 
     private suspend fun saveToken(token: String) {
-//        context.dataStore.edit { preferences ->
-//            preferences[TOKEN_KEY] = token
-//        }
+        context.dataStore.edit { preferences ->
+            preferences[TOKEN_KEY] = token
+        }
     }
 
 }
