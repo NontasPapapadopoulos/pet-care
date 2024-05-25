@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import nondas.pap.petcareapp.data.network.api.AuthApi
 import nondas.pap.petcareapp.data.network.api.MedicineApi
 import nondas.pap.petcareapp.data.network.api.PetApi
+import nondas.pap.petcareapp.data.network.api.UserApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -64,6 +65,11 @@ object NetModule {
     }
 
 
+    @Singleton
+    @Provides
+    fun provideUserApi(retrofit: Retrofit): UserApi {
+        return retrofit.create(UserApi::class.java)
+    }
 
 
 

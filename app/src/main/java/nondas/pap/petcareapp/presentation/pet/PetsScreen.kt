@@ -31,14 +31,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.domain.entity.PetDomainEntity
+import nondas.pap.petcareapp.infastracture.navigation.Screen
 import nondas.pap.petcareapp.infastracture.navigation.screen.MEDICINE_ROUTE
-import nondas.pap.petcareapp.infastracture.navigation.screen.PetScreen
 import nondas.pap.petcareapp.presentation.DummyEntities
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
 import nondas.pap.petcareapp.presentation.component.VerticalSpace
@@ -78,7 +77,7 @@ fun PetsScreen(
                 content = state,
                 onEditButtonClicked = { viewModel.add(PetEvent.EditButtonClicked(it)) },
                 onDeleteButtonClicked = { viewModel.add(PetEvent.DeleteButtonClicked(it)) },
-                onAddNewPetClicked = { navController.navigate(PetScreen.AddPet.route) },
+                onAddNewPetClicked = { navController.navigate(Screen.AddPet.name) },
                 onNavigateToPetsMedicineScreen = {
                     // TODO: pass the pet to the arguements
                     navController.navigate(route = MEDICINE_ROUTE) },
@@ -123,7 +122,7 @@ val showDialog = remember { mutableStateOf(false) }
 
         val petDomainEntity = PetDomainEntity(
             name = "Roza",
-            age = 3,
+            age = "3",
             kind = "dog",
         )
 

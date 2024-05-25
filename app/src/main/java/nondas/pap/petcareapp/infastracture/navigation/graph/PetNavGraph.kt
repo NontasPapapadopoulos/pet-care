@@ -4,10 +4,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import nondas.pap.petcareapp.infastracture.navigation.screen.PETS_ROUTE
-import nondas.pap.petcareapp.infastracture.navigation.screen.PetScreen
+import nondas.pap.petcareapp.infastracture.navigation.Route
+import nondas.pap.petcareapp.infastracture.navigation.Screen
+
 import nondas.pap.petcareapp.presentation.pet.EditPetScreen
-import nondas.pap.petcareapp.presentation.pet.PetViewModel
 import nondas.pap.petcareapp.presentation.pet.PetsScreen
 import nondas.pap.petcareapp.presentation.pet.add.AddPetScreen
 
@@ -16,16 +16,14 @@ fun NavGraphBuilder.petsNavGraph(
     navController: NavController
 ) {
     navigation(
-        startDestination = PetScreen.Pets.route ,
-        route = PETS_ROUTE
+        startDestination = Screen.Main.name ,
+        route = Route.Pet.name
     ) {
 
 
         composable(
-            route = PetScreen.Pets.route
+            route = Screen.Main.name
         ) {
-
-
             PetsScreen(
                 navController = navController,
             )
@@ -33,7 +31,7 @@ fun NavGraphBuilder.petsNavGraph(
 
 
         composable(
-            route = PetScreen.AddPet.route
+            route = Screen.AddPet.name
         ) {
 
             AddPetScreen(
@@ -42,7 +40,7 @@ fun NavGraphBuilder.petsNavGraph(
         }
 
         composable(
-            route = PetScreen.EditPet.route
+            route = Screen.EditPet.name
         ) {
 
             EditPetScreen(
@@ -51,8 +49,5 @@ fun NavGraphBuilder.petsNavGraph(
         }
 
     }
-
-
-
 
 }

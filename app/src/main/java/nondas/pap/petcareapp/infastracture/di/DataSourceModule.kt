@@ -1,5 +1,6 @@
 package nondas.pap.petcareapp.infastracture.di
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,8 +42,18 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideUserDataSource(userDao: UserDao, authApi: AuthApi): UserDataSource {
-        return UserDataSourceImpl(userDao, authApi)
+    fun provideUserDataSource(
+        userDao: UserDao,
+        authApi: AuthApi,
+        userApi: UserApi,
+    //    context: Context
+    ): UserDataSource {
+        return UserDataSourceImpl(
+            userDao,
+            authApi,
+            userApi,
+        //    context
+        )
     }
 
 }

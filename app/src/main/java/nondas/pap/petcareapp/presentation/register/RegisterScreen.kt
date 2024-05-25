@@ -2,6 +2,7 @@ package nondas.pap.petcareapp.presentation.register
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,12 +36,13 @@ import androidx.navigation.NavController
 import nondas.pap.petcareapp.presentation.ValidatedField
 import nondas.pap.petcareapp.presentation.component.LoadingBox
 import nondas.pap.petcareapp.presentation.component.VerticalSpace
+import nondas.pap.petcareapp.ui.theme.PetCareAppTheme
 
 
 @Composable
 fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel(),
-    navController: NavController,
+    onNavigateBack: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -65,7 +67,7 @@ fun RegisterScreen(
                 onPasswordEntered = { viewModel.add(RegisterEvent.PasswordEntered(it)) },
                 onConfirmPasswordEntered = { viewModel.add(RegisterEvent.ConfirmPasswordEntered(it)) } ,
                 onRegisterButtonClicked = { viewModel.add(RegisterEvent.RegisterButtonClicked) },
-                onCancelButtonClicked = { navController.popBackStack() },
+                onCancelButtonClicked = { onNavigateBack() },
             )
         }
         RegisterState.Idle -> {
@@ -93,7 +95,8 @@ private fun RegisterContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background),
+            .background(color = MaterialTheme.colorScheme.background)
+            .padding(top = 50.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -222,20 +225,22 @@ private fun RegisterContent(
 @Composable
 @Preview
 fun RegisterContentPreview() {
-    RegisterContent(
-        content = RegisterState.Content(
-            name = ValidatedField(),
-            email = ValidatedField(),
-            password = ValidatedField(),
-            confirmPassword = ValidatedField(),
-            isRegisterButtonEnabled = false,
-            isLoading = false
-        ),
-        onNameEntered = {},
-        onEmailEntered = {},
-        onPasswordEntered = {},
-        onConfirmPasswordEntered = {},
-        onRegisterButtonClicked = {},
-        onCancelButtonClicked = {},
-    )
+    PetCareAppTheme {
+        RegisterContent(
+            content = RegisterState.Content(
+                name = ValidatedField(),
+                email = ValidatedField(),
+                password = ValidatedField(),
+                confirmPassword = ValidatedField(),
+                isRegisterButtonEnabled = false,
+                isLoading = false
+            ),
+            onNameEntered = {},
+            onEmailEntered = {},
+            onPasswordEntered = {},
+            onConfirmPasswordEntered = {},
+            onRegisterButtonClicked = {},
+            onCancelButtonClicked = {},
+        )
+    }
 }

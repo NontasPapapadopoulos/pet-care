@@ -1,6 +1,7 @@
 package nondas.pap.petcareapp.infastracture.navigation
 
 enum class Screen {
+    Splash,
     Login,
     Register,
     Main,
@@ -10,6 +11,24 @@ enum class Screen {
     AddMedicine,
     EditMedicine
 }
+
+
+
+const val PETS_ROUTE = "pets_route"
+
+enum class Route {
+    Pet,
+    Medicine
+}
+
+sealed class PetScreen(val route: String) {
+
+    object Pets: PetScreen(route = "pets_screen")
+    object AddPet: PetScreen(route = "add_pet_screen")
+    object EditPet: PetScreen(route = "edit_pet_screen")
+
+}
+
 
 
 fun Screen.params(vararg  params: Any?): String {

@@ -19,7 +19,7 @@ fun ManageSystemBars() {
 //        showNavigationBar(windowInsetsController)
 //    else
 //        hideNavigationBar(windowInsetsController)
-    windowInsetsController!!.show(WindowInsetsCompat.Type.navigationBars())
+//    windowInsetsController!!.show(WindowInsetsCompat.Type.navigationBars())
 
 
   //  windowInsetsController!!.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_DEFAULT

@@ -3,16 +3,13 @@ package nondas.pap.petcareapp.infastracture.navigation.graph
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kotlinx.coroutines.delay
-import nondas.pap.petcareapp.infastracture.navigation.screen.Screen
+import nondas.pap.petcareapp.infastracture.navigation.Route
+import nondas.pap.petcareapp.infastracture.navigation.Screen
 
 import nondas.pap.petcareapp.presentation.SplashScreen
 import nondas.pap.petcareapp.presentation.login.LoginScreen
@@ -30,37 +27,40 @@ fun RootNavGraph(
     NavHost(
         navController = navController,
         route = ROOT_GRAPH_ROUTE,
-        startDestination = Screen.Splash.route
+        startDestination = Screen.Splash.name
     ) {
 
 
 
         composable(
-            route = Screen.Splash.route
+            route = Screen.Splash.name
         ) {
 
-            displaySplashScreen(
+            DisplaySplashScreen(
                 navController = navController,
-                milliseconds = 1200L,
-                route = Screen.Products.route
+                milliseconds = 200L,
+                route = Screen.Login.name
             )
 
-            SplashScreen(navController = navController)
+            SplashScreen()
 
         }
 
         composable(
-            route = Screen.Products.route
+            route = Screen.Login.name
         ) {
 
-            LoginScreen(navController = navController)
+            LoginScreen(
+                onNavigateToPetsRoute = { navController.navigate(route = Route.Pet.name) },
+                onNavigateToRegister = { navController.navigate(route = Screen.Register.name) }
+            )
         }
 
         composable(
-            route = Screen.Reports.route
+            route = Screen.Register.name
         ) {
 
-            RegisterScreen(navController = navController)
+            RegisterScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         petsNavGraph(navController)
@@ -71,18 +71,10 @@ fun RootNavGraph(
 
 
 
-@Composable
-inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(navController: NavController): T {
-    val navGraphRoute = destination.parent?.route ?: return hiltViewModel()
-    val parentEntry = remember(this) {
-        navController.getBackStackEntry(navGraphRoute)
-    }
-    return hiltViewModel(parentEntry)
-}
 
 
 @Composable
-fun displaySplashScreen(
+fun DisplaySplashScreen(
     navController: NavController,
     milliseconds: Long,
     route: String

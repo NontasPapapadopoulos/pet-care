@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "medicine")
 data class MedicineDataEntity(
     @PrimaryKey(autoGenerate = true)
-    val medicineId: Int,
+    val medicineId: Long,
     val type: String,
     val repeatRate: String,
     val dateReceived: String,
     val comments: String,
-    val petId: Int
+    val petId: Long
 )

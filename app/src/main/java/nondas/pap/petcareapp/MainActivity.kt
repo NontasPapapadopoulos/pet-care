@@ -44,8 +44,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
-                        .windowInsetsPadding(WindowInsets.navigationBars)
-                        .padding(top = 50.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
+                        .windowInsetsPadding(WindowInsets.navigationBars),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     RootNavGraph(navController = rememberNavController())

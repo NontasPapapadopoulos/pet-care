@@ -7,10 +7,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "pet")
 data class PetDataEntity(
     @PrimaryKey(autoGenerate = true)
-    val petId: Int,
+    val petId: Long,
     val name: String,
     val kind: String,
-    val age: Int,
-    val userId: Int
-
-    )
+    val age: String,
+    val userId: Long
+)

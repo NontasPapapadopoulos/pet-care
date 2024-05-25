@@ -34,18 +34,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.collectLatest
-import nondas.pap.petcareapp.infastracture.navigation.screen.PETS_ROUTE
-import nondas.pap.petcareapp.infastracture.navigation.screen.Screen
 import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.ManageSystemBars
+import nondas.pap.petcareapp.ui.theme.PetCareAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navController: NavController,
+    onNavigateToPetsRoute: () -> Unit,
+    onNavigateToRegister: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
@@ -63,7 +61,7 @@ fun LoginScreen(
     LaunchedEffect(Unit) {
         viewModel.navigationFlow.collectLatest { navigate ->
             if (navigate)
-                navController.navigate(route = PETS_ROUTE)
+                onNavigateToPetsRoute()
         }
     }
 
@@ -76,7 +74,7 @@ fun LoginScreen(
         onEmailEntered = { viewModel.add(LoginEvent.EmailEntered(it)) },
         onPasswordEntered = { viewModel.add(LoginEvent.PasswordEntered(it)) },
         onLoginButtonClicked = { viewModel.add(LoginEvent.LoginButtonClicked(state.email, state.password)) },
-        navController = navController
+        onNavigateToRegister = onNavigateToRegister
     )
 
 }
@@ -89,14 +87,14 @@ private fun LoginContent(
     onEmailEntered: (String) -> Unit,
     onPasswordEntered: (String) -> Unit,
     onLoginButtonClicked: () -> Unit,
-    navController: NavController
+    onNavigateToRegister: () -> Unit
 ) {
-
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background),
+            .background(color = MaterialTheme.colorScheme.background)
+            .padding(top = 50.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -178,7 +176,7 @@ private fun LoginContent(
         VerticalSpace()
 
         Button(
-            onClick = { navController.navigate(route = Screen.Reports.route) },
+            onClick = { onNavigateToRegister() },
             modifier = Modifier
                 .fillMaxWidth()
         ) {
@@ -193,11 +191,13 @@ private fun LoginContent(
 @Composable
 @Preview
 private fun LoginContentPreview() {
-    LoginContent(
-        content = LoginState(email = "", password = ""),
-        onEmailEntered = {},
-        onPasswordEntered = {},
-        onLoginButtonClicked = {},
-        navController = rememberNavController()
-    )
+    PetCareAppTheme {
+        LoginContent(
+            content = LoginState(email = "", password = ""),
+            onEmailEntered = {},
+            onPasswordEntered = {},
+            onLoginButtonClicked = {},
+            onNavigateToRegister = {}
+        )
+    }
 }
