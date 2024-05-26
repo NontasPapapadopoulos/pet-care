@@ -30,8 +30,8 @@ class LoginViewModel @Inject constructor(
 
 
     override val _uiState: StateFlow<LoginState> = combine(
-        emailFlow.onStart { emit("") },
-        passwordFlow.onStart { emit("") },
+        emailFlow.onStart { emit("nondas@pap.com") },
+        passwordFlow.onStart { emit("Aa123!") },
         isLoading.onStart { emit(false) }
     ) { email, password, isLoading  ->
 
@@ -75,8 +75,8 @@ class LoginViewModel @Inject constructor(
 }
 
 data class LoginState(
-    val email: String = "",
-    val password: String = "",
+    val email: String = "nondas@pap.com",
+    val password: String = "Aa123!",
     val isLoading: Boolean = false
 
 )

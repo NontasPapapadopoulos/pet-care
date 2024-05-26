@@ -1,6 +1,7 @@
 package nondas.pap.petcareapp.infastracture.di
 
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,6 +10,7 @@ import nondas.pap.petcareapp.data.datasource.MedicineDataSource
 import nondas.pap.petcareapp.data.datasource.PetDataSource
 import nondas.pap.petcareapp.data.datasource.UserDataSource
 import nondas.pap.petcareapp.data.repository.AuthenticateDataRepository
+import nondas.pap.petcareapp.data.repository.DataStorageRepository
 import nondas.pap.petcareapp.data.repository.MedicineDataRepository
 import nondas.pap.petcareapp.data.repository.PetDataRepository
 import nondas.pap.petcareapp.data.repository.UserDataRepository
@@ -47,6 +49,12 @@ object RepositoryModule {
     @Singleton
     fun provideUserRepository(userDataSource: UserDataSource): UserRepository {
         return UserDataRepository(userDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDataStorageRepository(context: Context): DataStorageRepository {
+        return DataStorageRepository(context)
     }
 
 }

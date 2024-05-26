@@ -14,6 +14,7 @@ import nondas.pap.petcareapp.data.mapper.toNetwork
 import nondas.pap.petcareapp.data.network.api.AuthApi
 import nondas.pap.petcareapp.data.network.api.UserApi
 import nondas.pap.petcareapp.data.network.entity.UserEmailNetworkEntity
+import nondas.pap.petcareapp.data.repository.DataStorageRepository
 import nondas.pap.petcareapp.domain.entity.UserCredentials
 
 interface UserDataSource {
@@ -24,18 +25,20 @@ interface UserDataSource {
 
 }
 
-private val TOKEN_KEY = stringPreferencesKey("auth_token")
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
+
 
 class UserDataSourceImpl(
     private val userDao: UserDao,
     private val authApi: AuthApi,
     private val userApi: UserApi,
-    private val context: Context,
+    private val dataStorage: DataStorageRepository
+
 ): UserDataSource {
     override suspend fun login(userCredentials: UserCredentials) {
+
         val token = authApi.login(userCredentials).token
-        saveToken(token)
+        dataStorage.saveToken(token)
+        println("token       " +dataStorage.getToken())
         val user = userApi.getUser(UserEmailNetworkEntity(userCredentials.email))
 
         // store the user to dao
@@ -56,11 +59,7 @@ class UserDataSourceImpl(
     }
 
 
-    private suspend fun saveToken(token: String) {
-        context.dataStore.edit { preferences ->
-            preferences[TOKEN_KEY] = token
-        }
-    }
+
 
 }
 
