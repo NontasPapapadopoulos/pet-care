@@ -26,4 +26,7 @@ interface PetDao {
 
     @Delete
     suspend fun deletePet(pet: PetDataEntity)
+
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    suspend fun addPets(pets: List<PetDataEntity>)
 }

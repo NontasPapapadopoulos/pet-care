@@ -1,6 +1,5 @@
 package nondas.pap.petcareapp.infastracture.di
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,9 +14,7 @@ import nondas.pap.petcareapp.data.datasource.PetDataSourceImpl
 import nondas.pap.petcareapp.data.datasource.UserDataSource
 import nondas.pap.petcareapp.data.datasource.UserDataSourceImpl
 import nondas.pap.petcareapp.data.network.api.AuthApi
-import nondas.pap.petcareapp.data.network.api.MedicineApi
-import nondas.pap.petcareapp.data.network.api.PetApi
-import nondas.pap.petcareapp.data.network.api.UserApi
+import nondas.pap.petcareapp.data.network.api.PetCareApi
 import nondas.pap.petcareapp.data.repository.DataStorageRepository
 import javax.inject.Singleton
 
@@ -29,14 +26,14 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun providePetDataSource(petDao: PetDao, petApi: PetApi): PetDataSource {
-        return PetDataSourceImpl(petDao, petApi)
+    fun providePetDataSource(petDao: PetDao, petCareApi: PetCareApi): PetDataSource {
+        return PetDataSourceImpl(petDao, petCareApi)
     }
 
     @Provides
     @Singleton
-    fun provideMedicineDataSource(medicineDao: MedicineDao, medicineApi: MedicineApi): MedicineDataSource {
-        return MedicineDataSourceImpl(medicineDao, medicineApi)
+    fun provideMedicineDataSource(medicineDao: MedicineDao, petCareApi: PetCareApi): MedicineDataSource {
+        return MedicineDataSourceImpl(medicineDao, petCareApi)
     }
 
 
@@ -45,14 +42,16 @@ object DataSourceModule {
     @Singleton
     fun provideUserDataSource(
         userDao: UserDao,
+        petDao: PetDao,
         authApi: AuthApi,
-        userApi: UserApi,
+        petCareApi: PetCareApi,
         dataStorageRepository: DataStorageRepository
     ): UserDataSource {
         return UserDataSourceImpl(
             userDao,
+            petDao,
             authApi,
-            userApi,
+            petCareApi,
             dataStorageRepository
         )
     }

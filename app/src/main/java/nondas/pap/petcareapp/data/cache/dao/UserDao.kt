@@ -5,17 +5,15 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import nondas.pap.petcareapp.data.entity.UserDataEntity
+import nondas.pap.petcareapp.data.entity.UserWithPets
 import nondas.pap.petcareapp.domain.entity.UserCredentials
 
 
 @Dao
 interface UserDao {
-//
-//    @Query("SELECT * FROM user where email = :email and password = :password")
-//    suspend fun login(email: String, password: String): UserDataEntity
-
 
 //    @Delete
 //    suspend fun logout()
@@ -25,4 +23,8 @@ interface UserDao {
 
     @Query("SELECT * from user WHERE isCurrentUser = 1")
     fun getCurrentUser(): Flow<UserDataEntity>
+
+    @Transaction
+    @Query("SELECT * FROM user WHERE email = :email")
+    suspend fun getUserWithPets(email: String): List<UserWithPets>
 }

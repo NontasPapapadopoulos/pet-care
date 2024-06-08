@@ -1,19 +1,14 @@
 package nondas.pap.petcareapp.data.datasource
 
 
-import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import nondas.pap.petcareapp.data.cache.dao.PetDao
 import nondas.pap.petcareapp.data.cache.dao.UserDao
 import nondas.pap.petcareapp.data.entity.UserDataEntity
+import nondas.pap.petcareapp.data.mapper.toData
 import nondas.pap.petcareapp.data.mapper.toNetwork
 import nondas.pap.petcareapp.data.network.api.AuthApi
-import nondas.pap.petcareapp.data.network.api.UserApi
-import nondas.pap.petcareapp.data.network.entity.UserEmailNetworkEntity
+import nondas.pap.petcareapp.data.network.api.PetCareApi
 import nondas.pap.petcareapp.data.repository.DataStorageRepository
 import nondas.pap.petcareapp.domain.entity.UserCredentials
 
@@ -29,25 +24,33 @@ interface UserDataSource {
 
 class UserDataSourceImpl(
     private val userDao: UserDao,
+    private val petDao: PetDao,
     private val authApi: AuthApi,
-    private val userApi: UserApi,
+    private val petCareApi: PetCareApi,
     private val dataStorage: DataStorageRepository
 
 ): UserDataSource {
     override suspend fun login(userCredentials: UserCredentials) {
 
-        val token = authApi.login(userCredentials).token
-        dataStorage.saveToken(token)
-        println("token       " +dataStorage.getToken())
-        val user = userApi.getUser(UserEmailNetworkEntity(userCredentials.email))
-
+        val token = authApi.login(userCredentials)
+//        dataStorage.saveToken(token)
+        val user = petCareApi.getUser(userCredentials.email)
+        println("user        " + user)
+//        val userDataEntity = UserDataEntity(
+//            name = user.name,
+//            email = user.email,
+//            isCurrentUser = true
+//        )
+//        userDao.put(userDataEntity)
+//
+//        val pets = user.pets.map { it.toData() }
+    //    petDao.addPets(pets)
         // store the user to dao
         // TODO: get the user details, store them in the local db. get the user`s pets and pet`s medicine's
     }
 
     override suspend fun register(userDataEntity: UserDataEntity) {
         authApi.register(userDataEntity.toNetwork())
-
     }
 
     override suspend fun logout() {

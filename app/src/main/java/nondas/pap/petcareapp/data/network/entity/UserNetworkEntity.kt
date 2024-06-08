@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 
 data class UserNetworkEntity(
     val email: String,
-    val password: String,
     val name: String,
     val userId: Long = 0
 )

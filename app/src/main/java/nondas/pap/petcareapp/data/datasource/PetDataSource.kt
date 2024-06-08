@@ -3,7 +3,7 @@ package nondas.pap.petcareapp.data.datasource
 import kotlinx.coroutines.flow.Flow
 import nondas.pap.petcareapp.data.cache.dao.PetDao
 import nondas.pap.petcareapp.data.entity.PetDataEntity
-import nondas.pap.petcareapp.data.network.api.PetApi
+import nondas.pap.petcareapp.data.network.api.PetCareApi
 import javax.inject.Inject
 
 interface PetDataSource {
@@ -20,7 +20,7 @@ interface PetDataSource {
 
 class PetDataSourceImpl @Inject constructor(
     private val petDao: PetDao,
-    private val petApi: PetApi
+    private val petCareApi: PetCareApi
 ): PetDataSource {
 
     override fun getPets(userId: String): Flow<List<PetDataEntity>> {

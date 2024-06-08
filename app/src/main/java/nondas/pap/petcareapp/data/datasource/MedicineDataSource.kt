@@ -3,7 +3,7 @@ package nondas.pap.petcareapp.data.datasource
 import kotlinx.coroutines.flow.Flow
 import nondas.pap.petcareapp.data.cache.dao.MedicineDao
 import nondas.pap.petcareapp.data.entity.MedicineDataEntity
-import nondas.pap.petcareapp.data.network.api.MedicineApi
+import nondas.pap.petcareapp.data.network.api.PetCareApi
 import javax.inject.Inject
 
 interface MedicineDataSource {
@@ -19,7 +19,7 @@ interface MedicineDataSource {
 
 class MedicineDataSourceImpl @Inject constructor(
     private val medicineDao: MedicineDao,
-    private val medicineApi: MedicineApi
+    private val petCareApi: PetCareApi
 ): MedicineDataSource {
     override fun fetchMedicines(petId: Int): Flow<List<MedicineDataEntity>> {
         return medicineDao.getPetMedicines(petId)

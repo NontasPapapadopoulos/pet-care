@@ -1,15 +1,18 @@
 package nondas.pap.petcareapp.data.entity
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
+import nondas.pap.petcareapp.infastracture.navigation.PetScreen
 
 
 @Entity(tableName = "user")
 data class UserDataEntity(
-    @PrimaryKey
-    val id: Long,
+    @PrimaryKey(autoGenerate = true)
+    val userId: Long = 0,
     val name: String,
     val email: String,
-    val password: String,
-    val isCurrentUser: Boolean
+    val isCurrentUser: Boolean,
+//    val pets: List<PetDataEntity>
 )
