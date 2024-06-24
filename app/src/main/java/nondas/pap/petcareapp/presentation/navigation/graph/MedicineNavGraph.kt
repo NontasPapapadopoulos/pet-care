@@ -1,11 +1,11 @@
-package nondas.pap.petcareapp.infastracture.navigation.graph
+package nondas.pap.petcareapp.presentation.navigation.graph
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import nondas.pap.petcareapp.infastracture.navigation.screen.MEDICINE_ROUTE
-import nondas.pap.petcareapp.infastracture.navigation.screen.MedicineScreen
+import nondas.pap.petcareapp.presentation.navigation.screen.MEDICINE_ROUTE
+import nondas.pap.petcareapp.presentation.navigation.screen.MedicineScreen
 import nondas.pap.petcareapp.presentation.medicine.PetMedicineScreen
 import nondas.pap.petcareapp.presentation.medicine.add.AddMedicineScreen
 import nondas.pap.petcareapp.presentation.medicine.edit.EditMedicineScreen

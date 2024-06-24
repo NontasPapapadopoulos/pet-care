@@ -11,8 +11,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.MedicalServices
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,14 +39,12 @@ import androidx.navigation.NavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.domain.entity.MedicineDomainEntity
 import nondas.pap.petcareapp.domain.entity.TimePeriod
-import nondas.pap.petcareapp.infastracture.navigation.screen.MedicineScreen
+import nondas.pap.petcareapp.presentation.navigation.screen.MedicineScreen
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
 import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.component.EditDeleteButtons
-import nondas.pap.petcareapp.presentation.component.GreyBackground
-import nondas.pap.petcareapp.presentation.component.MyImage
-import nondas.pap.petcareapp.presentation.component.MyText
-import nondas.pap.petcareapp.presentation.component.WarningDialog
+import nondas.pap.petcareapp.presentation.component.LoadingBox
+
 import java.util.Date
 
 
@@ -47,39 +54,39 @@ fun PetMedicineScreen(
     navController: NavController
 ) {
 
-    val state by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
-    PetMedicineContent(
-        selectedMedicineDomainEntity = state.selectedMedicineDomainEntity,
-        onDeleteButtonClicked = { viewModel.add(MedicineEvent.DeleteButtonClicked(state.selectedMedicineDomainEntity)) },
-        onEditButtonClicked = { viewModel.add(MedicineEvent.EditButtonClicked(state.selectedMedicineDomainEntity)) },
-        onAddNewMedicineButtonClicked = { navController.navigate(route = MedicineScreen.AddMedicine.route) }
-    )
+    when(val state = uiState) {
+        is MedicineState.Content -> {
+            PetMedicineContent(
+                content = state,
+                onDeleteButtonClicked = { viewModel.add(MedicineEvent.DeleteButtonClicked(it)) },
+                onEditButtonClicked = { viewModel.add(MedicineEvent.EditButtonClicked(it)) },
+                onAddNewMedicineButtonClicked = { navController.navigate(route = MedicineScreen.AddMedicine.route) }
+            )
+        }
+        MedicineState.Idle -> {
+            LoadingBox()
+        }
+    }
+
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PetMedicineContent(
-    selectedMedicineDomainEntity: MedicineDomainEntity,
+    content: MedicineState.Content,
     onDeleteButtonClicked: (MedicineDomainEntity) -> Unit,
     onEditButtonClicked: (MedicineDomainEntity) -> Unit,
     onAddNewMedicineButtonClicked: () -> Unit
 ) {
     val showDialog = remember { mutableStateOf(false) }
 
-    ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-    ) {
-
-        val (column, dialog) = createRefs()
+    Scaffold {
 
         Column(
-            modifier = Modifier.constrainAs(column) {
-                top.linkTo(parent.top)
-            }
-
+            modifier = Modifier.padding(it)
         ) {
 
             VerticalSpace(50)
@@ -93,14 +100,13 @@ private fun PetMedicineContent(
             VerticalSpace(30)
 
 
-            MedicineItem(
-                medicineDomainEntity = MedicineDomainEntity(
-                    type = "Vaccine",
-                    dateReceived = Date().toString(),
-                    repeatRate = TimePeriod.EVERY_YEAR.value,
-                    comments = "xxx"
+            content.medicines.forEach { medicine ->
+                MedicineItem(
+                    medicine = medicine,
+                    onEditButtonClicked = { onEditButtonClicked(medicine) },
+                    onDeleteButtonClicked = { onDeleteButtonClicked(medicine) }
                 )
-            )
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -111,39 +117,63 @@ private fun PetMedicineContent(
                     .padding(bottom = 30.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
-                MyImage(
-                    imageId = R.drawable.baseline_add_circle_24_blue,
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = null,
                     modifier = Modifier
                         .size(60.dp)
                         .clickable { onAddNewMedicineButtonClicked() }
                 )
             }
-        }
+
+            val sheetState = rememberModalBottomSheetState()
+            if (showDialog.value) {
+
+                ModalBottomSheet(
+                    onDismissRequest = { /*TODO*/ },
+                    sheetState = sheetState
+                ) {
+
+                    Text(text = "Delete ${content.selectedMedicine!!.type}")
+
+                    VerticalSpace(20)
+
+                    Button(
+                        onClick = { onDeleteButtonClicked(content.selectedMedicine!!) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(text = "Delete")
+                    }
 
 
-        GreyBackground(isVisible = showDialog.value)
-        if (showDialog.value) {
+                    VerticalSpace(10)
 
 
-            WarningDialog(
-                title = "Delete ${selectedMedicineDomainEntity.type}",
-                primaryButtonText = "delete",
-                secondaryButtonText = "cancel",
-                onPrimaryButtonClicked = { onDeleteButtonClicked(selectedMedicineDomainEntity) },
-                onDismiss = { showDialog.value = false },
-                onSecondaryButtonClicked = { showDialog.value = false },
-                modifier = Modifier.constrainAs(dialog) {
-                    bottom.linkTo(parent.bottom)
+                    Button(
+                        onClick = { showDialog.value = false },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(text = "Cancel")
+                    }
                 }
-            )
+
+            }
         }
 
     }
+
 }
 
 
+
 @Composable
-fun MedicineItem(medicineDomainEntity: MedicineDomainEntity) {
+fun MedicineItem(
+    medicine: MedicineDomainEntity,
+    onEditButtonClicked: (MedicineDomainEntity) -> Unit,
+    onDeleteButtonClicked: (MedicineDomainEntity) -> Unit
+) {
 
     Row(
         modifier = Modifier
@@ -157,8 +187,9 @@ fun MedicineItem(medicineDomainEntity: MedicineDomainEntity) {
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        MyImage(
-            imageId = R.drawable.ic_launcher_foreground,
+        Icon(
+            Icons.Default.MedicalServices,
+            contentDescription = null,
             modifier = Modifier.size(40.dp)
         )
 
@@ -173,32 +204,24 @@ fun MedicineItem(medicineDomainEntity: MedicineDomainEntity) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                MyText(
-                    text = medicineDomainEntity.type,
-                    fillMaxWidth = false,
-                    color = R.color.white
+                Text(
+                    text = medicine.type,
                 )
 
                 EditDeleteButtons(
-                    onEditButtonClicked = {},
-                    onDeleteButtonClicked = {}
+                    onEditButtonClicked = { onEditButtonClicked(medicine) },
+                    onDeleteButtonClicked = { onDeleteButtonClicked(medicine)}
                 )
             }
 
-            MyText(
-                text = medicineDomainEntity.dateReceived.toString(),
-                fillMaxWidth = false,
-                color = R.color.white
+            Text(
+                text = medicine.dateReceived.toString(),
             )
-            MyText(
-                text = medicineDomainEntity.repeatRate,
-                fillMaxWidth = false,
-                color = R.color.white
+            Text(
+                text = medicine.repeatRate,
             )
-            MyText(
-                text = medicineDomainEntity.comments,
-                fillMaxWidth = false,
-                color = R.color.white
+            Text(
+                text = medicine.comments,
             )
 
         }
@@ -211,7 +234,12 @@ fun MedicineItem(medicineDomainEntity: MedicineDomainEntity) {
 @Composable
 private fun MedicineScreenPreview() {
     PetMedicineContent(
-        selectedMedicineDomainEntity = MedicineDomainEntity(),
+        content = MedicineState.Content(
+            selectedMedicine = null,
+            medicines = listOf(
+
+            )
+        ),
         onDeleteButtonClicked = {},
         onEditButtonClicked = {},
         onAddNewMedicineButtonClicked = {}

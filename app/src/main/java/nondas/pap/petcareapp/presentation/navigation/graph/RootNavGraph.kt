@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.infastracture.navigation.graph
+package nondas.pap.petcareapp.presentation.navigation.graph
 
 
 import androidx.compose.runtime.Composable
@@ -8,8 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kotlinx.coroutines.delay
-import nondas.pap.petcareapp.infastracture.navigation.Route
-import nondas.pap.petcareapp.infastracture.navigation.Screen
+import nondas.pap.petcareapp.presentation.navigation.Route
+import nondas.pap.petcareapp.presentation.navigation.Screen
 
 import nondas.pap.petcareapp.presentation.SplashScreen
 import nondas.pap.petcareapp.presentation.login.LoginScreen

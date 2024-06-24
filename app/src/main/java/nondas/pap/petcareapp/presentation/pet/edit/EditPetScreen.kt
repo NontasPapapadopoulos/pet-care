@@ -4,8 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,12 +22,10 @@ import androidx.navigation.NavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.ValidatedField
 import nondas.pap.petcareapp.presentation.component.VerticalSpace
-import nondas.pap.petcareapp.presentation.component.MyDropdown
-import nondas.pap.petcareapp.presentation.component.OutLinedInputText
-import nondas.pap.petcareapp.presentation.component.PrimaryButton
-import nondas.pap.petcareapp.presentation.component.SecondaryButton
+
 import nondas.pap.petcareapp.presentation.pet.edit.EditPetEvent
 import nondas.pap.petcareapp.presentation.pet.edit.EditPetViewModel
+import nondas.pap.petcareapp.presentation.util.DateTransformation
 
 
 @Composable
@@ -81,58 +82,60 @@ private fun EditPetContent(
 
         VerticalSpace(30)
 
-        OutLinedInputText(
-            label = "Name",
+
+        OutlinedTextField(
             value = name.value,
             onValueChange = { onNameEntered(it) },
-            validationResult = name.validation
+            label =  { Text(text = "Name") },
+            isError = name.validation.isError,
+            singleLine = true
         )
+
 
         VerticalSpace(15)
 
-
-        OutLinedInputText(
+        OutlinedTextField(
             value = dob.value,
             onValueChange = { onDobEntered(it) },
-            label = "Date of birth",
-            placeholder = "dd/MM/yyyy",
-            validationResult = dob.validation
+            label =  { Text(text = "Date of birth") },
+            isError = dob.validation.isError,
+            singleLine = true,
+            visualTransformation = DateTransformation()
         )
 
-        VerticalSpace(15)
 
-
-        MyDropdown(
-            labelTitle = "Type",
-            items = petTypes,
-            selectedItem = type,
-            onItemSelected = { onTypeSelected(it) },
-            modifier = Modifier.padding(20.dp, 0.dp)
-        )
+//        MyDropdown(
+//            labelTitle = "Type",
+//            items = petTypes,
+//            selectedItem = type,
+//            onItemSelected = { onTypeSelected(it) },
+//            modifier = Modifier.padding(20.dp, 0.dp)
+//        )
 
         VerticalSpace(15)
 
 
         Spacer(modifier = Modifier.weight(1f))
 
-        PrimaryButton(
-            buttonTitle = "update",
-            onButtonClicked = { onEditPet() },
-            isEnabled = isButtonEnabled,
-            backgroundColor = R.color.pink,
-            textColor = R.color.white,
-            hasBorder = false,
-        )
+        Button(
+            onClick = { onEditPet() },
+            enabled = isButtonEnabled,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
+        ) {
+            Text(text = "Update")
+        }
 
         VerticalSpace()
 
-        SecondaryButton(
-            buttonTitle = "cancel",
-            onButtonClicked = { onCancelButtonClicked() },
-            backgroundColor = R.color.oil_green,
-            textColor = R.color.white,
-            hasBorder = false,
-        )
+
+        Button(
+            onClick = { onCancelButtonClicked() },
+            enabled = isButtonEnabled,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
+        ) {
+            Text(text = "Cancel")
+        }
+
 
         VerticalSpace(20)
 

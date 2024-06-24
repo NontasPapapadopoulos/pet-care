@@ -4,11 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,11 +24,7 @@ import androidx.navigation.NavController
 
 import nondas.pap.petcareapp.presentation.ValidatedField
 import nondas.pap.petcareapp.presentation.component.VerticalSpace
-import nondas.pap.petcareapp.presentation.component.MyDropdown
-import nondas.pap.petcareapp.presentation.component.OutLinedInputText
-import nondas.pap.petcareapp.presentation.component.PrimaryButton
-import nondas.pap.petcareapp.presentation.component.SecondaryButton
-import nondas.pap.petcareapp.presentation.util.DateTransformation
+
 
 @Composable
 fun AddMedicineScreen(
@@ -88,58 +86,66 @@ private fun AddMedicineContent(
 
         VerticalSpace(20)
 
-        MyDropdown(
-            labelTitle = "Type",
-            items = types,
-            selectedItem = type,
-            onItemSelected = { onTypeSelected(it) },
-            modifier = Modifier.padding(20.dp, 0.dp)
-        )
+//        MyDropdown(
+//            labelTitle = "Type",
+//            items = types,
+//            selectedItem = type,
+//            onItemSelected = { onTypeSelected(it) },
+//            modifier = Modifier.padding(20.dp, 0.dp)
+//        )
 
         VerticalSpace(15)
 
-        OutLinedInputText(
+        OutlinedTextField(
             value = date.value,
-            onValueChange = { onDatePerformedEntered(it) },
-            label= "Date performed",
-            placeholder = "dd/MM/yyyy",
-            validationResult = date.validation,
-            visualTransformation = DateTransformation()
+            onValueChange = {onDatePerformedEntered(it)},
+            label = { Text(text = "Date performed") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
         )
+
 
         VerticalSpace(15)
 
-        MyDropdown(
-            labelTitle = "Repeat when",
-            items = frequencyValues,
-            selectedItem = frequency,
-            onItemSelected = { onFrequencySelected(it) },
-            modifier = Modifier.padding(20.dp, 0.dp)
-        )
+//        MyDropdown(
+//            labelTitle = "Repeat when",
+//            items = frequencyValues,
+//            selectedItem = frequency,
+//            onItemSelected = { onFrequencySelected(it) },
+//            modifier = Modifier.padding(20.dp, 0.dp)
+//        )
 
         VerticalSpace(15)
 
-        OutLinedInputText(
+
+
+        OutlinedTextField(
             value = comments,
-            onValueChange = { onCommentsEntered(it) },
-            label = "Comments"
+            onValueChange = { onCommentsEntered(it)},
+            label = { Text(text = "Comments") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
-        PrimaryButton(
-            buttonTitle = "save",
-            onButtonClicked = { onAddMedicine() },
-            hasBorder = false
-        )
+        Button(
+            onClick = { onAddMedicine() },
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(text = "Save")
+        }
 
         VerticalSpace()
 
-        SecondaryButton(
-            buttonTitle = "cancel",
-            onButtonClicked = { onCancelClicked() },
-            hasBorder = false
-        )
+        Button(
+            onClick = { onCancelClicked() },
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(text = "Cancel")
+        }
 
         VerticalSpace(20)
 

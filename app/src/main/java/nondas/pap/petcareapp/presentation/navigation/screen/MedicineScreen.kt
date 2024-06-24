@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.infastracture.navigation.screen
+package nondas.pap.petcareapp.presentation.navigation.screen
 
 const val MEDICINE_ROUTE = "medicine_route"
 

@@ -38,20 +38,20 @@ class PetViewModel @Inject constructor(
     ) { pets, selectedPet, user ->
 
         PetState.Content(
-            petDomainEntities = pets,
+            pets = pets,
             selectedPetDomainEntity = selectedPet,
             user = user
         )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = PetState.Idle,
-        )
+        initialValue = PetState.Idle
+    )
 
     init {
 
         on(PetEvent.DeleteButtonClicked::class) {
-            it.petDomainEntity
+            deletePet.execute(DeletePet.Params(it.petDomainEntity))
         }
 
         on(PetEvent.EditButtonClicked::class) {
@@ -72,7 +72,7 @@ sealed class PetEvent {
 sealed interface PetState {
     object Idle: PetState
     data class Content(
-        val petDomainEntities: List<PetDomainEntity>,
+        val pets: List<PetDomainEntity>,
         val selectedPetDomainEntity: PetDomainEntity?,
         val user: UserDomainEntity
     ): PetState

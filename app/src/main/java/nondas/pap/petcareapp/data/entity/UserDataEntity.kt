@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import nondas.pap.petcareapp.infastracture.navigation.PetScreen
+import nondas.pap.petcareapp.presentation.navigation.PetScreen
 
 
 @Entity(tableName = "user")

@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.infastracture.di
+package nondas.pap.petcareapp.presentation.di
 
 
 import dagger.Module

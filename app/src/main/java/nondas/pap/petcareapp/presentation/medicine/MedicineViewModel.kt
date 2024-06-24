@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import nondas.pap.petcareapp.domain.entity.MedicineDomainEntity
 import nondas.pap.petcareapp.presentation.BlocViewModel
@@ -15,22 +16,23 @@ import javax.inject.Inject
 class MedicineViewModel @Inject constructor(
 ): BlocViewModel<MedicineEvent, MedicineState>() {
 
-    private val selectedMedicineDomainEntity = MutableSharedFlow<MedicineDomainEntity>()
+    private val selectedMedicineDomainEntity = MutableSharedFlow<MedicineDomainEntity?>()
     private val medicines = MutableSharedFlow<List<MedicineDomainEntity>>()
 
     override val _uiState: StateFlow<MedicineState> = combine(
-        medicines,
-        selectedMedicineDomainEntity,
+        medicines.onStart { emit(listOf()) },
+        selectedMedicineDomainEntity.onStart { emit(null) },
     ) { medicines, selectedMedicine ->
 
-        MedicineState(
-            medicineDomainEntities = medicines,
-            selectedMedicineDomainEntity = selectedMedicine
+        MedicineState.Content(
+            medicines = medicines,
+            selectedMedicine = selectedMedicine
         )
+
     }.stateIn(
         scope = viewModelScope,
-        initialValue = MedicineState(),
-        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = MedicineState.Idle
     )
 
     init {
@@ -52,7 +54,13 @@ sealed class MedicineEvent {
 }
 
 
-data class MedicineState(
-    val selectedMedicineDomainEntity: MedicineDomainEntity = MedicineDomainEntity(),
-    val medicineDomainEntities: List<MedicineDomainEntity> = listOf()
-)
+sealed interface MedicineState {
+
+    object Idle: MedicineState
+
+    data class Content(
+        val selectedMedicine: MedicineDomainEntity?,
+        val medicines: List<MedicineDomainEntity>
+    ): MedicineState
+
+}
