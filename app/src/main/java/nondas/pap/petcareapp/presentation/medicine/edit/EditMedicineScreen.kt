@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,7 +29,7 @@ import nondas.pap.petcareapp.presentation.util.DateTransformation
 @Composable
 fun EditMedicineScreen(
     viewModel: EditMedicineViewModel = hiltViewModel(),
-    navController: NavController,
+    onNavigateBack: () -> Unit
 ) {
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -45,7 +47,7 @@ fun EditMedicineScreen(
         comments = state.comments,
         onCommentsEntered = { viewModel.add(EditMedicineEvent.CommentsEntered(it)) },
         onEditMedicine = { viewModel.add(EditMedicineEvent.AddMedicine) },
-        onCancelClicked = { navController.popBackStack() }
+        onCancelClicked = { onNavigateBack() }
     )
 
 
@@ -67,88 +69,89 @@ private fun EditMedicineContent(
     onEditMedicine: () -> Unit,
     onCancelClicked: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-    ) {
-
-        VerticalSpace(50)
-
-
-        Text(
-            text = "$petName medicine",
-            style = MaterialTheme.typography.displayMedium
-        )
-
-
-        VerticalSpace(20)
-
-
-//        MyDropdown(
-//            labelTitle = "Type",
-//            items = types,
-//            selectedItem = type,
-//            onItemSelected = { onTypeSelected(it) },
-//            modifier = Modifier.padding(20.dp, 0.dp)
-//        )
-
-        VerticalSpace(15)
-
-        OutlinedTextField(
-            value = date.value,
-            onValueChange = {onDatePerformedEntered(it)},
-            label = { Text(text = "Date performed") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        VerticalSpace(15)
-
-//        MyDropdown(
-//            labelTitle = "Repeat when",
-//            items = frequencyValues,
-//            selectedItem = frequency,
-//            onItemSelected = { onFrequencySelected(it) },
-//            modifier = Modifier.padding(20.dp, 0.dp)
-//        )
-
-
-        VerticalSpace(15)
-
-        Text(
-            text = "Comments",
-            modifier = Modifier.padding(start = 20.dp)
-        )
-        VerticalSpace(6)
-
-        OutlinedTextField(
-            value = comments,
-            onValueChange = { onCommentsEntered(it)},
-            label = { Text(text = "Comments") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Button(
-            onClick = { onEditMedicine() },
+    Scaffold {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Edit")
+
+            VerticalSpace(50)
+
+
+            Text(
+                text = "$petName medicine",
+                style = MaterialTheme.typography.displayMedium
+            )
+
+
+            VerticalSpace(20)
+
+
+    //        MyDropdown(
+    //            labelTitle = "Type",
+    //            items = types,
+    //            selectedItem = type,
+    //            onItemSelected = { onTypeSelected(it) },
+    //            modifier = Modifier.padding(20.dp, 0.dp)
+    //        )
+
+            VerticalSpace(15)
+
+            OutlinedTextField(
+                value = date.value,
+                onValueChange = {onDatePerformedEntered(it)},
+                label = { Text(text = "Date performed") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            VerticalSpace(15)
+
+    //        MyDropdown(
+    //            labelTitle = "Repeat when",
+    //            items = frequencyValues,
+    //            selectedItem = frequency,
+    //            onItemSelected = { onFrequencySelected(it) },
+    //            modifier = Modifier.padding(20.dp, 0.dp)
+    //        )
+
+
+            VerticalSpace(15)
+
+
+            OutlinedTextField(
+                value = comments,
+                onValueChange = { onCommentsEntered(it)},
+                label = { Text(text = "Comments") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                onClick = { onEditMedicine() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Edit")
+            }
+
+            VerticalSpace()
+
+            Button(
+                onClick = { onCancelClicked() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Cancel")
+            }
+
+
+            VerticalSpace(20)
+
         }
-
-        VerticalSpace()
-
-        Button(
-            onClick = { onCancelClicked() },
-        ) {
-            Text(text = "Cancel")
-        }
-
-
-        VerticalSpace(20)
-
     }
 }
 

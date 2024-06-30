@@ -1,5 +1,6 @@
 package nondas.pap.petcareapp.presentation.pet.edit
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -8,18 +9,24 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import nondas.pap.petcareapp.domain.entity.PetDomainEntity
+import nondas.pap.petcareapp.domain.usecase.pet.EditPet
 import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
 import nondas.pap.petcareapp.domain.usecase.validator.NameValidator
 import nondas.pap.petcareapp.presentation.BlocViewModel
 import nondas.pap.petcareapp.presentation.ValidatedField
+import nondas.pap.petcareapp.presentation.navigation.NavArg
 import javax.inject.Inject
 
 
 @HiltViewModel
 class EditPetViewModel @Inject constructor(
+    private val editPet: EditPet,
     private val nameValidator: NameValidator,
-    private val dateValidator: DateValidator
+    private val dateValidator: DateValidator,
+    private val saveStateHandle: SavedStateHandle
 ): BlocViewModel<EditPetEvent, EditPetState>() {
+
+    private val petId get() = saveStateHandle.get<String>(NavArg.petId.param)
 
     private val nameTextFlow = MutableSharedFlow<ValidatedField>()
     private val petOptionFlow = MutableSharedFlow<String>()

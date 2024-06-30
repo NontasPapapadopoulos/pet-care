@@ -2,10 +2,15 @@ package nondas.pap.petcareapp.presentation.navigation.graph
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import nondas.pap.petcareapp.presentation.navigation.EditPetRoute
+import nondas.pap.petcareapp.presentation.navigation.NavArg
 import nondas.pap.petcareapp.presentation.navigation.Route
 import nondas.pap.petcareapp.presentation.navigation.Screen
+import nondas.pap.petcareapp.presentation.navigation.params
 
 import nondas.pap.petcareapp.presentation.pet.EditPetScreen
 import nondas.pap.petcareapp.presentation.pet.PetsScreen
@@ -25,7 +30,9 @@ fun NavGraphBuilder.petsNavGraph(
             route = Screen.Main.name
         ) {
             PetsScreen(
-                navController = navController,
+                onNavigateToAddPetScreen = { navController.navigate(Screen.AddPet.name)},
+                onNavigateToEditPetScreen = { navController.navigate(Screen.EditPet.params(NavArg.petId)) },
+                onNavigateToPetMedicineScreen = { navController.navigate(Screen.Medicine.params(NavArg.petId)) }
             )
         }
 
@@ -35,16 +42,19 @@ fun NavGraphBuilder.petsNavGraph(
         ) {
 
             AddPetScreen(
-                navController = navController,
+                onNavigateBack = { navController.popBackStack() }
             )
         }
 
         composable(
-            route = Screen.EditPet.name
+            route = EditPetRoute,
+            arguments = listOf(navArgument(NavArg.petId.param) {
+                type = NavType.StringType
+            })
         ) {
 
             EditPetScreen(
-                navController = navController
+                onNavigateBack = { navController.popBackStack() }
             )
         }
 

@@ -1,19 +1,24 @@
 package nondas.pap.petcareapp.presentation.medicine.add
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +34,7 @@ import nondas.pap.petcareapp.presentation.component.VerticalSpace
 @Composable
 fun AddMedicineScreen(
     viewModel: AddMedicineViewModel = hiltViewModel(),
-    navController: NavController,
+    onNavigateBack: () -> Unit
 ) {
 
 
@@ -48,7 +53,7 @@ fun AddMedicineScreen(
         comments = state.comments,
         onCommentsEntered = { viewModel.add(AddMedicineEvent.CommentsEntered(it)) },
         onAddMedicine = { viewModel.add(AddMedicineEvent.AddMedicine) },
-        onCancelClicked = { navController.popBackStack() }
+        onCancelClicked = { onNavigateBack() }
     )
 
 }
@@ -70,21 +75,26 @@ private fun AddMedicineContent(
     onCancelClicked: () -> Unit
 
 ) {
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
+
+    Scaffold(
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues = it)
+               // .verticalScroll(rememberScrollState())
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        VerticalSpace(50)
+            VerticalSpace(50)
 
-        Text(
-            text = "$petName medicine",
-            style = MaterialTheme.typography.displayMedium
-        )
+            Text(
+                text = "$petName medicine",
+                style = MaterialTheme.typography.displayMedium
+            )
 
-        VerticalSpace(20)
+            VerticalSpace(20)
 
 //        MyDropdown(
 //            labelTitle = "Type",
@@ -94,18 +104,18 @@ private fun AddMedicineContent(
 //            modifier = Modifier.padding(20.dp, 0.dp)
 //        )
 
-        VerticalSpace(15)
+            VerticalSpace(15)
 
-        OutlinedTextField(
-            value = date.value,
-            onValueChange = {onDatePerformedEntered(it)},
-            label = { Text(text = "Date performed") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
+            OutlinedTextField(
+                value = date.value,
+                onValueChange = { onDatePerformedEntered(it) },
+                label = { Text(text = "Date performed") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
 
 
-        VerticalSpace(15)
+            VerticalSpace(15)
 
 //        MyDropdown(
 //            labelTitle = "Repeat when",
@@ -115,41 +125,43 @@ private fun AddMedicineContent(
 //            modifier = Modifier.padding(20.dp, 0.dp)
 //        )
 
-        VerticalSpace(15)
+            VerticalSpace(15)
 
 
 
-        OutlinedTextField(
-            value = comments,
-            onValueChange = { onCommentsEntered(it)},
-            label = { Text(text = "Comments") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
+            OutlinedTextField(
+                value = comments,
+                onValueChange = { onCommentsEntered(it) },
+                label = { Text(text = "Comments") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
 
-        Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
 
-        Button(
-            onClick = { onAddMedicine() },
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(text = "Save")
+            Button(
+                onClick = { onAddMedicine() },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(text = "Save")
+            }
+
+            VerticalSpace()
+
+            Button(
+                onClick = { onCancelClicked() },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(text = "Cancel")
+            }
+
+            VerticalSpace(20)
+
         }
-
-        VerticalSpace()
-
-        Button(
-            onClick = { onCancelClicked() },
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(text = "Cancel")
-        }
-
-        VerticalSpace(20)
-
     }
+
 }
 
 

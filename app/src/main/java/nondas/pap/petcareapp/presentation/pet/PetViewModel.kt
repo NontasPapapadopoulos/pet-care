@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import nondas.pap.petcareapp.domain.entity.UserDomainEntity
 import nondas.pap.petcareapp.domain.usecase.pet.DeletePet
+import nondas.pap.petcareapp.domain.usecase.pet.GetPets
 import nondas.pap.petcareapp.domain.usecase.user.GetUser
 import nondas.pap.petcareapp.presentation.BlocViewModel
 import javax.inject.Inject
@@ -21,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PetViewModel @Inject constructor(
     private val deletePet: DeletePet,
+    private val getPets: GetPets,
     private val getUser: GetUser,
 ): BlocViewModel<PetEvent, PetState>() {
 
@@ -54,17 +56,12 @@ class PetViewModel @Inject constructor(
             deletePet.execute(DeletePet.Params(it.petDomainEntity))
         }
 
-        on(PetEvent.EditButtonClicked::class) {
-            it.petDomainEntity
-        }
-
     }
 
 }
 
 sealed class PetEvent {
     object AddPet: PetEvent()
-    data class EditButtonClicked(val petDomainEntity: PetDomainEntity): PetEvent()
     data class DeleteButtonClicked(val petDomainEntity: PetDomainEntity): PetEvent()
 }
 

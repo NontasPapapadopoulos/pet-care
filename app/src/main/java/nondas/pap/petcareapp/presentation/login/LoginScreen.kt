@@ -90,6 +90,7 @@ private fun LoginContent(
     onNavigateToRegister: () -> Unit
 ) {
 
+
     Column(
         modifier = Modifier
             .fillMaxSize()

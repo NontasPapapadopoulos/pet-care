@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,7 +32,7 @@ import nondas.pap.petcareapp.presentation.util.DateTransformation
 @Composable
 fun EditPetScreen(
     viewModel: EditPetViewModel = hiltViewModel(),
-    navController: NavController,
+    onNavigateBack: () -> Unit
 ) {
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -46,7 +47,7 @@ fun EditPetScreen(
         onNameEntered = { viewModel.add(EditPetEvent.NameEntered(it)) },
         onDobEntered = { viewModel.add(EditPetEvent.DobEntered(it)) },
         onTypeSelected = { viewModel.add(EditPetEvent.TypeSelected(it)) },
-        onCancelButtonClicked = { navController.popBackStack() },
+        onCancelButtonClicked = { onNavigateBack() },
         onEditPet = { viewModel.add(EditPetEvent.EditButtonClicked(state.selectedPetDomainEntity)) }
     )
 }
@@ -65,79 +66,84 @@ private fun EditPetContent(
     onCancelButtonClicked: () -> Unit
 
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
 
-        VerticalSpace(50)
+    Scaffold {
 
-
-        Text(
-            text ="Edit Pet",
-            style = MaterialTheme.typography.displayMedium
-        )
-
-        VerticalSpace(30)
-
-
-        OutlinedTextField(
-            value = name.value,
-            onValueChange = { onNameEntered(it) },
-            label =  { Text(text = "Name") },
-            isError = name.validation.isError,
-            singleLine = true
-        )
-
-
-        VerticalSpace(15)
-
-        OutlinedTextField(
-            value = dob.value,
-            onValueChange = { onDobEntered(it) },
-            label =  { Text(text = "Date of birth") },
-            isError = dob.validation.isError,
-            singleLine = true,
-            visualTransformation = DateTransformation()
-        )
-
-
-//        MyDropdown(
-//            labelTitle = "Type",
-//            items = petTypes,
-//            selectedItem = type,
-//            onItemSelected = { onTypeSelected(it) },
-//            modifier = Modifier.padding(20.dp, 0.dp)
-//        )
-
-        VerticalSpace(15)
-
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Button(
-            onClick = { onEditPet() },
-            enabled = isButtonEnabled,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize()
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Update")
+
+            VerticalSpace(50)
+
+
+            Text(
+                text ="Edit Pet",
+                style = MaterialTheme.typography.displayMedium
+            )
+
+            VerticalSpace(30)
+
+
+            OutlinedTextField(
+                value = name.value,
+                onValueChange = { onNameEntered(it) },
+                label =  { Text(text = "Name") },
+                isError = name.validation.isError,
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+
+            VerticalSpace(15)
+
+            OutlinedTextField(
+                value = dob.value,
+                onValueChange = { onDobEntered(it) },
+                label =  { Text(text = "Date of birth") },
+                isError = dob.validation.isError,
+                singleLine = true,
+                visualTransformation = DateTransformation(),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+
+    //        MyDropdown(
+    //            labelTitle = "Type",
+    //            items = petTypes,
+    //            selectedItem = type,
+    //            onItemSelected = { onTypeSelected(it) },
+    //            modifier = Modifier.padding(20.dp, 0.dp)
+    //        )
+
+            VerticalSpace(15)
+
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                onClick = { onEditPet() },
+                enabled = isButtonEnabled,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Update")
+            }
+
+            VerticalSpace()
+
+
+            Button(
+                onClick = { onCancelButtonClicked() },
+                enabled = isButtonEnabled,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Cancel")
+            }
+
         }
-
-        VerticalSpace()
-
-
-        Button(
-            onClick = { onCancelButtonClicked() },
-            enabled = isButtonEnabled,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
-        ) {
-            Text(text = "Cancel")
-        }
-
-
-        VerticalSpace(20)
 
     }
 }

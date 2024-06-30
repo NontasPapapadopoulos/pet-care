@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -29,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,7 +53,7 @@ import java.util.Date
 @Composable
 fun PetMedicineScreen(
     viewModel: MedicineViewModel = hiltViewModel(),
-    navController: NavController
+    onNavigateToAddNewMedicineScreen: () -> Unit
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
@@ -62,7 +64,7 @@ fun PetMedicineScreen(
                 content = state,
                 onDeleteButtonClicked = { viewModel.add(MedicineEvent.DeleteButtonClicked(it)) },
                 onEditButtonClicked = { viewModel.add(MedicineEvent.EditButtonClicked(it)) },
-                onAddNewMedicineButtonClicked = { navController.navigate(route = MedicineScreen.AddMedicine.route) }
+                onAddNewMedicineButtonClicked = { onNavigateToAddNewMedicineScreen() }
             )
         }
         MedicineState.Idle -> {
@@ -87,6 +89,7 @@ private fun PetMedicineContent(
 
         Column(
             modifier = Modifier.padding(it)
+                .padding(20.dp)
         ) {
 
             VerticalSpace(50)
@@ -113,15 +116,15 @@ private fun PetMedicineContent(
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 30.dp),
-                horizontalArrangement = Arrangement.Center
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
             ) {
                 Icon(
                     Icons.Default.Add,
                     contentDescription = null,
                     modifier = Modifier
                         .size(60.dp)
+                        .background(shape = CircleShape, color = Color.Red)
                         .clickable { onAddNewMedicineButtonClicked() }
                 )
             }

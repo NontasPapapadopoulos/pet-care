@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -29,17 +30,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.domain.entity.PetDomainEntity
-import nondas.pap.petcareapp.presentation.navigation.Screen
-import nondas.pap.petcareapp.presentation.navigation.screen.MEDICINE_ROUTE
 import nondas.pap.petcareapp.presentation.DummyEntities
 import nondas.pap.petcareapp.presentation.component.AddHorizontalSpace
 import nondas.pap.petcareapp.presentation.component.VerticalSpace
@@ -51,7 +50,9 @@ import nondas.pap.petcareapp.presentation.user
 @Composable
 fun PetsScreen(
     viewModel: PetViewModel = hiltViewModel(),
-    navController: NavController
+    onNavigateToAddPetScreen: () -> Unit,
+    onNavigateToEditPetScreen: (String) -> Unit,
+    onNavigateToPetMedicineScreen: (String) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -71,12 +72,10 @@ fun PetsScreen(
         is PetState.Content -> {
             PetsContent(
                 content = state,
-                onEditButtonClicked = { viewModel.add(PetEvent.EditButtonClicked(it)) },
+                onNavigateToEditPetScreen = { onNavigateToEditPetScreen(it) },
                 onDeleteButtonClicked = { viewModel.add(PetEvent.DeleteButtonClicked(it)) },
-                onAddNewPetClicked = { navController.navigate(Screen.AddPet.name) },
-                onNavigateToPetsMedicineScreen = {
-                    // TODO: pass the pet to the arguements
-                    navController.navigate(route = MEDICINE_ROUTE) },
+                onAddNewPetClicked = { onNavigateToAddPetScreen() },
+                onNavigateToPetsMedicineScreen = { onNavigateToPetMedicineScreen(it) },
             )
         }
         PetState.Idle -> {
@@ -91,18 +90,20 @@ fun PetsScreen(
 @Composable
 private fun PetsContent(
     content: PetState.Content,
-    onEditButtonClicked: (PetDomainEntity) -> Unit,
+    onNavigateToEditPetScreen: (String) -> Unit,
     onDeleteButtonClicked: (PetDomainEntity) -> Unit,
-    onNavigateToPetsMedicineScreen: (PetDomainEntity) -> Unit,
+    onNavigateToPetsMedicineScreen: (String) -> Unit,
     onAddNewPetClicked: () -> Unit,
 
-) {
+    ) {
     val showDialog = remember { mutableStateOf(false) }
 
     Scaffold {
 
         Column(
             modifier = Modifier.padding(it)
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
 
@@ -118,9 +119,9 @@ private fun PetsContent(
             content.pets.forEach { pet ->
                 PetItem(
                     petDomainEntity = pet,
-                    onEditButtonClicked = { onEditButtonClicked(pet) },
+                    onEditButtonClicked = { onNavigateToEditPetScreen(pet.petId) },
                     onDeleteButtonClicked = { showDialog.value = true },
-                    modifier = Modifier.clickable { onNavigateToPetsMedicineScreen(pet) }
+                    modifier = Modifier.clickable { onNavigateToPetsMedicineScreen(pet.petId) }
                 )
             }
 
@@ -131,15 +132,15 @@ private fun PetsContent(
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 30.dp),
-                horizontalArrangement = Arrangement.Center
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
             ) {
                 Icon(
                    Icons.Default.Add,
                     contentDescription = null,
                     modifier = Modifier
                         .size(60.dp)
+                        .background(shape = CircleShape, color = Color.Red)
                         .clickable { onAddNewPetClicked() }
                 )
             }
@@ -258,7 +259,7 @@ private fun HomeScreenPreview() {
             selectedPetDomainEntity = null,
             user = DummyEntities.user
         ),
-        onEditButtonClicked = {},
+        onNavigateToEditPetScreen = {},
         onDeleteButtonClicked = {},
         onNavigateToPetsMedicineScreen = {},
         onAddNewPetClicked = {}

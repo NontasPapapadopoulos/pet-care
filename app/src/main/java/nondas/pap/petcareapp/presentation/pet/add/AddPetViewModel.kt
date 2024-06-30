@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import nondas.pap.petcareapp.domain.entity.PetDomainEntity
+import nondas.pap.petcareapp.domain.usecase.pet.AddPet
 import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
 import nondas.pap.petcareapp.domain.usecase.validator.NameValidator
 import nondas.pap.petcareapp.presentation.BlocViewModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddPetViewModel @Inject constructor(
+    private val addPet: AddPet,
     private val nameValidator: NameValidator,
     private val dateValidator: DateValidator
 ): BlocViewModel<AddPetEvent, AddPetState>() {

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,7 +29,7 @@ import nondas.pap.petcareapp.presentation.util.DateTransformation
 @Composable
 fun AddPetScreen(
     viewModel: AddPetViewModel = hiltViewModel(),
-    navController: NavController
+    onNavigateBack: () -> Unit
 ) {
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -43,7 +44,7 @@ fun AddPetScreen(
         onDobEntered = { viewModel.add(AddPetEvent.DobEntered(it)) },
         onTypeSelected = { viewModel.add(AddPetEvent.TypeSelected(it)) },
         onAddPetClicked = { viewModel.add(AddPetEvent.AddPet) },
-        onCancelButtonClicked = { navController.popBackStack() }
+        onCancelButtonClicked = { onNavigateBack() }
     )
 
 }
@@ -61,83 +62,88 @@ private fun AddPetContent(
     onAddPetClicked: () -> Unit,
     onCancelButtonClicked: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
 
-        VerticalSpace(50)
+    Scaffold {
 
-        Text(
-            text ="Add New Pet",
-            style = MaterialTheme.typography.displayMedium
-        )
-
-        VerticalSpace(30)
-
-        OutlinedTextField(
-            value = name.value,
-            onValueChange = { onNameEntered(it) },
-            label =  { Text(text = "Name") },
-            isError = name.validation.isError,
-            singleLine = true
-        )
-
-
-        VerticalSpace(15)
-
-        OutlinedTextField(
-            value = dob.value,
-            onValueChange = { onDobEntered(it) },
-            label =  { Text(text = "Date of birth") },
-            isError = dob.validation.isError,
-            singleLine = true,
-            visualTransformation = DateTransformation()
-        )
-
-
-
-        VerticalSpace(15)
-
-
-//        MyDropdown(
-//            labelTitle = "Type",
-//            items = petTypes,
-//            selectedItem = type,
-//            onItemSelected = { onTypeSelected(it) },
-//            modifier = Modifier.padding(20.dp, 0.dp)
-//        )
-
-        VerticalSpace(15)
-
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Button(
-            onClick = { onAddPetClicked() },
-            enabled = isButtonEnabled,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
-
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Add")
+
+            VerticalSpace(50)
+
+            Text(
+                text ="Add New Pet",
+                style = MaterialTheme.typography.displayMedium
+            )
+
+            VerticalSpace(30)
+
+            OutlinedTextField(
+                value = name.value,
+                onValueChange = { onNameEntered(it) },
+                label =  { Text(text = "Name") },
+                isError = name.validation.isError,
+                singleLine = true
+            )
+
+
+            VerticalSpace(15)
+
+            OutlinedTextField(
+                value = dob.value,
+                onValueChange = { onDobEntered(it) },
+                label =  { Text(text = "Date of birth") },
+                isError = dob.validation.isError,
+                singleLine = true,
+                visualTransformation = DateTransformation()
+            )
+
+
+
+            VerticalSpace(15)
+
+
+    //        MyDropdown(
+    //            labelTitle = "Type",
+    //            items = petTypes,
+    //            selectedItem = type,
+    //            onItemSelected = { onTypeSelected(it) },
+    //            modifier = Modifier.padding(20.dp, 0.dp)
+    //        )
+
+            VerticalSpace(15)
+
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                onClick = { onAddPetClicked() },
+                enabled = isButtonEnabled,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+
+            ) {
+                Text(text = "Add")
+            }
+
+            VerticalSpace()
+
+
+            Button(
+                onClick = { onCancelButtonClicked() },
+                enabled = isButtonEnabled,
+            ) {
+                Text(text = "Cancel")
+            }
+
+
+            VerticalSpace(20)
         }
-
-        VerticalSpace()
-
-
-        Button(
-            onClick = { onCancelButtonClicked() },
-            enabled = isButtonEnabled,
-        ) {
-            Text(text = "Cancel")
-        }
-
-
-
-
-        VerticalSpace(20)
 
     }
 }

@@ -19,6 +19,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
@@ -80,7 +81,6 @@ fun RegisterScreen(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RegisterContent(
     content: RegisterState.Content,
@@ -92,134 +92,139 @@ private fun RegisterContent(
     onCancelButtonClicked: () -> Unit,
 ) {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-            .padding(top = 50.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Scaffold {
 
-        Text(
-            text = "Register",
-            style = MaterialTheme.typography.displayLarge,
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Icon(
-            Icons.Default.Pets,
-            contentDescription = null,
-            modifier = Modifier.size(120.dp)
-        )
-        Spacer(modifier = Modifier.weight(1f))
-
-
-        OutlinedTextField(
-            value = content.name.value,
-            onValueChange = { onNameEntered(it) },
-            label = { Text(text = "Name") },
-            trailingIcon = {
-                Icon(
-                    Icons.Default.Person,
-                    contentDescription = null,
-                )
-            },
-            isError = content.name.validation.isError,
-            supportingText = {
-                 if (content.name.validation.isError) {
-                     Text(text = content.name.validation.errorMessage)
-                 }
-            },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-
-        OutlinedTextField(
-            value = content.email.value,
-            onValueChange = { onEmailEntered(it) },
-            label = { Text(text = "Email") },
-            trailingIcon = {
-                Icon(
-                    Icons.Default.Email,
-                    contentDescription = null,
-                )
-            },
-            isError = content.email.validation.isError,
-            supportingText = {
-                if (content.email.validation.isError) {
-                    Text(text = content.email.validation.errorMessage)
-                }
-            },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        OutlinedTextField(
-            value = content.password.value,
-            onValueChange = { onPasswordEntered(it) },
-            label = { Text(text = "Password") },
-            trailingIcon = {
-                Icon(
-                    Icons.Default.Key,
-                    contentDescription = null,
-                )
-            },
-            visualTransformation = PasswordVisualTransformation(),
-            isError = content.password.validation.isError,
-            supportingText = {
-                if (content.password.validation.isError) {
-                    Text(text = content.password.validation.errorMessage)
-                }
-            },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-
-        OutlinedTextField(
-            value = content.confirmPassword.value,
-            onValueChange = { onConfirmPasswordEntered(it) },
-            label = { Text(text = "Confirm Password") },
-            trailingIcon = {
-                Icon(
-                    Icons.Default.Key,
-                    contentDescription = null,
-                )
-            },
-            visualTransformation = PasswordVisualTransformation(),
-            isError = content.confirmPassword.validation.isError,
-            supportingText = {
-                if (content.confirmPassword.validation.isError) {
-                    Text(text = content.confirmPassword.validation.errorMessage)
-                }
-            },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Button(
-            onClick = { onRegisterButtonClicked() },
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .padding(it)
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(top = 50.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Register")
-        }
 
-        VerticalSpace()
+            Text(
+                text = "Register",
+                style = MaterialTheme.typography.displayLarge,
+                color = MaterialTheme.colorScheme.primary
+            )
 
-        Button(
-            onClick = { onCancelButtonClicked() },
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(text = "Cancel")
+            Spacer(modifier = Modifier.weight(1f))
+
+            Icon(
+                Icons.Default.Pets,
+                contentDescription = null,
+                modifier = Modifier.size(120.dp)
+            )
+            Spacer(modifier = Modifier.weight(1f))
+
+
+            OutlinedTextField(
+                value = content.name.value,
+                onValueChange = { onNameEntered(it) },
+                label = { Text(text = "Name") },
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Person,
+                        contentDescription = null,
+                    )
+                },
+                isError = content.name.validation.isError,
+                supportingText = {
+                     if (content.name.validation.isError) {
+                         Text(text = content.name.validation.errorMessage)
+                     }
+                },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+
+            OutlinedTextField(
+                value = content.email.value,
+                onValueChange = { onEmailEntered(it) },
+                label = { Text(text = "Email") },
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Email,
+                        contentDescription = null,
+                    )
+                },
+                isError = content.email.validation.isError,
+                supportingText = {
+                    if (content.email.validation.isError) {
+                        Text(text = content.email.validation.errorMessage)
+                    }
+                },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            OutlinedTextField(
+                value = content.password.value,
+                onValueChange = { onPasswordEntered(it) },
+                label = { Text(text = "Password") },
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Key,
+                        contentDescription = null,
+                    )
+                },
+                visualTransformation = PasswordVisualTransformation(),
+                isError = content.password.validation.isError,
+                supportingText = {
+                    if (content.password.validation.isError) {
+                        Text(text = content.password.validation.errorMessage)
+                    }
+                },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+
+            OutlinedTextField(
+                value = content.confirmPassword.value,
+                onValueChange = { onConfirmPasswordEntered(it) },
+                label = { Text(text = "Confirm Password") },
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Key,
+                        contentDescription = null,
+                    )
+                },
+                visualTransformation = PasswordVisualTransformation(),
+                isError = content.confirmPassword.validation.isError,
+                supportingText = {
+                    if (content.confirmPassword.validation.isError) {
+                        Text(text = content.confirmPassword.validation.errorMessage)
+                    }
+                },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                onClick = { onRegisterButtonClicked() },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(text = "Register")
+            }
+
+            VerticalSpace()
+
+            Button(
+                onClick = { onCancelButtonClicked() },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(text = "Cancel")
+            }
         }
     }
+
 }
 
 @Composable

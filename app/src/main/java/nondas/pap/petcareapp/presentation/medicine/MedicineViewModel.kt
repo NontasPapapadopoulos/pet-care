@@ -1,5 +1,6 @@
 package nondas.pap.petcareapp.presentation.medicine
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -9,12 +10,19 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import nondas.pap.petcareapp.domain.entity.MedicineDomainEntity
+import nondas.pap.petcareapp.domain.usecase.medicine.DeleteMedicine
+import nondas.pap.petcareapp.domain.usecase.medicine.GetMedicine
 import nondas.pap.petcareapp.presentation.BlocViewModel
+import nondas.pap.petcareapp.presentation.navigation.NavArg
 import javax.inject.Inject
 
 @HiltViewModel
 class MedicineViewModel @Inject constructor(
+    private val deleteMedicine: DeleteMedicine,
+    private val getMedicine: GetMedicine,
+    private val savedStateHandle: SavedStateHandle
 ): BlocViewModel<MedicineEvent, MedicineState>() {
+    private val petId get() = savedStateHandle.get<String>(NavArg.petId.param)
 
     private val selectedMedicineDomainEntity = MutableSharedFlow<MedicineDomainEntity?>()
     private val medicines = MutableSharedFlow<List<MedicineDomainEntity>>()

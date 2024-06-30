@@ -1,5 +1,6 @@
 package nondas.pap.petcareapp.presentation.medicine.add
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -10,17 +11,22 @@ import kotlinx.coroutines.flow.stateIn
 import nondas.pap.petcareapp.domain.entity.MedicineDomainEntity
 import nondas.pap.petcareapp.domain.entity.MedicineType
 import nondas.pap.petcareapp.domain.entity.TimePeriod
+import nondas.pap.petcareapp.domain.usecase.medicine.AddMedicine
 import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
 import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
 import nondas.pap.petcareapp.presentation.BlocViewModel
 import nondas.pap.petcareapp.presentation.ValidatedField
+import nondas.pap.petcareapp.presentation.navigation.NavArg
 import javax.inject.Inject
 
 @HiltViewModel
 class AddMedicineViewModel @Inject constructor(
-    private val dateValidator: DateValidator
+    private val addMedicine: AddMedicine,
+    private val dateValidator: DateValidator,
+    private val savedStateHandle: SavedStateHandle
 ): BlocViewModel<AddMedicineEvent, AddMedicineState>() {
 
+    private val petId get() = savedStateHandle.get<String>(NavArg.petId.param)
 
     private val optionFlow = MutableSharedFlow<String>()
     private val frequencyFlow = MutableSharedFlow<String>()

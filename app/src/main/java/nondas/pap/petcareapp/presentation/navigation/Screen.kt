@@ -21,17 +21,16 @@ enum class Route {
     Medicine
 }
 
-sealed class PetScreen(val route: String) {
-
-    object Pets: PetScreen(route = "pets_screen")
-    object AddPet: PetScreen(route = "add_pet_screen")
-    object EditPet: PetScreen(route = "edit_pet_screen")
-
-}
-
 
 
 fun Screen.params(vararg  params: Any?): String {
     val routeParams = params.map { it.toString() }
     return this.name + "/" + routeParams.joinToString(separator = "/")
 }
+
+
+val EditPetRoute = "${Screen.EditPet.name}/${NavArg.petId.addBrackets()}"
+val AddMedicineRoute = "${Screen.AddMedicine.name}/${NavArg.petId.addBrackets()}"
+val EditMedicineRoute = "${Screen.EditMedicine.name}/${NavArg.medicineId.addBrackets()}"
+val MedicineRoute = "${Screen.Medicine.name}/${NavArg.petId.addBrackets()}"
+
