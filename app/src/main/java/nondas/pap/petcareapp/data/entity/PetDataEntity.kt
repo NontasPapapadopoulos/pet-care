@@ -17,10 +17,10 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["userId"])]
 )
 data class PetDataEntity(
-    @PrimaryKey(autoGenerate = true)
-    val petId: Long,
+    @PrimaryKey
+    val petId: String,
     val name: String,
     val kind: String,
     val age: String,
-    val userId: Long
+    val userId: String
 )

@@ -7,8 +7,8 @@ data class MedicineDomainEntity(
     val repeatRate: String = "" ,//TimePeriod = TimePeriod.EVERY_YEAR,
     val dateReceived: String = "", //Date = Date(),
     val comments: String = "",
-    val medicineId: Long = 0,
-    val petId: Long = 0
+    val medicineId: String = "0",
+    val petId: String = "0"
 )
 
 

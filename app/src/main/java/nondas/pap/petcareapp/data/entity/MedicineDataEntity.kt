@@ -20,11 +20,11 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["petId"])]
 )
 data class MedicineDataEntity(
-    @PrimaryKey(autoGenerate = true)
-    val medicineId: Long,
+    @PrimaryKey
+    val medicineId: String,
     val type: String,
     val repeatRate: String,
     val dateReceived: String,
     val comments: String,
-    val petId: Long
+    val petId: String
 )

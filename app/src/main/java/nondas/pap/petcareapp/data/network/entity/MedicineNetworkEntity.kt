@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey
 @Entity
 data class MedicineNetworkEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: String,
     val type: String,
     val repeatRate: String,
     val dateReceived: String,
     val comments: String,
-    val petId: Long
+    val petId: String
 )

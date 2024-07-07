@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey
 @Entity
 data class PetNetworkEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: String,
     val name: String,
     val kind: String,
     val age: String,
-    val userId: Long
+    val userId: String
 )
