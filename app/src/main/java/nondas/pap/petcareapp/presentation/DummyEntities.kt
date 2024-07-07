@@ -10,5 +10,4 @@ val DummyEntities.user: UserDomainEntity
         email = "papadopoulose92@gmail.com",
         password = "Aa123!",
         name = "Nondas",
-        userId = 123123
     )

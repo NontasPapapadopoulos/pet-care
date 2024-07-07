@@ -10,10 +10,11 @@ import nondas.pap.petcareapp.data.mapper.toNetwork
 import nondas.pap.petcareapp.data.network.PetCareApi
 import nondas.pap.petcareapp.data.repository.DataStorageRepository
 import nondas.pap.petcareapp.domain.entity.UserCredentials
+import nondas.pap.petcareapp.domain.entity.UserDomainEntity
 
 interface UserDataSource {
     suspend fun login(userCredentials: UserCredentials)
-    suspend fun register(userDataEntity: UserDataEntity)
+    suspend fun register(userDomainEntity: UserDomainEntity)
     suspend fun logout()
     fun getUser(): Flow<UserDataEntity>
 
@@ -48,8 +49,8 @@ class UserDataSourceImpl(
         // TODO: get the user details, store them in the local db. get the user`s pets and pet`s medicine's
     }
 
-    override suspend fun register(userDataEntity: UserDataEntity) {
-        petCareApi.register(userDataEntity.toNetwork())
+    override suspend fun register(userDomainEntity: UserDomainEntity) {
+        petCareApi.register(userDomainEntity.toNetwork())
     }
 
     override suspend fun logout() {

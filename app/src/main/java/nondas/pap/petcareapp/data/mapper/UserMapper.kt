@@ -9,17 +9,20 @@ fun UserDomainEntity.toData(isCurrentUser: Boolean): UserDataEntity = UserDataEn
     name = name,
     email = email,
     isCurrentUser = isCurrentUser,
-    password = password
 )
 
+
+fun UserDomainEntity.toNetwork(isCurrentUser: Boolean): UserNetworkEntity = UserNetworkEntity(
+    name = name,
+    email = email,
+    password = password
+)
 
 
 fun UserDataEntity.toDomain(): UserDomainEntity = UserDomainEntity(
     name = name,
     email = email,
-    password = password,
-    userId = userId
-
+    password = "",
 )
 
 
@@ -28,6 +31,5 @@ fun UserNetworkEntity.toData(): UserDataEntity = UserDataEntity(
     name = name,
     email = email,
     isCurrentUser = false,
-    password = password
 )
 

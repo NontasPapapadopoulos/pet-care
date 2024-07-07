@@ -4,5 +4,4 @@ data class UserDomainEntity(
     val email: String,
     val password: String,
     val name: String,
-    val userId: Long
 )
