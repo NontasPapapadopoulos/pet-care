@@ -1,4 +1,4 @@
-package nondas.pap.petcareapp.data.network
+package nondas.pap.petcareapp.data.network.api
 
 import org.json.JSONObject
 import retrofit2.Response

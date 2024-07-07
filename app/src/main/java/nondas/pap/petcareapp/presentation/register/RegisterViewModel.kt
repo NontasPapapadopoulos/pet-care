@@ -99,6 +99,7 @@ class RegisterViewModel @Inject constructor(
                     email = it.email.value,
                     password = it.password.value,
                     name = it.name.value,
+                    userId = 0
                 )
                 performRegister.execute(PerformRegister.Params(userDomainEntity))
             }

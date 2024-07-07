@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.stateIn
 import nondas.pap.petcareapp.domain.entity.MedicineDomainEntity
 import nondas.pap.petcareapp.domain.entity.MedicineType
 import nondas.pap.petcareapp.domain.entity.TimePeriod
+import nondas.pap.petcareapp.domain.usecase.medicine.EditMedicine
 import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
 import nondas.pap.petcareapp.domain.usecase.validator.ValidationResult
 import nondas.pap.petcareapp.presentation.BlocViewModel
@@ -20,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditMedicineViewModel @Inject constructor(
-    private val editMedicineEvent: EditMedicineEvent,
+    private val editMedicine: EditMedicine,
     private val dateValidator: DateValidator,
     private val savedStateHandle: SavedStateHandle
 ): BlocViewModel<EditMedicineEvent, EditMedicineState>() {

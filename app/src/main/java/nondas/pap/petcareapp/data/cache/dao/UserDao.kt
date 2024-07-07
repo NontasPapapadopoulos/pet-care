@@ -27,4 +27,7 @@ interface UserDao {
     @Transaction
     @Query("SELECT * FROM user WHERE email = :email")
     suspend fun getUserWithPets(email: String): List<UserWithPets>
+
+    @Query("UPDATE user set isCurrentUser = 0")
+    suspend fun deselectUsers()
 }

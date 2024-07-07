@@ -119,9 +119,9 @@ private fun PetsContent(
             content.pets.forEach { pet ->
                 PetItem(
                     petDomainEntity = pet,
-                    onEditButtonClicked = { onNavigateToEditPetScreen(pet.petId) },
+                    onEditButtonClicked = { onNavigateToEditPetScreen(pet.petId.toString()) },
                     onDeleteButtonClicked = { showDialog.value = true },
-                    modifier = Modifier.clickable { onNavigateToPetsMedicineScreen(pet.petId) }
+                    modifier = Modifier.clickable { onNavigateToPetsMedicineScreen(pet.petId.toString()) }
                 )
             }
 

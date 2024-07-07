@@ -5,7 +5,6 @@ import nondas.pap.inventoryapp.domain.SuspendUseCase
 import nondas.pap.petcareapp.domain.entity.UserCredentials
 import nondas.pap.petcareapp.domain.repository.AuthenticateRepository
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
-import nondas.pap.petcareapp.domain.entity.UserDomainEntity
 import nondas.pap.petcareapp.domain.repository.PetRepository
 import javax.inject.Inject
 

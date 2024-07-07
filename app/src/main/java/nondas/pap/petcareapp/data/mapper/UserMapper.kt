@@ -1,6 +1,5 @@
 package nondas.pap.petcareapp.data.mapper
 
-import android.service.autofill.UserData
 import nondas.pap.petcareapp.data.entity.UserDataEntity
 import nondas.pap.petcareapp.data.network.entity.UserNetworkEntity
 import nondas.pap.petcareapp.domain.entity.UserDomainEntity
@@ -9,8 +8,8 @@ import nondas.pap.petcareapp.domain.entity.UserDomainEntity
 fun UserDomainEntity.toData(isCurrentUser: Boolean): UserDataEntity = UserDataEntity(
     name = name,
     email = email,
-    userId = userId,
-    isCurrentUser = isCurrentUser
+    isCurrentUser = isCurrentUser,
+    password = password
 )
 
 
@@ -18,17 +17,17 @@ fun UserDomainEntity.toData(isCurrentUser: Boolean): UserDataEntity = UserDataEn
 fun UserDataEntity.toDomain(): UserDomainEntity = UserDomainEntity(
     name = name,
     email = email,
-    password = null
+    password = password,
+    userId = userId
+
 )
 
 
-fun UserDomainEntity.toNetwork(): UserNetworkEntity = UserNetworkEntity(
+
+fun UserNetworkEntity.toData(): UserDataEntity = UserDataEntity(
     name = name,
     email = email,
+    isCurrentUser = false,
+    password = password
 )
 
-
-fun UserDataEntity.toNetwork(): UserNetworkEntity = UserNetworkEntity(
-    name = name,
-    email = email,
-)

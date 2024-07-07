@@ -1,10 +1,8 @@
 package nondas.pap.petcareapp.data.entity
 
-import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import androidx.room.Relation
-import nondas.pap.petcareapp.presentation.navigation.PetScreen
 
 
 @Entity(tableName = "user")
@@ -14,5 +12,5 @@ data class UserDataEntity(
     val name: String,
     val email: String,
     val isCurrentUser: Boolean,
-//    val pets: List<PetDataEntity>
+    val password: String
 )

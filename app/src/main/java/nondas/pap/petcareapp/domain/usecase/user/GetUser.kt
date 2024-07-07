@@ -2,11 +2,8 @@ package nondas.pap.petcareapp.domain.usecase.user
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import nondas.pap.inventoryapp.domain.FlowUseCase
-import nondas.pap.petcareapp.domain.repository.PetRepository
 import nondas.pap.petcareapp.domain.executor.IoDispatcher
-import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import nondas.pap.petcareapp.domain.entity.UserDomainEntity
 import nondas.pap.petcareapp.domain.repository.UserRepository
 import javax.inject.Inject

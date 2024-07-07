@@ -13,8 +13,7 @@ import nondas.pap.petcareapp.data.datasource.PetDataSource
 import nondas.pap.petcareapp.data.datasource.PetDataSourceImpl
 import nondas.pap.petcareapp.data.datasource.UserDataSource
 import nondas.pap.petcareapp.data.datasource.UserDataSourceImpl
-import nondas.pap.petcareapp.data.network.api.AuthApi
-import nondas.pap.petcareapp.data.network.api.PetCareApi
+import nondas.pap.petcareapp.data.network.PetCareApi
 import nondas.pap.petcareapp.data.repository.DataStorageRepository
 import javax.inject.Singleton
 
@@ -43,14 +42,12 @@ object DataSourceModule {
     fun provideUserDataSource(
         userDao: UserDao,
         petDao: PetDao,
-        authApi: AuthApi,
         petCareApi: PetCareApi,
         dataStorageRepository: DataStorageRepository
     ): UserDataSource {
         return UserDataSourceImpl(
             userDao,
             petDao,
-            authApi,
             petCareApi,
             dataStorageRepository
         )

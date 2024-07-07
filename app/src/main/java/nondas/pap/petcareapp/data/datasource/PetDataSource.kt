@@ -3,7 +3,8 @@ package nondas.pap.petcareapp.data.datasource
 import kotlinx.coroutines.flow.Flow
 import nondas.pap.petcareapp.data.cache.dao.PetDao
 import nondas.pap.petcareapp.data.entity.PetDataEntity
-import nondas.pap.petcareapp.data.network.api.PetCareApi
+import nondas.pap.petcareapp.data.network.PetCareApi
+import nondas.pap.petcareapp.data.network.api.ApiInterface
 import javax.inject.Inject
 
 interface PetDataSource {
