@@ -26,16 +26,19 @@ class PetViewModel @Inject constructor(
     private val getUser: GetUser,
 ): BlocViewModel<PetEvent, PetState>() {
 
-    private val pets = MutableSharedFlow<List<PetDomainEntity>>()
-    private val selectedPetDomainEntity = MutableSharedFlow<PetDomainEntity>()
+    private val selectedPetDomainEntity = MutableSharedFlow<PetDomainEntity?>()
 
     private val user = getUser.execute(Unit)
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
+    private val pets = getPets.execute(Unit)
+        .map { it.getOrThrow() }
+        .catch { addError(it) }
+
     override val _uiState: StateFlow<PetState> = combine(
         pets.onStart { emit(listOf()) },
-        selectedPetDomainEntity,
+        selectedPetDomainEntity.onStart { emit(null) },
         user
     ) { pets, selectedPet, user ->
 

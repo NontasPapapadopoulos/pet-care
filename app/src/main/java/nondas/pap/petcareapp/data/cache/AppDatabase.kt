@@ -20,7 +20,7 @@ import nondas.pap.petcareapp.data.entity.UserDataEntity
         UserDataEntity::class
     ],
     exportSchema = false,
-    version = 1
+    version = 4
 )
 
 abstract class AppDatabase(): RoomDatabase() {

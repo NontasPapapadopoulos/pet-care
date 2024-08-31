@@ -11,7 +11,8 @@ fun PetNetworkEntity.toData(): PetDataEntity = PetDataEntity(
     name = name,
     kind = kind,
     age = age,
-    userId = userId
+    userId = userId,
+    dob = dob
 )
 
 fun PetDataEntity.toDomain(): PetDomainEntity = PetDomainEntity(
@@ -19,7 +20,9 @@ fun PetDataEntity.toDomain(): PetDomainEntity = PetDomainEntity(
     kind = kind,
     age = age,
     userId = userId,
-    petId = petId
+    petId = petId,
+    dob = dob
+
 )
 
 
@@ -28,7 +31,8 @@ fun PetDomainEntity.toData(): PetDataEntity = PetDataEntity(
     kind = kind,
     age = age,
     userId = userId,
-    petId = petId
+    petId = petId,
+    dob = dob
 )
 
 
@@ -37,5 +41,6 @@ fun PetDataEntity.toNetwork(): PetNetworkEntity = PetNetworkEntity(
     kind = kind,
     age = age,
     id = petId,
-    userId = userId
+    userId = userId,
+    dob = dob
 )

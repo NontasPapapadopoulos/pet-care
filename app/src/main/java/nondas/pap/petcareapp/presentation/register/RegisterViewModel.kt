@@ -90,7 +90,6 @@ class RegisterViewModel @Inject constructor(
                 confirmPasswordTextFlow.emit(validatedField)
                 enableRegisterButton()
             }
-
         }
 
         on(RegisterEvent.RegisterButtonClicked::class) {
@@ -99,6 +98,7 @@ class RegisterViewModel @Inject constructor(
                     email = it.email.value,
                     password = it.password.value,
                     name = it.name.value,
+                    userId = ""
                 )
                 performRegister.execute(PerformRegister.Params(userDomainEntity))
             }

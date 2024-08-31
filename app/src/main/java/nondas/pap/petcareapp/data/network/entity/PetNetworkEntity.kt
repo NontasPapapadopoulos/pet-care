@@ -11,5 +11,6 @@ data class PetNetworkEntity(
     val name: String,
     val kind: String,
     val age: String,
-    val userId: String
+    val userId: String,
+    val dob: String
 )

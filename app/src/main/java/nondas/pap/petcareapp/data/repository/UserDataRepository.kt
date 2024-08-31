@@ -11,8 +11,12 @@ class UserDataRepository(
     private val userDataSource: UserDataSource
 ): UserRepository {
 
-    override fun getCurrentUser(): Flow<UserDomainEntity> {
-       return userDataSource.getUser().map { it.toDomain() }
+    override fun getCurrentUserFlow(): Flow<UserDomainEntity> {
+       return userDataSource.getUserFlow().map { it.toDomain() }
+    }
+
+    override suspend fun getCurrentUser(): UserDomainEntity {
+        return userDataSource.getUser().toDomain()
     }
 
 

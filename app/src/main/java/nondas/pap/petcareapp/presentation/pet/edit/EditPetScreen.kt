@@ -22,9 +22,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.ValidatedField
+import nondas.pap.petcareapp.presentation.component.LoadingBox
 import nondas.pap.petcareapp.presentation.component.VerticalSpace
 
 import nondas.pap.petcareapp.presentation.pet.edit.EditPetEvent
+import nondas.pap.petcareapp.presentation.pet.edit.EditPetState
 import nondas.pap.petcareapp.presentation.pet.edit.EditPetViewModel
 import nondas.pap.petcareapp.presentation.util.DateTransformation
 
@@ -35,21 +37,28 @@ fun EditPetScreen(
     onNavigateBack: () -> Unit
 ) {
 
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when(val state = uiState) {
+        is EditPetState.Content -> {
+            EditPetContent(
+                name = state.name,
+                dob = state.dob,
+                type = state.kind,
+                isButtonEnabled = state.isAddButtonEnabled,
+                onNameEntered = { viewModel.add(EditPetEvent.NameEntered(it)) },
+                onDobEntered = { viewModel.add(EditPetEvent.DobEntered(it)) },
+                onTypeSelected = { viewModel.add(EditPetEvent.TypeSelected(it)) },
+                onCancelButtonClicked = { onNavigateBack() },
+                onEditPet = { }
+            )
+        }
+        EditPetState.Idle -> {
+            LoadingBox()
+        }
+    }
 
 
-    EditPetContent(
-        name = state.name,
-        dob = state.dob,
-        type = state.type,
-        petTypes = state.petTypes,
-        isButtonEnabled = state.isAddButtonEnabled,
-        onNameEntered = { viewModel.add(EditPetEvent.NameEntered(it)) },
-        onDobEntered = { viewModel.add(EditPetEvent.DobEntered(it)) },
-        onTypeSelected = { viewModel.add(EditPetEvent.TypeSelected(it)) },
-        onCancelButtonClicked = { onNavigateBack() },
-        onEditPet = { viewModel.add(EditPetEvent.EditButtonClicked(state.selectedPetDomainEntity)) }
-    )
 }
 
 @Composable
@@ -57,7 +66,6 @@ private fun EditPetContent(
     name: ValidatedField,
     dob: ValidatedField,
     type: String,
-    petTypes: List<String>,
     isButtonEnabled: Boolean,
     onNameEntered: (String) -> Unit,
     onDobEntered: (String) -> Unit,
@@ -156,7 +164,6 @@ private fun EditPetScreenPreview() {
         name = ValidatedField(),
         dob = ValidatedField(),
         type = "",
-        petTypes = listOf(),
         isButtonEnabled = true,
         onNameEntered = {},
         onDobEntered = {},

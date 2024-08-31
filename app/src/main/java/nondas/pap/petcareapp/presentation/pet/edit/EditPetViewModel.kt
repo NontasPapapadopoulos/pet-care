@@ -32,22 +32,28 @@ class EditPetViewModel @Inject constructor(
     private val petOptionFlow = MutableSharedFlow<String>()
     private val validatedDateFlow = MutableSharedFlow<ValidatedField>()
     private val petTypeFlow = MutableSharedFlow<String>()
+    private val isAddButtonEnabledFlow = MutableSharedFlow<Boolean>()
+
 
     override val _uiState: StateFlow<EditPetState> = combine(
         nameTextFlow,
         petOptionFlow,
         validatedDateFlow,
-    ) { name, option, date ->
+        isAddButtonEnabledFlow
+    ) { name, option, date, isAddButtonEnabled ->
 
-        EditPetState(
+        EditPetState.Content(
             name = name,
             dob = date,
-            type = option
+            kind = option,
+            isAddButtonEnabled = isAddButtonEnabled,
+            selectedPetDomainEntity = null
+
         )
     }.stateIn(
         scope = viewModelScope,
-        initialValue = EditPetState(),
-        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+        initialValue = EditPetState.Idle,
+        started = SharingStarted.WhileSubscribed()
     )
 
     init {
@@ -89,12 +95,6 @@ class EditPetViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    private fun isAboveOneYearOld(selectedOption: Int): Boolean {
-        val option = uiState.value.options[selectedOption]
-        if (option.lowercase() == "yes" )
-            return true
-        return false
-    }
 
 
     private fun addPet() {
@@ -111,16 +111,17 @@ sealed class EditPetEvent {
     data class EditButtonClicked(val petDomainEntity: PetDomainEntity): EditPetEvent()
 }
 
-data class EditPetState(
-    val name: ValidatedField = ValidatedField(),
-    val dob:  ValidatedField = ValidatedField(),
-    val type:  String = "",
-    val isAboveOneYearOld: Boolean = false,
-    val isAddButtonEnabled: Boolean = false,
-    val options: List<String> = listOf("Yes", "No"),
-    val petTypes: List<String> = listOf("Dog", "Cat"),
 
-    val selectedOption: Int = 0,
+sealed interface EditPetState {
 
-    val selectedPetDomainEntity: PetDomainEntity = PetDomainEntity()
-)
+    object Idle: EditPetState
+    data class Content(
+        val name: ValidatedField = ValidatedField(),
+        val dob: ValidatedField = ValidatedField(),
+        val kind: String,
+        val isAddButtonEnabled: Boolean,
+//        val options: List<String> = listOf("Yes", "No"),
+        val petKinds: List<String> = listOf("Dog", "Cat"),
+        val selectedPetDomainEntity: PetDomainEntity?
+    ): EditPetState
+}

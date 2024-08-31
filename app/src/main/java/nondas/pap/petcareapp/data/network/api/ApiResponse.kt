@@ -3,7 +3,7 @@ package nondas.pap.petcareapp.data.network.api
 import org.json.JSONObject
 import retrofit2.Response
 
-sealed class ApiResponse <T> {
+sealed class ApiResponse<T> {
 
     companion object {
 

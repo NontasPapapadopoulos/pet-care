@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import nondas.pap.petcareapp.domain.entity.PetDomainEntity
 import nondas.pap.petcareapp.domain.usecase.pet.AddPet
 import nondas.pap.petcareapp.domain.usecase.validator.DateValidator
 import nondas.pap.petcareapp.domain.usecase.validator.NameValidator
@@ -21,29 +21,31 @@ class AddPetViewModel @Inject constructor(
     private val addPet: AddPet,
     private val nameValidator: NameValidator,
     private val dateValidator: DateValidator
-): BlocViewModel<AddPetEvent, AddPetState>() {
+): BlocViewModel<AddPetEvent, AddPetsState>() {
 
     private val nameTextFlow = MutableSharedFlow<ValidatedField>()
-    private val petOptionFlow = MutableSharedFlow<String>()
+    private val petKindFlow = MutableSharedFlow<String>()
     private val validatedDateFlow = MutableSharedFlow<ValidatedField>()
-    private val petTypeFlow = MutableSharedFlow<String>()
+    private val isAddButtonEnabledFlow = MutableSharedFlow<Boolean>()
 
-    override val _uiState: StateFlow<AddPetState> = combine(
-        nameTextFlow,
-        petOptionFlow,
-        validatedDateFlow,
-    ) { name, option, date ->
+    override val _uiState: StateFlow<AddPetsState> = combine(
+        nameTextFlow.onStart { emit(ValidatedField()) },
+        petKindFlow.onStart { emit("") },
+        validatedDateFlow.onStart { emit(ValidatedField()) },
+        isAddButtonEnabledFlow.onStart { emit(false) }
+    ) { name, option, date, isAddButtonEnabled ->
 
-        AddPetState(
+        AddPetsState.Content(
             name = name,
             dob = date,
-            type = option
+            kind = option,
+            isAddButtonEnabled = isAddButtonEnabled
         )
 
     }.stateIn(
         scope = viewModelScope,
-        initialValue = AddPetState(),
-        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+        initialValue = AddPetsState.Idle,
+        started = SharingStarted.WhileSubscribed()
     )
 
 
@@ -52,11 +54,10 @@ class AddPetViewModel @Inject constructor(
             val validationResult = nameValidator.validate(it.userInput)
             val validatedField = ValidatedField(value = it.userInput, validationResult)
             nameTextFlow.emit(validatedField)
+
+            validateForm()
         }
 
-        on(AddPetEvent.OptionSelected::class) {
-            petOptionFlow.emit(it.option)
-        }
 
         on(AddPetEvent.DobEntered::class) {
             val validationResult = dateValidator.execute(
@@ -67,52 +68,56 @@ class AddPetViewModel @Inject constructor(
 
             val validatedField = ValidatedField(value = it.userInput, validationResult)
             validatedDateFlow.emit(validatedField)
+
+            validateForm()
+        }
+
+        on(AddPetEvent.KindSelected::class) {
+            petKindFlow.emit(it.userInput)
+            validateForm()
         }
 
         on(AddPetEvent.AddPet::class) {
-            addPet()
+            onState<AddPetsState.Content> { state ->
+                addPet.execute(
+                    params = AddPet.Params(
+                        name = state.name.value,
+                        kind = state.kind,
+                        dob = state.dob.value
+                    )
+                )
+            }
         }
 
+
     }
 
 
-    private fun editPet() {
-        TODO("Not yet implemented")
+    private suspend fun validateForm() {
+        onState<AddPetsState.Content> { state ->
+            val isFormValid = !state.dob.validation.isError &&
+                    !state.name.validation.isError &&
+                    state.kind.isNotEmpty()
+            isAddButtonEnabledFlow.emit(isFormValid)
+        }
     }
-
-    private fun isAboveOneYearOld(selectedOption: Int): Boolean {
-        val option = uiState.value.options[selectedOption]
-        if (option.lowercase() == "yes" )
-            return true
-        return false
-    }
-
-
-    private fun addPet() {
-        TODO("Not yet implemented")
-    }
-
 }
 
 sealed class AddPetEvent {
     data class NameEntered(val userInput: String): AddPetEvent()
     data class DobEntered(val userInput: String): AddPetEvent()
-    data class TypeSelected(val userInput: String): AddPetEvent()
-    data class OptionSelected(val option: String): AddPetEvent()
+    data class KindSelected(val userInput: String): AddPetEvent()
     object AddPet: AddPetEvent()
 
 }
 
-data class AddPetState(
-    val name: ValidatedField = ValidatedField(),
-    val dob:  ValidatedField = ValidatedField(),
-    val type:  String = "",
-    val isAboveOneYearOld: Boolean = false,
-    val isAddButtonEnabled: Boolean = false,
-    val options: List<String> = listOf("Yes", "No"),
-    val petTypes: List<String> = listOf("Dog", "Cat"),
-
-    val selectedOption: Int = 0,
-
-    val selectedPetDomainEntity: PetDomainEntity = PetDomainEntity()
-)
+sealed interface AddPetsState {
+    object Idle: AddPetsState
+    data class Content(
+        val name: ValidatedField = ValidatedField(),
+        val dob:  ValidatedField = ValidatedField(),
+        val kind:  String = "",
+        val isAddButtonEnabled: Boolean,
+        val petTypes: List<String> = listOf("Dog", "Cat"),
+    ): AddPetsState
+}

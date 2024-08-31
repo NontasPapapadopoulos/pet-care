@@ -15,8 +15,8 @@ import nondas.pap.petcareapp.data.entity.PetDataEntity
 interface PetDao {
 
     @Transaction
-    @Query("SELECT * FROM pet where petId = :petId ")
-    fun getPets(petId: String): Flow<List<PetDataEntity>>
+    @Query("SELECT * FROM pet where userId = :userId ")
+    fun getPets(userId: String): Flow<List<PetDataEntity>>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addPet(pet: PetDataEntity)

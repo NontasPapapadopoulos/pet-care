@@ -12,6 +12,8 @@ class PetDataRepository(
     private val petDataSource: PetDataSource
 ): PetRepository {
     override fun getPets(userId: String): Flow<List<PetDomainEntity>> {
+        println("pets ${petDataSource.getPets(userId = userId).map { pet -> pet.map { it.toDomain() } }}")
+
         return petDataSource.getPets(userId = userId).map { pet -> pet.map { it.toDomain() } }
     }
 

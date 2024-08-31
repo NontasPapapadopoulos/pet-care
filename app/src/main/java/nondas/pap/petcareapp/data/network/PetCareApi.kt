@@ -38,6 +38,7 @@ class JsonPetCareApi @Inject constructor(
 ): PetCareApi {
     override suspend fun login(userCredentials: UserCredentials): AuthenticationResponse {
         return apiService.login(userCredentials).unpack()
+
     }
 
     override suspend fun register(register: RegisterNetworkEntity) {

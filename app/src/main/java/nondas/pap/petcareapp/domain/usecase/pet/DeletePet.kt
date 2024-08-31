@@ -13,7 +13,7 @@ class DeletePet @Inject constructor(
 ): SuspendUseCase<Unit, DeletePet.Params>(dispatcher) {
 
     override suspend fun invoke(params: Params) {
-        petRepository.deletePet(params.petDomainEntity)
+       // petRepository.deletePet(params.petDomainEntity)
     }
 
     data class Params(val petDomainEntity: PetDomainEntity)

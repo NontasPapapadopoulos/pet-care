@@ -1,29 +1,35 @@
 package nondas.pap.petcareapp.presentation.pet.add
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import nondas.pap.petcareapp.R
 import nondas.pap.petcareapp.presentation.ValidatedField
+import nondas.pap.petcareapp.presentation.component.LoadingBox
 import nondas.pap.petcareapp.presentation.component.VerticalSpace
 import nondas.pap.petcareapp.presentation.util.DateTransformation
+import nondas.pap.petcareapp.ui.theme.PetCareAppTheme
 
 
 @Composable
@@ -32,30 +38,30 @@ fun AddPetScreen(
     onNavigateBack: () -> Unit
 ) {
 
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    AddPetContent(
-        name = state.name,
-        dob = state.dob,
-        type = state.type,
-        petTypes = state.petTypes,
-        isButtonEnabled = state.isAddButtonEnabled,
-        onNameEntered = { viewModel.add(AddPetEvent.NameEntered(it)) },
-        onDobEntered = { viewModel.add(AddPetEvent.DobEntered(it)) },
-        onTypeSelected = { viewModel.add(AddPetEvent.TypeSelected(it)) },
-        onAddPetClicked = { viewModel.add(AddPetEvent.AddPet) },
-        onCancelButtonClicked = { onNavigateBack() }
-    )
 
+    when(val state = uiState) {
+        is AddPetsState.Content -> {
+            AddPetContent(
+                content = state,
+                onNameEntered = { viewModel.add(AddPetEvent.NameEntered(it)) },
+                onDobEntered = { viewModel.add(AddPetEvent.DobEntered(it)) },
+                onTypeSelected = { viewModel.add(AddPetEvent.KindSelected(it)) },
+                onAddPetClicked = { viewModel.add(AddPetEvent.AddPet) },
+                onCancelButtonClicked = { onNavigateBack() }
+            )
+        }
+        AddPetsState.Idle -> {
+            LoadingBox()
+        }
+    }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddPetContent(
-    name: ValidatedField,
-    dob: ValidatedField,
-    type: String,
-    petTypes: List<String>,
-    isButtonEnabled: Boolean,
+    content: AddPetsState.Content,
     onNameEntered: (String) -> Unit,
     onDobEntered: (String) -> Unit,
     onTypeSelected: (String) -> Unit,
@@ -68,8 +74,7 @@ private fun AddPetContent(
         Column(
             modifier = Modifier
                 .padding(it)
-                .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.background),
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -83,10 +88,10 @@ private fun AddPetContent(
             VerticalSpace(30)
 
             OutlinedTextField(
-                value = name.value,
+                value = content.name.value,
                 onValueChange = { onNameEntered(it) },
                 label =  { Text(text = "Name") },
-                isError = name.validation.isError,
+                isError = content.name.validation.isError,
                 singleLine = true
             )
 
@@ -94,26 +99,47 @@ private fun AddPetContent(
             VerticalSpace(15)
 
             OutlinedTextField(
-                value = dob.value,
+                value = content.dob.value,
                 onValueChange = { onDobEntered(it) },
                 label =  { Text(text = "Date of birth") },
-                isError = dob.validation.isError,
+                isError = content.dob.validation.isError,
                 singleLine = true,
                 visualTransformation = DateTransformation()
             )
 
-
-
             VerticalSpace(15)
 
+            var expanded by remember { mutableStateOf(false) }
 
-    //        MyDropdown(
-    //            labelTitle = "Type",
-    //            items = petTypes,
-    //            selectedItem = type,
-    //            onItemSelected = { onTypeSelected(it) },
-    //            modifier = Modifier.padding(20.dp, 0.dp)
-    //        )
+            ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = !expanded } ) {
+                OutlinedTextField(
+                    value = content.kind,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                    },
+                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                    modifier = Modifier.menuAnchor()
+
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    content.petTypes.forEach { item ->
+                        DropdownMenuItem(
+                            text = { Text(text = item) },
+                            onClick = {
+                                onTypeSelected(item)
+                                expanded = false
+                            }
+                        )
+                    }
+                }
+            }
+
 
             VerticalSpace(15)
 
@@ -122,7 +148,7 @@ private fun AddPetContent(
 
             Button(
                 onClick = { onAddPetClicked() },
-                enabled = isButtonEnabled,
+                enabled = content.isAddButtonEnabled,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
@@ -136,7 +162,9 @@ private fun AddPetContent(
 
             Button(
                 onClick = { onCancelButtonClicked() },
-                enabled = isButtonEnabled,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
             ) {
                 Text(text = "Cancel")
             }
@@ -149,22 +177,21 @@ private fun AddPetContent(
 }
 
 
-
-
 @Preview
 @Composable
 private fun AddPetScreenPreview() {
-    AddPetContent(
-        name = ValidatedField("xx"),
-        dob = ValidatedField("12/12/2022"),
-        type = "cat",
-        petTypes = listOf(),
-        isButtonEnabled = true,
-        onNameEntered = {},
-        onDobEntered = {},
-        onTypeSelected = {},
-        onAddPetClicked = { /*TODO*/ },
-        onCancelButtonClicked = {}
-    )
-
+    PetCareAppTheme {
+        AddPetContent(
+                content = AddPetsState.Content(
+                name = ValidatedField("xx"),
+                dob = ValidatedField("12/12/2022"),
+                kind = "cat", isAddButtonEnabled = true,
+                petTypes = listOf()),
+            onNameEntered = {},
+            onDobEntered = {},
+            onTypeSelected = {},
+            onAddPetClicked = { /*TODO*/ },
+            onCancelButtonClicked = {}
+        )
+    }
 }

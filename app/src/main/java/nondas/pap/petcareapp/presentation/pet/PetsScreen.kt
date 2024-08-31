@@ -186,11 +186,7 @@ private fun PetsContent(
         }
 
     }
-
-
-
 }
-
 
 
 @Composable

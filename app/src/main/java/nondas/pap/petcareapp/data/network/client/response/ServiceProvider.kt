@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import kotlinx.coroutines.runBlocking
 import nondas.pap.petcareapp.BuildConfig
 import nondas.pap.petcareapp.data.network.api.ApiInterface
+import nondas.pap.petcareapp.data.network.api.ApiResponseAdapterFactory
 import nondas.pap.petcareapp.data.repository.DataStorageRepository
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -48,8 +49,10 @@ class RetrofitInstanceProvider @Inject constructor(
             .client(getOkHttpClient())
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(ApiResponseAdapterFactory())
             .build()
-          //  .addCallAdapterFactory(Api)
+
+           // .addCallAdapterFactory(Api)
 
         val service = retrofit.create(ApiInterface::class.java)
         apiService = service
@@ -78,7 +81,8 @@ class AuthInterceptor @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
 
-        request.addHeader("Authorization", "Bearer $token")
+        if (token != null)
+             request.addHeader("Authorization", "Bearer $token")
         return chain.proceed(request.build())
     }
 

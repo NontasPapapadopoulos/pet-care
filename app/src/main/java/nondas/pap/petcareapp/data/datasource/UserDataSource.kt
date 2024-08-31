@@ -2,6 +2,7 @@ package nondas.pap.petcareapp.data.datasource
 
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import nondas.pap.petcareapp.data.cache.dao.PetDao
 import nondas.pap.petcareapp.data.cache.dao.UserDao
 import nondas.pap.petcareapp.data.entity.UserDataEntity
@@ -16,7 +17,8 @@ interface UserDataSource {
     suspend fun login(userCredentials: UserCredentials)
     suspend fun register(userDomainEntity: UserDomainEntity)
     suspend fun logout()
-    fun getUser(): Flow<UserDataEntity>
+    fun getUserFlow(): Flow<UserDataEntity>
+    suspend fun getUser(): UserDataEntity
 
 }
 
@@ -35,7 +37,7 @@ class UserDataSourceImpl(
         dataStorage.saveToken(token)
         val user = petCareApi.getUser(userCredentials.email)
 
-        println("user: $user")
+        // find a way to deal with Api Response
 
         userDao.deselectUsers()
         userDao.put(user.toData().copy(isCurrentUser = true))
@@ -57,12 +59,14 @@ class UserDataSourceImpl(
         TODO("Not yet implemented")
     }
 
-    override fun getUser(): Flow<UserDataEntity> {
-        return userDao.getCurrentUser()
+    override fun getUserFlow(): Flow<UserDataEntity> {
+        return userDao.getCurrentUserFlow()
     }
 
+    override suspend fun getUser(): UserDataEntity {
+        return userDao.getCurrentUser()
 
-
+    }
 
 }
 
